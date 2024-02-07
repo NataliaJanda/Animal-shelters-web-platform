@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.Sheltersapp.Sheltersapp.SheltersappApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-02-01T23:02:19" hostname="MacBook-Pro-Natalia.local" time="1.202">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.Sheltersapp.Sheltersapp.SheltersappApplicationTests" time="1.202"/>
+  <system-out><![CDATA[00:02:12.184 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.Sheltersapp.Sheltersapp.SheltersappApplicationTests]: SheltersappApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:02:12.413 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.Sheltersapp.Sheltersapp.SheltersappApplication for test class com.Sheltersapp.Sheltersapp.SheltersappApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.2)
+
+2024-02-02T00:02:13.118+01:00  INFO 14594 --- [    Test worker] c.S.S.SheltersappApplicationTests        : Starting SheltersappApplicationTests using Java 21.0.2 with PID 14594 (started by nataliajanda in /Users/nataliajanda/Documents/Animal-shelters-web-platform/serwer)
+2024-02-02T00:02:13.122+01:00  INFO 14594 --- [    Test worker] c.S.S.SheltersappApplicationTests        : No active profile set, falling back to 1 default profile: "default"
+2024-02-02T00:02:14.926+01:00  INFO 14594 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-02T00:02:14.969+01:00  INFO 14594 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 0 JPA repository interfaces.
+2024-02-02T00:02:15.946+01:00  INFO 14594 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-02-02T00:02:16.152+01:00  INFO 14594 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2a4f8009
+2024-02-02T00:02:16.155+01:00  INFO 14594 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-02-02T00:02:16.235+01:00  INFO 14594 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-02T00:02:16.324+01:00  INFO 14594 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-02-02T00:02:16.376+01:00  INFO 14594 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-02-02T00:02:16.771+01:00  INFO 14594 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-02T00:02:17.363+01:00  INFO 14594 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-02T00:02:17.374+01:00  INFO 14594 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-02T00:02:17.630+01:00  WARN 14594 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-02T00:02:18.559+01:00  WARN 14594 --- [    Test worker] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: e1d19e11-ce19-47cc-8c68-5fed395bdcb5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-02-02T00:02:18.843+01:00  INFO 14594 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@38f63756, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3d7caf9c, org.springframework.security.web.context.SecurityContextHolderFilter@cd93621, org.springframework.security.web.header.HeaderWriterFilter@31c0c7e5, org.springframework.web.filter.CorsFilter@4e26040f, org.springframework.security.web.csrf.CsrfFilter@d02c00, org.springframework.security.web.authentication.logout.LogoutFilter@762f8ff6, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@522f0bb8, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@23d23d98, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@1782896, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@75c0cd39, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@21ba0d33, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@afb7b03, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@8bde368, org.springframework.security.web.access.ExceptionTranslationFilter@2aeb7c4c, org.springframework.security.web.access.intercept.AuthorizationFilter@441016d6]
+2024-02-02T00:02:18.968+01:00  INFO 14594 --- [    Test worker] c.S.S.SheltersappApplicationTests        : Started SheltersappApplicationTests in 6.297 seconds (process running for 9.09)
+Let's inspect the beans provided by Spring Boot:
+applicationAvailability
+applicationTaskExecutor
+authenticationEventPublisher
+authenticationManagerBuilder
+basicErrorController
+beanNameHandlerMapping
+beanNameViewResolver
+characterEncodingFilter
+commandLineRunner
+conventionErrorViewResolver
+conversionServicePostProcessor
+data-jpa.repository-aot-processor#0
+dataSource
+dataSourceScriptDatabaseInitializer
+defaultSecurityFilterChain
+defaultServletHandlerMapping
+defaultViewResolver
+delegatingApplicationListener
+dispatcherServlet
+dispatcherServletRegistration
+emBeanDefinitionRegistrarPostProcessor
+enableGlobalAuthenticationAutowiredConfigurer
+entityManagerFactory
+entityManagerFactoryBuilder
+error
+errorAttributes
+errorPageCustomizer
+errorPageRegistrarBeanPostProcessor
+fileWatcher
+flashMapManager
+formContentFilter
+handlerExceptionResolver
+handlerFunctionAdapter
+helloControler
+hikariPoolDataSourceMetadataProvider
+httpMessageConvertersRestClientCustomizer
+httpRequestHandlerAdapter
+inMemoryUserDetailsManager
+initializeAuthenticationProviderBeanManagerConfigurer
+initializeUserDetailsBeanManagerConfigurer
+jacksonGeoModule
+jacksonObjectMapper
+jacksonObjectMapperBuilder
+jdbcClient
+jdbcConnectionDetails
+jdbcConnectionDetailsHikariBeanPostProcessor
+jdbcTemplate
+jpaContext
+jpaMappingContext
+jpaSharedEM_AWC_entityManagerFactory
+jpaSharedEM_entityManagerFactory
+jpaVendorAdapter
+jsonComponentModule
+jsonMixinModule
+jsonMixinModuleEntries
+lifecycleProcessor
+localeCharsetMappingsCustomizer
+localeResolver
+mappingJackson2HttpMessageConverter
+messageConverters
+multipartConfigElement
+multipartResolver
+mvcContentNegotiationManager
+mvcConversionService
+mvcHandlerMappingIntrospector
+mvcHandlerMappingIntrospectorRequestTransformer
+mvcPathMatcher
+mvcPatternParser
+mvcResourceUrlProvider
+mvcUriComponentsContributor
+mvcUrlPathHelper
+mvcValidator
+mvcViewResolver
+namedParameterJdbcTemplate
+objectPostProcessor
+offsetResolver
+openEntityManagerInViewInterceptor
+openEntityManagerInViewInterceptorConfigurer
+org.springframework.aop.config.internalAutoProxyCreator
+org.springframework.boot.autoconfigure.AutoConfigurationPackages
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$AspectJAutoProxyingConfiguration
+org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$AspectJAutoProxyingConfiguration$CglibAutoProxyConfiguration
+org.springframework.boot.autoconfigure.availability.ApplicationAvailabilityAutoConfiguration
+org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
+org.springframework.boot.autoconfigure.context.LifecycleAutoConfiguration
+org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
+org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+org.springframework.boot.autoconfigure.data.web.SpringDataWebAutoConfiguration
+org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
+org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration
+org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration
+org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration$MappingJackson2HttpMessageConverterConfiguration
+org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonMixinConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration
+org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration
+org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration
+org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari
+org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration$JdbcTransactionManagerConfiguration
+org.springframework.boot.autoconfigure.jdbc.JdbcClientAutoConfiguration
+org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
+org.springframework.boot.autoconfigure.jdbc.JdbcTemplateConfiguration
+org.springframework.boot.autoconfigure.jdbc.NamedParameterJdbcTemplateConfiguration
+org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration
+org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration
+org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration
+org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration
+org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$PersistenceManagedTypesConfiguration
+org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration
+org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecurityConfiguration
+org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecurityConfiguration$SecurityFilterChainConfiguration
+org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecurityConfiguration$WebSecurityEnablerConfiguration
+org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+org.springframework.boot.autoconfigure.sql.init.DataSourceInitializationConfiguration
+org.springframework.boot.autoconfigure.sql.init.SqlInitializationAutoConfiguration
+org.springframework.boot.autoconfigure.ssl.SslAutoConfiguration
+org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
+org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$SimpleAsyncTaskExecutorBuilderConfiguration
+org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$TaskExecutorBuilderConfiguration
+org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$TaskExecutorConfiguration
+org.springframework.boot.autoconfigure.task.TaskExecutorConfigurations$ThreadPoolTaskExecutorBuilderConfiguration
+org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$SimpleAsyncTaskSchedulerBuilderConfiguration
+org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$TaskSchedulerBuilderConfiguration
+org.springframework.boot.autoconfigure.task.TaskSchedulingConfigurations$ThreadPoolTaskSchedulerBuilderConfiguration
+org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration
+org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$EnableTransactionManagementConfiguration
+org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$EnableTransactionManagementConfiguration$CglibAutoProxyConfiguration
+org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration$TransactionTemplateConfiguration
+org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration
+org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration
+org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration
+org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration
+org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration
+org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration
+org.springframework.boot.context.internalConfigurationPropertiesBinder
+org.springframework.boot.context.properties.BoundConfigurationProperties
+org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor
+org.springframework.boot.context.properties.EnableConfigurationPropertiesRegistrar.methodValidationExcludeFilter
+org.springframework.boot.sql.init.dependency.DatabaseInitializationDependencyConfigurer$DependsOnDatabaseInitializationPostProcessor
+org.springframework.boot.test.mock.mockito.MockitoPostProcessor
+org.springframework.boot.test.mock.mockito.MockitoPostProcessor$SpyPostProcessor
+org.springframework.context.annotation.internalAutowiredAnnotationProcessor
+org.springframework.context.annotation.internalCommonAnnotationProcessor
+org.springframework.context.annotation.internalConfigurationAnnotationProcessor
+org.springframework.context.annotation.internalPersistenceAnnotationProcessor
+org.springframework.context.event.internalEventListenerFactory
+org.springframework.context.event.internalEventListenerProcessor
+org.springframework.data.jpa.repository.support.JpaEvaluationContextExtension
+org.springframework.data.jpa.util.JpaMetamodelCacheCleanup
+org.springframework.data.web.config.ProjectingArgumentResolverRegistrar
+org.springframework.data.web.config.SpringDataJacksonConfiguration
+org.springframework.data.web.config.SpringDataWebConfiguration
+org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
+org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration
+org.springframework.security.config.annotation.web.configuration.HttpSecurityConfiguration
+org.springframework.security.config.annotation.web.configuration.HttpSecurityConfiguration.httpSecurity
+org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration
+org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration
+org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration
+org.springframework.transaction.config.internalTransactionAdvisor
+org.springframework.transaction.config.internalTransactionalEventListenerFactory
+pageModule
+pageableCustomizer
+pageableResolver
+parameterNamesModule
+persistenceExceptionTranslationPostProcessor
+persistenceManagedTypes
+platformTransactionManagerCustomizers
+preserveErrorControllerTargetClassPostProcessor
+privilegeEvaluator
+projectingArgumentResolverBeanPostProcessor
+propertySourcesPlaceholderConfigurer
+requestContextFilter
+requestDataValueProcessor
+requestMappingHandlerAdapter
+requestMappingHandlerMapping
+resourceHandlerMapping
+restClientBuilder
+restClientBuilderConfigurer
+restClientSsl
+restTemplateBuilder
+restTemplateBuilderConfigurer
+routerFunctionMapping
+securityFilterChainRegistration
+server-org.springframework.boot.autoconfigure.web.ServerProperties
+servletWebServerFactoryCustomizer
+sheltersappApplication
+simpleAsyncTaskExecutorBuilder
+simpleAsyncTaskSchedulerBuilder
+simpleControllerHandlerAdapter
+sortCustomizer
+sortResolver
+spring.data.web-org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
+spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties
+spring.info-org.springframework.boot.autoconfigure.info.ProjectInfoProperties
+spring.jackson-org.springframework.boot.autoconfigure.jackson.JacksonProperties
+spring.jdbc-org.springframework.boot.autoconfigure.jdbc.JdbcProperties
+spring.jpa-org.springframework.boot.autoconfigure.orm.jpa.JpaProperties
+spring.jpa.hibernate-org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties
+spring.lifecycle-org.springframework.boot.autoconfigure.context.LifecycleProperties
+spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties
+spring.security-org.springframework.boot.autoconfigure.security.SecurityProperties
+spring.servlet.multipart-org.springframework.boot.autoconfigure.web.servlet.MultipartProperties
+spring.sql.init-org.springframework.boot.autoconfigure.sql.init.SqlInitializationProperties
+spring.ssl-org.springframework.boot.autoconfigure.ssl.SslProperties
+spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties
+spring.task.scheduling-org.springframework.boot.autoconfigure.task.TaskSchedulingProperties
+spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties
+spring.web-org.springframework.boot.autoconfigure.web.WebProperties
+springSecurityFilterChain
+springSecurityHandlerMappingIntrospectorBeanDefinitionRegistryPostProcessor
+sslBundleRegistry
+sslPropertiesSslBundleRegistrar
+standardJacksonObjectMapperBuilderCustomizer
+stringHttpMessageConverter
+taskExecutorBuilder
+taskSchedulerBuilder
+themeResolver
+threadPoolTaskExecutorBuilder
+threadPoolTaskSchedulerBuilder
+tomcatServletWebServerFactory
+tomcatServletWebServerFactoryCustomizer
+transactionAttributeSource
+transactionExecutionListeners
+transactionInterceptor
+transactionManager
+transactionTemplate
+viewControllerHandlerMapping
+viewNameTranslator
+viewResolver
+webSecurityExpressionHandler
+webServerFactoryCustomizerBeanPostProcessor
+websocketServletWebServerCustomizer
+welcomePageHandlerMapping
+welcomePageNotAcceptableHandlerMapping
+]]></system-out>
+  <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (/Users/nataliajanda/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.11/f9cb566608fbac6bc7bf54901a7aa11543a989ee/byte-buddy-agent-1.14.11.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
