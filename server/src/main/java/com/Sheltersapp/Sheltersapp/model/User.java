@@ -13,20 +13,20 @@ import java.util.Collection;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Shelter_accounts implements UserDetails {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer shelter_account_id;
+    @Column(name = "user_id")
+    private Long id;
     private String name;
     private String last_name;
     private String email;
-    private Integer phone_number;
     private String password;
-    private String address;
 
-    @ManyToOne
-    @JoinColumn(name = "shelter_id")
-    private Shelter shelter_id;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Adoption adoption;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,4 +62,5 @@ public class Shelter_accounts implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
 }
