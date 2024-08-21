@@ -15,7 +15,7 @@ export default function Login() {
   };
   return (
     <Nav>
-      <div className="App">
+      <div className="App2">
         <form onSubmit={handleSubmit} className="form__container">
           <h2>Login</h2>
           <div className="form__controls">

@@ -1,4 +1,4 @@
-.App {
+.App2 {
     font-family: sans-serif;
     text-align: center;
     display: flex;
@@ -28,7 +28,7 @@
     border: 1px solid #999999;
     background-color: #3f8f3f;
     color: #ffffff;
-    cursor: not-allowed;
+    /*cursor: not-allowed;*/
   }
   .form__controls {
     margin: 10px;
@@ -50,5 +50,6 @@
     margin: auto;
     padding: 10px;
     width: 450px;
+    margin-top: 10%;
   }
   

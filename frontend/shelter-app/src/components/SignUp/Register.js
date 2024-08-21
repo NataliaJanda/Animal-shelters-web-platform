@@ -48,10 +48,10 @@ function Register() {
 
   return (
     <Nav>
-      <div className="App">
-        <form onSubmit={handleSubmit}>
+      <div className="App1">
+        <form className="form1" onSubmit={handleSubmit}>
           <fieldset>
-            <h2 className="title">Zarejstruj się</h2>
+            <h2 className="title1">Zarejstruj się</h2>
             <div className="Field">
               <label>
                 Imię <sup>*</sup>

@@ -3,7 +3,7 @@ import { NavLink as Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Nav = styled.nav`
-  background: #d5d5d5;
+  background: white;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -25,8 +25,11 @@ export const NavLink = styled(Link)`
 `;
 
 export const Bars = styled(FaBars)`
-  display: none;
+  //display: none;
   color: #808080;
+  display: flex;
+  margin-left: 30px;
+  margin-top: 15px;
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
@@ -42,6 +45,7 @@ export const NavMenu = styled.div`
   display: flex;
   align-items: center;
   margin-right: -24px;
+  font-family: Arial, Helvetica, sans-serif;
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -50,16 +54,21 @@ export const NavMenu = styled.div`
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
-  margin-right: 24px;
+  margin-right: 14px;
   @media screen and (max-width: 768px) {
     display: none;
   }
+  // height: 40px;
+  // width: 40px;
+  // margin-left: -30%;
+  font-family: Arial, Helvetica, sans-serif;
 `;
 
 export const NavBtnLink = styled(Link)`
-  border-radius: 4px;
+  border-radius: 20px;
+  display: flex;
   background: #bfbfbf;
-  padding: 10px 22px;
+  padding: 10px 35px;
   color: #000000;
   outline: none;
   border: none;
@@ -72,6 +81,7 @@ export const NavBtnLink = styled(Link)`
     background: #ffff;
     color: #000000;
   }
+  // font-family: Arial, Helvetica, sans-serif;
 `;
 
 export const NavBarSignLink = styled(Link)`
@@ -81,16 +91,18 @@ export const NavBarSignLink = styled(Link)`
   padding: 0 1rem;
   align-items: center;
   text-decoration: none;
-  padding: 0 1rem;
+  //padding: 0 1rem;
   height: 100%;
   cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
 `;
 
 export const NavBarSign = styled.nav`
   display: flex;
   align-items: center;
-  margin-left: 80%;
+  margin-left: 50%;
   @media screen and (max-width: 768px) {
     display: none;
   }
+  // font-family: Arial, Helvetica, sans-serif;
 `;

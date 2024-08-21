@@ -1,7 +1,7 @@
-.App {
+.App1 {
     display: flex;
     flex: 1;
-    height: 100vh;
+    /* height: 100vh; */
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;  }
@@ -14,12 +14,19 @@
     border-radius: 4px;
     flex-direction: column;
   }
+  .form1{
+    margin-top: 40%;
+  }
   
   label {
     margin-bottom: 8px;
     font-size: 14px;
     text-align: left;
 
+  }
+  .title1{
+    margin-top: 5%;
+    text-align: center;
   }
   
   sup {
@@ -69,7 +76,6 @@
     font-weight: bold;
     cursor: pointer;
     border-radius: 5px;
-    cursor: pointer;
     border: 1px solid #999999;
     background-color: #3f8f3f;
     color: #ffffff;
