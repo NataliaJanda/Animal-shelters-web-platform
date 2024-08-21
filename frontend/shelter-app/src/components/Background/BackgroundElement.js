@@ -5,16 +5,18 @@ import Box from "@mui/material/Box";
 import { NavLink } from "react-router-dom";
 import { lightGreen } from "@mui/material/colors";
 
-const color = lightGreen[800];
-const color2 = lightGreen[700];
+const color = lightGreen[700];
+const color2 = lightGreen[400];
 
 export default function VariantButtonGroup() {
   return (
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        position: "absolute",
+        top: "69%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
         "& > *": {
           m: 1,
         },
@@ -24,16 +26,17 @@ export default function VariantButtonGroup() {
         variant="outlined"
         aria-label="Basic button group"
         sx={{
-          "& .MuiButton-root": {
-            fontSize: "1.9rem",
-            color: "white",
-            borderColor: "white",
-            colorInterpolation: "white",
-            backgroundColor: color,
-            colorAdjust: "white",
-            colorRendering: color2,
-            colorScheme: color2,
-          },
+            "& .MuiButton-root": {
+                fontSize: "calc(0.5rem + 1vw)",
+                color: "white",
+                borderColor: "white",
+                backgroundColor: color,
+                "&:hover": {
+                    backgroundColor: color2,
+                },
+                width: "calc(110px + 10vw)",
+                height: "calc(30px + 3vh)",
+            },
         }}
       >
         <NavLink to="/AdoptDog">

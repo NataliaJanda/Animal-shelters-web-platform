@@ -1,27 +1,28 @@
 import React, { Component } from "react";
 import background from "./image.png";
 import "./Background.css";
-import VariantButtonGroup from "./BackgroundElement";
+import ShelterRegisterButton from "./ShelterRegisterButton";
 
 class Background extends Component {
   render() {
     const myStyle = {
       backgroundImage: `url(${background})`,
-      height: "60vh",
+      height: "63vh",
       marginTop: "7px",
       fontSize: "50px",
       backgroundSize: "cover",
-      // backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      width: "100%",
     };
 
     return (
-      <>
-        <div style={myStyle}>
-          <div className="title">
-            <VariantButtonGroup />
-          </div>
-        </div>
-      </>
+        <>
+            <div style={myStyle}>
+                <div className="title">
+                    <ShelterRegisterButton/>
+                </div>
+            </div>
+        </>
     );
   }
 }

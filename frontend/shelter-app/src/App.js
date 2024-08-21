@@ -7,6 +7,7 @@ import Login from "./components/Login/Login.js";
 import Tablica from "./components/Navbar/tablica.js";
 import Collection from "./components/Navbar/collection.js";
 import AdoptDog from "./components/Adopt/AdoptDog.js";
+import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/AdoptDog" element={<AdoptDog />} />
         <Route path="/AdoptCat" element={<Collection />} />
         <Route path="/AdoptOther" element={<Collection />} />
+        <Route path="/ShelterRegister" element={<ShelterRegister />}/>
       </Routes>
     </Router>
   );

@@ -1,6 +1,5 @@
 // components/Navbar/index.js
-
-import React from "react";
+import React, { useState } from "react";
 import {
   Nav,
   NavLink,
@@ -11,34 +10,42 @@ import {
   NavBarSign,
   NavBarSignLink,
 } from "./NavbarElements.js";
-import Background from "../Background/Background.js";
-import LowBackground from "../LowBackground/LowBackground.js";
+import SideBar from "../SideBar/SideBar";
+import Background2 from "../Background/Background2";
+import LowBackground from "../LowBackground/LowBackground";
+import Background from "../Background/Background";
 
 const Navbar = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
   return (
-    <>
-      <Nav>
-        <Bars />
-        <NavMenu>
-          <NavLink to="/about" activeStyle>
-            O nas
-          </NavLink>
-          <NavLink to="/events" activeStyle>
-            Współpraca
-          </NavLink>
-          <NavLink to="/collection">Zbiórki</NavLink>
-          <NavLink to="/tablica">Tablica ogłoszeń</NavLink>
-        </NavMenu>
-        <NavBarSign>
-          <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
-        </NavBarSign>
-        <NavBtn>
-          <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
-        </NavBtn>
-      </Nav>
-      <Background />
-      <LowBackground />
-    </>
+      <>
+        <Nav>
+          <Bars onClick={toggleSidebar} />
+          <NavMenu>
+            <NavLink to="/about" activeStyle>
+              O nas
+            </NavLink>
+            <NavLink to="/events" activeStyle>
+              Współpraca
+            </NavLink>
+            <NavLink to="/collection">Zbiórki</NavLink>
+            <NavLink to="/tablica">Tablica ogłoszeń</NavLink>
+          </NavMenu>
+          <NavBarSign>
+            <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
+          </NavBarSign>
+          <NavBtn>
+            <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
+          </NavBtn>
+        </Nav>
+        <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <Background />
+        <LowBackground />
+        <Background2 />
+      </>
   );
 };
 
