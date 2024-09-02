@@ -2,7 +2,7 @@
 -- Table: Adoption
 CREATE TABLE Adoption (
                           id int  NOT NULL,
-                          date int  NOT NULL,
+                          date timestamp(6)  NOT NULL,
                           description varchar(20)  NOT NULL,
                           User_id int  NOT NULL,
                           Animal_id int  NOT NULL,
@@ -16,6 +16,7 @@ CREATE TABLE Animal (
                         atitude varchar(30)  NOT NULL,
                         age int  NOT NULL,
                         Shelter_id int  NOT NULL,
+                        Species_id int  NOT NULL,
                         CONSTRAINT Animal_pk PRIMARY KEY (id)
 );
 
@@ -24,8 +25,8 @@ CREATE TABLE Campaigns (
                            id int  NOT NULL,
                            Shelter_id int  NOT NULL,
                            description varchar(40)  NOT NULL,
-                           start_date int  NOT NULL,
-                           end_date int  NOT NULL,
+                           start_date timestamp(6)  NOT NULL,
+                           end_date timestamp(6)  NOT NULL,
                            goal int  NOT NULL,
                            CONSTRAINT Campaigns_pk PRIMARY KEY (id)
 );
@@ -35,14 +36,14 @@ CREATE TABLE News (
                       id int  NOT NULL,
                       Shelter_id int  NOT NULL,
                       description int  NOT NULL,
-                      date int  NOT NULL,
+                      date timestamp(6)  NOT NULL,
                       CONSTRAINT News_pk PRIMARY KEY (id)
 );
 
 -- Table: Photo
 CREATE TABLE Photo (
                        id int  NOT NULL,
-                       data bytea  NOT NULL,
+                       data smallint  NOT NULL,
                        Animal_id int  NOT NULL,
                        CONSTRAINT Photo_pk PRIMARY KEY (id)
 );
@@ -52,7 +53,7 @@ CREATE TABLE Shelter (
                          id int  NOT NULL,
                          name varchar(20)  NOT NULL,
                          address varchar(30)  NOT NULL,
-                         description int  NOT NULL,
+                         description varchar(60)  NOT NULL,
                          CONSTRAINT Shelter_pk PRIMARY KEY (id)
 );
 
@@ -80,12 +81,16 @@ CREATE TABLE Species (
 
 -- Table: User
 CREATE TABLE Users (
-                      id int  NOT NULL,
-                      name varchar(20)  NOT NULL,
-                      last_name varchar(20)  NOT NULL,
-                      email varchar(20)  NOT NULL,
-                      password varchar(20)  NOT NULL,
-                      CONSTRAINT User_pk PRIMARY KEY (id)
+                       id int  NOT NULL,
+                       username varchar(100) NOT NULL,
+                       name varchar(100)  NOT NULL,
+                       last_name varchar(100)  NOT NULL,
+                       email varchar(100)  NOT NULL,
+                       password varchar(100)  NOT NULL,
+                       activated boolean NOT NULL,
+                       verification_code varchar(200),
+                       expired timestamp(6),
+                       CONSTRAINT User_pk PRIMARY KEY (id)
 );
 
 -- foreign keys
@@ -146,9 +151,9 @@ ALTER TABLE Shelter_accounts ADD CONSTRAINT Shelter_accounts_Shelter
 ;
 
 -- Reference: Species_Animal (table: Species)
-ALTER TABLE Species ADD CONSTRAINT Species_Animal
-    FOREIGN KEY (Animal_id)
-        REFERENCES Animal (id)
+ALTER TABLE Animal ADD CONSTRAINT Animal_Species
+    FOREIGN KEY (Species_id)
+        REFERENCES Species (id)
         NOT DEFERRABLE
             INITIALLY IMMEDIATE
 ;
