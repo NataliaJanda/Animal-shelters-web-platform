@@ -96,7 +96,7 @@ public class AuthenticationService {
         }
     }
 
-    private void sendVerificationEmail(Users users) { //TODO: Update with company logo
+    private void sendVerificationEmail(Users users) {
         String subject = "Account Verification";
         String verificationCode = "VERIFICATION CODE " + users.getVerificationCode();
         String htmlMessage = "<html>"
