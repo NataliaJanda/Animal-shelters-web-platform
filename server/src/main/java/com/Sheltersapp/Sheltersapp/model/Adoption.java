@@ -1,9 +1,6 @@
 package com.Sheltersapp.Sheltersapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +15,9 @@ public class Adoption {
     private Long id;
     private LocalDateTime date;
     private String description;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private Users users;
 
 }
