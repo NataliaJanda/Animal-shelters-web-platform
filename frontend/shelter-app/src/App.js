@@ -8,6 +8,8 @@ import Tablica from "./components/Navbar/tablica.js";
 import Collection from "./components/Navbar/collection.js";
 import AdoptDog from "./components/Adopt/AdoptDog.js";
 import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
+import RegisterAccept from "./components/SignUp/RegisterAccept.js";
+import NavbarLoginUser from "./components/Navbar/NavbarLoginUser";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path="/AdoptCat" element={<Collection />} />
         <Route path="/AdoptOther" element={<Collection />} />
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
+        <Route path="/RegisterAccept" element={<RegisterAccept />}/>
+        <Route path="/NavbarLoginUser" element={<NavbarLoginUser />}/>
       </Routes>
     </Router>
   );

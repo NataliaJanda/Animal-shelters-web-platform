@@ -1,50 +1,107 @@
 import "./Login.css";
-import { useState } from "react";
-import { Nav } from "../Navbar/NavbarElements";
+import React, { useState } from "react";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import BackgroundImage from "./kot2.png";
 
-export default function Login() {
-  const [username, setUsername] = useState("");
+
+function Login() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("handle submit");
-  };
 
   const getIsFormValid = () => {
-    return username && password;
+    return email && password;
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const requestBody = {
+      email: email,
+      password: password,
+    };
+
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (response.ok) {
+        window.location.href = "/NavbarLoginUser";
+      } else {
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        } else {
+          const errorText = await response.text();
+          alert(`Error: ${errorText}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("An error occurred during registration. Please try again.");
+    }
+  };
+
   return (
-    <Nav>
-      <div className="App2">
-        <form onSubmit={handleSubmit} className="form__container">
-          <h2>Login</h2>
-          <div className="form__controls">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+      <Box
+          sx={{
+            height: '100vh',
+            width: '95vw',
+            backgroundImage: `url(${BackgroundImage})`,
+            backgroundSize: 'cover',
+            // backgroundPosition: 'center',
+            // display: 'flex',
+            // justifyContent: 'center',
+            // alignItems: 'center',
+          }}
+      >
+      <Container maxWidth="sm">
+        <Box sx={{ textAlign: "center", mt: 5}}>
+          <Typography variant="h4" gutterBottom>
+            Zaloguj się
+          </Typography>
+        </Box>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <Box sx={{ mt: 3 }}>
+            <TextField
+                fullWidth
+                label="Adres email"
+                variant="outlined"
+                margin="normal"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
             />
-          </div>
-          <div className="form__controls">
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            <TextField
+                fullWidth
+                label="Hasło"
+                variant="outlined"
+                margin="normal"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
             />
-          </div>
-          <button
-            className="Button2"
-            type="submit"
-            disabled={!getIsFormValid()}
-          >
-            Login
-          </button>
+            <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={!getIsFormValid()}
+                sx={{ mt: 3 }}
+            >
+              Zaloguj
+            </Button>
+          </Box>
         </form>
-      </div>
-    </Nav>
+      </Container>
+      </Box>
   );
 }
+
+export default Login;
