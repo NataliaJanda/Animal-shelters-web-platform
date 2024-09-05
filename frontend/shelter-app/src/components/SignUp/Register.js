@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import BackgroundImage from "./kot2.png";
 
 export const validateEmail = (email) => {
   return String(email)
@@ -70,6 +71,14 @@ function Register() {
   };
 
   return (
+      <Box
+          sx={{
+            height: '100vh',
+            width: '95vw',
+            backgroundImage: `url(${BackgroundImage})`,
+            backgroundSize: 'cover',
+          }}
+      >
       <Container maxWidth="sm">
         <Box sx={{ textAlign: "center", mt: 5 }}>
           <Typography variant="h4" gutterBottom>
@@ -136,6 +145,7 @@ function Register() {
           </Box>
         </form>
       </Container>
+      </Box>
   );
 }
 

@@ -1,7 +1,7 @@
 import "./Login.css";
 import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import BackgroundImage from "./kot2.png";
+import BackgroundImage from "./piesek2.png";
 
 
 function Login() {
@@ -53,12 +53,13 @@ function Login() {
           sx={{
             height: '100vh',
             width: '95vw',
-            backgroundImage: `url(${BackgroundImage})`,
-            backgroundSize: 'cover',
-            // backgroundPosition: 'center',
-            // display: 'flex',
-            // justifyContent: 'center',
-            // alignItems: 'center',
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${BackgroundImage})`,
+            backgroundSize: '140vh 100vh',
+            // backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            display: 'flex',
+            justifyContent: 'center',
           }}
       >
       <Container maxWidth="sm">
