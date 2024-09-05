@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import {
+    NavLink,NavMenu,
+} from "../Navbar/NavbarElements.js";
+import styled from "styled-components";
 
+export const Nav = styled.nav`
+    background: #d9d9d9;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 12;
+    margin: -8px;
+`;
 function RegisterAccept() {
     const navigate = useNavigate();
 
@@ -46,6 +58,12 @@ function RegisterAccept() {
     };
 
     return (
+        <Nav>
+            <NavMenu>
+                <NavLink to="/" activeStyle >
+                    Menu
+                </NavLink>
+            </NavMenu>
         <Container maxWidth="sm">
             <Box sx={{ textAlign: "center", mt: 5 }}>
                 <Typography variant="h4" gutterBottom>
@@ -100,6 +118,7 @@ function RegisterAccept() {
             </form>
 
         </Container>
+        </Nav>
     );
 }
 

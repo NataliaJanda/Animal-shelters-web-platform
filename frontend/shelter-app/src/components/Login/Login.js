@@ -54,7 +54,7 @@ function Login() {
             height: '100vh',
             width: '95vw',
             backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${BackgroundImage})`,
-            backgroundSize: '140vh 100vh',
+            backgroundSize: '130vh 100vh',
             // backgroundSize: 'contain',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

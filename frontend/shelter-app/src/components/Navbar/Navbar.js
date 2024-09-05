@@ -7,7 +7,6 @@ import {
   NavMenu,
   NavBtn,
   NavBtnLink,
-  NavBarSign,
   NavBarSignLink,
 } from "./NavbarElements.js";
 import SideBar from "../SideBar/SideBar";
@@ -34,10 +33,8 @@ const Navbar = () => {
             <NavLink to="/collection">Zbiórki</NavLink>
             <NavLink to="/tablica">Tablica ogłoszeń</NavLink>
           </NavMenu>
-          <NavBarSign>
-            <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
-          </NavBarSign>
           <NavBtn>
+            <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
             <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
           </NavBtn>
         </Nav>
