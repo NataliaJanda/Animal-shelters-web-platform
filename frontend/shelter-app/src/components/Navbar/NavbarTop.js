@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import SideBar from "../SideBar/SideBar";
+import SideBarWithMenu from "../SideBar/SideBarWithMenu";
 
 import {
     Bars,
@@ -34,7 +34,7 @@ const Navbar = () => {
                     <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
                 </NavBtn>
             </Nav>
-            <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+            <SideBarWithMenu isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         </>
     );
 };
