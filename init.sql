@@ -60,13 +60,24 @@ CREATE TABLE Shelter (
 -- Table: Shelter_accounts
 CREATE TABLE Shelter_accounts (
                                   id int  NOT NULL,
+                                  username varchar(100) NOT NULL,
                                   name varchar(20)  NOT NULL,
                                   last_name varchar(20)  NOT NULL,
                                   email varchar(20)  NOT NULL,
                                   phone_number int  NOT NULL,
                                   password varchar(20)  NOT NULL,
-                                  address varchar(20)  NOT NULL,
                                   Shelter_id int  NOT NULL,
+                                  date_of_completion_of_activity timestamp(6),
+                                  commune varchar(40) NOT NULL,
+                                  address varchar(40) NOT NULL,
+                                  post_code varchar(40) NOT NULL,
+                                  town varchar(40) NOT NULL,
+                                  county varchar(40) NOT NULL,
+                                  tax_id_number varchar(20) NOT NULL,
+                                  real_estate_number varchar(20) NOT NULL,
+                                  regon int NOT NULL,
+                                  type varchar(20) NOT NULL,
+                                  voivodeship varchar(20) NOT NULL,
                                   CONSTRAINT Shelter_accounts_pk PRIMARY KEY (id)
 );
 

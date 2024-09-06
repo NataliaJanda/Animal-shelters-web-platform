@@ -28,6 +28,7 @@ function App() {
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/RegisterAccept" element={<RegisterAccept />}/>
         <Route path="/NavbarLoginUser" element={<NavbarLoginUser />}/>
+        <Route path="/ShelterRegister" element={<ShelterRegister />}/>
       </Routes>
     </Router>
   );

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import BackgroundImage from "./kot2.png";
+import NavbarTop from "../Navbar/NavbarTop";
 
 export const validateEmail = (email) => {
   return String(email)
@@ -71,12 +72,20 @@ function Register() {
   };
 
   return (
+      <>
+        <NavbarTop/>
       <Box
           sx={{
             height: '100vh',
             width: '95vw',
-            backgroundImage: `url(${BackgroundImage})`,
-            backgroundSize: 'cover',
+            backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${BackgroundImage})`,
+            // backgroundSize: '200vh 100vh',
+            backgroundPosition: 'left',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            display: 'inline-flex',
+            justifyContent: 'center',
+
           }}
       >
       <Container maxWidth="sm">
@@ -146,6 +155,8 @@ function Register() {
         </form>
       </Container>
       </Box>
+      </>
+
   );
 }
 

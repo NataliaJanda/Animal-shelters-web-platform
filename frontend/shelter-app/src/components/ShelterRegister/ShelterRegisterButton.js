@@ -39,7 +39,7 @@ export default function ShelterRegisterButton() {
                     },
                 }}
             >
-                <NavLink to="/AdoptDog">
+                <NavLink to="/ShelterRegister">
                     <Button>Zarejestruj swoje schronisko!</Button>
                 </NavLink>
             </ButtonGroup>

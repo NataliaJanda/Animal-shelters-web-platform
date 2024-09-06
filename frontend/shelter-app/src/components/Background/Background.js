@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import background from "./image.png";
 import "./Background.css";
-import ShelterRegisterButton from "./ShelterRegisterButton";
+import ShelterRegisterButton from "../ShelterRegister/ShelterRegisterButton";
 
 class Background extends Component {
   render() {

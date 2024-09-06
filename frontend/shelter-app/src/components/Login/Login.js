@@ -2,6 +2,7 @@ import "./Login.css";
 import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import BackgroundImage from "./piesek2.png";
+import NavbarTop from "../Navbar/NavbarTop";
 
 
 function Login() {
@@ -49,6 +50,8 @@ function Login() {
   };
 
   return (
+      <>
+      <NavbarTop/>
       <Box
           sx={{
             height: '100vh',
@@ -102,6 +105,7 @@ function Login() {
         </form>
       </Container>
       </Box>
+</>
   );
 }
 
