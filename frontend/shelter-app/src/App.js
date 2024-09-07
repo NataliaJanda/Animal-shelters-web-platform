@@ -10,6 +10,8 @@ import AdoptDog from "./components/Adopt/AdoptDog.js";
 import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
 import RegisterAccept from "./components/SignUp/RegisterAccept.js";
 import NavbarLoginUser from "./components/Navbar/NavbarLoginUser";
+import ShelterRegisterAccept from "./components/SignUp/SheterRegisterAccept";
+import LoginShelter from "./components/Login/LoginShelter";
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/sign-up" element={<Register />} />
         <Route path="/signin" element={<Login />} />
+        <Route path="/signin-shelter" element={<LoginShelter />} />
         <Route path="/tablica" element={<Tablica />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/AdoptDog" element={<AdoptDog />} />
@@ -29,6 +32,7 @@ function App() {
         <Route path="/RegisterAccept" element={<RegisterAccept />}/>
         <Route path="/NavbarLoginUser" element={<NavbarLoginUser />}/>
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
+        <Route path="/ShelterRegisterAccept" element={<ShelterRegisterAccept />}/>
       </Routes>
     </Router>
   );

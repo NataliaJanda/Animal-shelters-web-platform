@@ -20,14 +20,12 @@ function ShelterRegister() {
     const [email, setEmail] = useState("");
     const [phone_number, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
-    const [date_of_completion_of_activity, setDateOfCompletionOfActivity] = useState("");
     const [commune, setCommune] = useState("");
     const [post_code, setPostCode] = useState("");
     const [town, setTown] = useState("");
     const [county, setCounty] = useState("");
     const [real_estate_number, setRealEstateNumber] = useState("");
     const [regon, setRegon] = useState("");
-    const [type, setType] = useState("");
     const [voivodeship, setVoivodeship] = useState("");
     const [password, setPassword] = useState({
         value: "",
@@ -45,14 +43,12 @@ function ShelterRegister() {
         setAddress("");
         setLastName("");
         setEmail("");
-        setDateOfCompletionOfActivity("");
         setCommune("");
         setPostCode("");
         setTown("");
         setCounty("");
         setRealEstateNumber("");
         setRegon("");
-        setType("");
         setVoivodeship("");
         setPassword({
             value: "",
@@ -72,18 +68,16 @@ function ShelterRegister() {
             phone_number: phone_number,
             address:address,
             post_code:post_code,
-            date_of_completion_of_activity:date_of_completion_of_activity,
             commune:commune,
             town:town,
             county:county,
             real_estate_number:real_estate_number,
             regon:regon,
-            type:type,
             voivodeship:voivodeship
         };
 
         try {
-            const response = await fetch("http://localhost:8080/auth/signup", {
+            const response = await fetch("http://localhost:8080/auth/signup-shelter", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,7 +87,7 @@ function ShelterRegister() {
 
             if (response.ok) {
                 clearForm();
-                navigate("/RegisterAccept");
+                navigate("/ShelterRegisterAccept");
             } else {
                 const errorData = await response.json();
                 alert(`Error: ${errorData.message}`);
@@ -219,14 +213,6 @@ function ShelterRegister() {
                             />
                             <TextField
                                 fullWidth
-                                label="Data czegos tam"
-                                variant="outlined"
-                                margin="normal"
-                                value={date_of_completion_of_activity}
-                                onChange={(e) => setDateOfCompletionOfActivity(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
                                 label="NIP"
                                 variant="outlined"
                                 margin="normal"
@@ -240,14 +226,6 @@ function ShelterRegister() {
                                 margin="normal"
                                 value={regon}
                                 onChange={(e) => setRegon(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Typ"
-                                variant="outlined"
-                                margin="normal"
-                                value={type}
-                                onChange={(e) => setType(e.target.value)}
                             />
                             <TextField
                                 fullWidth
