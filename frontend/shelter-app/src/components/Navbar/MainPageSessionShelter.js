@@ -1,5 +1,4 @@
-// components/Navbar/index.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Nav,
     NavLink,
@@ -9,14 +8,25 @@ import {
     NavBtnLink,
 } from "./NavbarElements.js";
 import SideBar from "../SideBar/SideBar";
-import Background2 from "../Background/Background2";
-import LowBackground from "../LowBackground/LowBackground";
-import Background from "../Background/Background";
 
-const NavbarLoginUser = () => {
+const MainPageSessionShelter = () => {
+
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            window.location.href = "/signin";
+        }
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    };
 
     return (
         <>
@@ -30,19 +40,18 @@ const NavbarLoginUser = () => {
                         Współpraca
                     </NavLink>
                     <NavLink to="/collection">Zbiórki</NavLink>
-                    <NavLink to="/collection">Moje konto</NavLink>
+                    <NavLink to="/my-account">Moje konto</NavLink>
                     <NavLink to="/tablica">Tablica ogłoszeń</NavLink>
                 </NavMenu>
                 <NavBtn>
-                    <NavBtnLink to="/adopt">Wyloguj się</NavBtnLink>
+                    <NavBtnLink as="button" onClick={handleLogout}>
+                        Wyloguj się
+                    </NavBtnLink>
                 </NavBtn>
             </Nav>
             <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <Background />
-            <LowBackground />
-            <Background2 />
         </>
     );
 };
 
-export default NavbarLoginUser;
+export default MainPageSessionShelter;

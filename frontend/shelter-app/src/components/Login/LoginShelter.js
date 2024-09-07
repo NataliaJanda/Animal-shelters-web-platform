@@ -5,7 +5,7 @@ import BackgroundImage from "./piesek2.png";
 import NavbarTop from "../Navbar/NavbarTop";
 
 
-function Login() {
+function LoginShelter() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -31,7 +31,9 @@ function Login() {
             });
 
             if (response.ok) {
-                window.location.href = "/NavbarLoginUser";
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+                window.location.href = "/MainPageSessionShelter";
             } else {
                 const contentType = response.headers.get("Content-Type");
 
@@ -44,8 +46,8 @@ function Login() {
                 }
             }
         } catch (error) {
-            console.error("Error during registration:", error);
-            alert("An error occurred during registration. Please try again.");
+            console.error("Error during login:", error);
+            alert("An error occurred during login. Please try again.");
         }
     };
 
@@ -58,7 +60,6 @@ function Login() {
                     width: '95vw',
                     backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${BackgroundImage})`,
                     backgroundSize: '130vh 100vh',
-                    // backgroundSize: 'contain',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                     display: 'flex',
@@ -68,7 +69,7 @@ function Login() {
                 <Container maxWidth="sm">
                     <Box sx={{ textAlign: "center", mt: 5}}>
                         <Typography variant="h4" gutterBottom>
-                            Zaloguj się
+                            Logowanie dla schronisk
                         </Typography>
                     </Box>
 
@@ -109,4 +110,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default LoginShelter;

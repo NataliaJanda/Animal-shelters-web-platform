@@ -1,4 +1,4 @@
-// components/Navbar/index.js
+// components/MainPage/index.js
 import React, { useState } from "react";
 import {
   Nav,
@@ -14,7 +14,7 @@ import Background2 from "../Background/Background2";
 import LowBackground from "../LowBackground/LowBackground";
 import Background from "../Background/Background";
 
-const Navbar = () => {
+const MainPage = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
@@ -35,7 +35,7 @@ const Navbar = () => {
           </NavMenu>
           <NavBtn>
             <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
-            <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
+            <NavBtnLink to="/SigninOption">Zaloguj się</NavBtnLink>
           </NavBtn>
         </Nav>
         <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -46,4 +46,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default MainPage;

@@ -79,7 +79,6 @@ function Register() {
             height: '100vh',
             width: '95vw',
             backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(${BackgroundImage})`,
-            // backgroundSize: '200vh 100vh',
             backgroundPosition: 'left',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',

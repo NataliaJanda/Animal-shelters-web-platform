@@ -31,7 +31,7 @@ const Navbar = () => {
                     </NavLink>
                 </NavMenu>
                 <NavBtn>
-                    <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
+                    <NavBtnLink to="/SigninOption">Zaloguj się</NavBtnLink>
                 </NavBtn>
             </Nav>
             <SideBarWithMenu isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />

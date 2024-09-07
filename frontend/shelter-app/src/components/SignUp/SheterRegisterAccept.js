@@ -10,7 +10,7 @@ function ShelterRegisterAccept() {
     const [verificationCode, setCode] = useState("");
 
     const handleLoginRedirect = () => {
-        navigate("/signin");
+        navigate("/signin-shelter");
     };
 
     const getIsFormValid = () => {

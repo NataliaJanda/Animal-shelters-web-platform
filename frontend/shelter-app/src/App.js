@@ -1,4 +1,4 @@
-import Navbar from "./components/Navbar/Navbar.js";
+import MainPage from "./components/Navbar/MainPage.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import About from "./components/Navbar/about.js";
 import Register from "./components/SignUp/Register.js";
@@ -9,15 +9,17 @@ import Collection from "./components/Navbar/collection.js";
 import AdoptDog from "./components/Adopt/AdoptDog.js";
 import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
 import RegisterAccept from "./components/SignUp/RegisterAccept.js";
-import NavbarLoginUser from "./components/Navbar/NavbarLoginUser";
+import MainPageSessionUser from "./components/Navbar/MainPageSessionUser";
 import ShelterRegisterAccept from "./components/SignUp/SheterRegisterAccept";
 import LoginShelter from "./components/Login/LoginShelter";
+import SigninOption from "./components/Login/SigninOption";
+import MainPageSessionShelter from "./components/Navbar/MainPageSessionShelter";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navbar />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events />} />
         <Route path="/sign-up" element={<Register />} />
@@ -30,9 +32,11 @@ function App() {
         <Route path="/AdoptOther" element={<Collection />} />
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/RegisterAccept" element={<RegisterAccept />}/>
-        <Route path="/NavbarLoginUser" element={<NavbarLoginUser />}/>
+        <Route path="/MainPageSessionUser" element={<MainPageSessionUser />}/>
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/ShelterRegisterAccept" element={<ShelterRegisterAccept />}/>
+        <Route path="/SigninOption" element={<SigninOption />}/>
+        <Route path="/MainPageSessionShelter" element={<MainPageSessionShelter />}/>
       </Routes>
     </Router>
   );
