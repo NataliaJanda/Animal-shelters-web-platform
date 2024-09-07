@@ -1,9 +1,14 @@
 package com.Sheltersapp.Sheltersapp.service;
 
 import com.Sheltersapp.Sheltersapp.DTO.LoginUser;
+import com.Sheltersapp.Sheltersapp.DTO.RegisterShelter;
 import com.Sheltersapp.Sheltersapp.DTO.RegisterUser;
 import com.Sheltersapp.Sheltersapp.DTO.VerifyUser;
+import com.Sheltersapp.Sheltersapp.model.Shelter;
+import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
 import com.Sheltersapp.Sheltersapp.model.Users;
+import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
+import com.Sheltersapp.Sheltersapp.repository.ShelterRepository;
 import com.Sheltersapp.Sheltersapp.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,17 +26,21 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final EmailService emailService;
+    private final ShelterAccountsRepository ShelterAccountsRepository;
+    private final ShelterRepository shelterRepository;
 
     public AuthenticationService(
             UserRepository userRepository,
             AuthenticationManager authenticationManager,
             PasswordEncoder passwordEncoder,
-            EmailService emailService
+            EmailService emailService, ShelterAccountsRepository ShelterAccountsRepository, ShelterRepository shelterRepository
     ) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.ShelterAccountsRepository = ShelterAccountsRepository;
+        this.shelterRepository = shelterRepository;
     }
 
     public Users signup(RegisterUser input) {
@@ -42,6 +51,20 @@ public class AuthenticationService {
         sendVerificationEmail(users);
         return userRepository.save(users);
     }
+
+    public Shelter_accounts signupShelter (RegisterShelter input){
+        Shelter shelter = new Shelter(input.getUsername(),input.getAddress(), input.getCommune(), input.getPost_code(), input.getTown(), input.getCounty(), input.getReal_estate_number(), input.getRegon(),  input.getVoivodeship());
+        Shelter_accounts shelter_accounts = new Shelter_accounts(input.getUsername(), input.getName(), input.getLast_name(), input.getEmail(), input.getPhone_number(), passwordEncoder.encode(input.getPassword()));
+        //TODO Check if the REGON number is in the gus base
+        shelter_accounts.setShelter_id(shelter);
+        shelter_accounts.setVerificationCode(generateVerificationCode());
+        shelter_accounts.setExpired(LocalDateTime.now().plusMinutes(15));
+        shelter_accounts.setActivated(false);
+        sendVerificationEmailForShelter(shelter_accounts);
+        shelterRepository.save(shelter);
+        return ShelterAccountsRepository.save(shelter_accounts);
+    }
+
 
     public Users authenticate(LoginUser input) {
         Users users = userRepository.findByEmail(input.getEmail())
@@ -58,6 +81,23 @@ public class AuthenticationService {
         );
 
         return users;
+    }
+
+    public Shelter_accounts authenticateShelter(LoginUser input) {
+        Shelter_accounts shelter_accounts = ShelterAccountsRepository.findByEmail(input.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!shelter_accounts.isEnabled()) {
+            throw new RuntimeException("Account not verified. Please verify your account.");
+        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()
+                )
+        );
+
+        return shelter_accounts;
     }
 
     public void verifyUser(VerifyUser input) {
@@ -77,6 +117,26 @@ public class AuthenticationService {
             }
         } else {
             throw new RuntimeException("User not found");
+        }
+    }
+    public void verifyShelter(VerifyUser input) {
+        Optional<Shelter_accounts> optionalShelterAccounts = ShelterAccountsRepository.findByEmail(input.getEmail());
+        if (optionalShelterAccounts.isPresent()) {
+            Shelter_accounts shelter_accounts = optionalShelterAccounts.get();
+            if (shelter_accounts.getExpired().isBefore(LocalDateTime.now())) {
+                throw new RuntimeException("Verification code has expired");
+            }
+            if (shelter_accounts.getVerificationCode().equals(input.getVerificationCode())) {
+                shelter_accounts.setActivated(true);
+                shelter_accounts.setVerificationCode(null);
+                shelter_accounts.setExpired(null);
+                ShelterAccountsRepository.save(shelter_accounts);
+            }
+            else {
+                throw new RuntimeException("Invalid verification code");
+            }
+        } else {
+            throw new RuntimeException("Shelter not found");
         }
     }
 
@@ -115,7 +175,28 @@ public class AuthenticationService {
         try {
             emailService.sendVerificationEmail(users.getEmail(), subject, htmlMessage);
         } catch (MessagingException e) {
-            // Handle email sending exception
+            e.printStackTrace();
+        }
+    }
+    private void sendVerificationEmailForShelter(Shelter_accounts shelter_accounts) {
+        String subject = "Account Verification";
+        String verificationCode = "VERIFICATION CODE " + shelter_accounts.getVerificationCode();
+        String htmlMessage = "<html>"
+                + "<body style=\"font-family: Arial, sans-serif;\">"
+                + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
+                + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
+                + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
+                + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
+                + "<h3 style=\"color: #333;\">Verification Code:</h3>"
+                + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + verificationCode + "</p>"
+                + "</div>"
+                + "</div>"
+                + "</body>"
+                + "</html>";
+
+        try {
+            emailService.sendVerificationEmail(shelter_accounts.getEmail(), subject, htmlMessage);
+        } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
