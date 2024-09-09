@@ -24,14 +24,12 @@ const MainPage = () => {
         <Nav>
           <Bars onClick={toggleSidebar} />
           <NavMenu>
-            <NavLink to="/about" activeStyle>
-              O nas
-            </NavLink>
-            <NavLink to="/events" activeStyle>
-              Współpraca
-            </NavLink>
+              <NavLink to="/" activeStyle>
+                  Home
+              </NavLink>
+            <NavLink to="/about" activeStyle>O nas</NavLink>
+            <NavLink to="/events" activeStyle>Tablica ogłoszeń</NavLink>
             <NavLink to="/collection">Zbiórki</NavLink>
-            <NavLink to="/tablica">Tablica ogłoszeń</NavLink>
           </NavMenu>
           <NavBtn>
             <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>

@@ -2,18 +2,18 @@ import MainPage from "./components/Navbar/MainPage.js";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import About from "./components/Navbar/about.js";
 import Register from "./components/SignUp/Register.js";
-import Events from "./components/Navbar/events.js";
+import Events from "./components/Navbar/Events.js";
 import Login from "./components/Login/Login.js";
-import Tablica from "./components/Navbar/tablica.js";
+import Table from "./components/Navbar/Table.js";
 import Collection from "./components/Navbar/collection.js";
 import AdoptDog from "./components/Adopt/AdoptDog.js";
 import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
 import RegisterAccept from "./components/SignUp/RegisterAccept.js";
-import MainPageSessionUser from "./components/Navbar/MainPageSessionUser";
+import MainPageSessionUser from "./components/MainPage/MainPageSessionUser";
 import ShelterRegisterAccept from "./components/SignUp/SheterRegisterAccept";
 import LoginShelter from "./components/Login/LoginShelter";
 import SigninOption from "./components/Login/SigninOption";
-import MainPageSessionShelter from "./components/Navbar/MainPageSessionShelter";
+import MainPageSessionShelter from "./components/MainPage/MainPageSessionShelter";
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <Route path="/sign-up" element={<Register />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/signin-shelter" element={<LoginShelter />} />
-        <Route path="/tablica" element={<Tablica />} />
+        <Route path="/tablica" element={<Table />} />
         <Route path="/collection" element={<Collection />} />
         <Route path="/AdoptDog" element={<AdoptDog />} />
         <Route path="/AdoptCat" element={<Collection />} />
