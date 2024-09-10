@@ -23,10 +23,10 @@ CREATE TABLE Animal (
 -- Table: Campaigns
 CREATE TABLE Campaigns (
                            id int  NOT NULL,
-                           Shelter_id int  NOT NULL,
+                           Shelter_id int,
                            description varchar(40)  NOT NULL,
-                           start_date timestamp(6)  NOT NULL,
-                           end_date timestamp(6)  NOT NULL,
+                           start_date varchar(40)  NOT NULL,
+                           end_date varchar(40)  NOT NULL,
                            goal int  NOT NULL,
                            CONSTRAINT Campaigns_pk PRIMARY KEY (id)
 );
@@ -55,7 +55,7 @@ CREATE TABLE Shelter (
                          address varchar(30)  NOT NULL,
                          description varchar(60),
                          commune varchar(100) NOT NULL,
-                         address varchar(100) NOT NULL,
+--                          address varchar(100) NOT NULL,
                          post_code varchar(100) NOT NULL,
                          town varchar(100) NOT NULL,
                          county varchar(100) NOT NULL,

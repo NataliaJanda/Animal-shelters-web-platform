@@ -14,8 +14,17 @@ import java.time.LocalDateTime;
 @Entity
 public class News {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String description;
     private LocalDateTime date;
+
+    public News(String description, LocalDateTime date) {
+        this.description = description;
+        this.date = date;
+    }
+
+    public News() {
+    }
+
 }
