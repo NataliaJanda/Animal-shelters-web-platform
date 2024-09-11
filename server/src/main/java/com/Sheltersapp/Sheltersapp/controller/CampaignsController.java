@@ -25,7 +25,7 @@ public class CampaignsController {
         return ResponseEntity.ok(savedCampaign);
     }
 
-    @GetMapping("")
+    @GetMapping()
     public ResponseEntity<List<Campaigns>> getAllCampaigns() {
         List<Campaigns> campaigns = campaignsService.allCampaigns();
         return ResponseEntity.ok(campaigns);
