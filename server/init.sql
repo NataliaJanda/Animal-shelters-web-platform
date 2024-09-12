@@ -25,7 +25,7 @@ CREATE TABLE Campaigns (
                            description varchar(40)  NOT NULL,
                            start_date varchar(40)  NOT NULL,
                            end_date varchar(40)  NOT NULL,
-                           goal int  NOT NULL
+                           goal varchar(40)  NOT NULL
 );
 
 -- Table: News

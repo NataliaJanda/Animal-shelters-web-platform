@@ -1,6 +1,5 @@
 package com.Sheltersapp.Sheltersapp.config;
 
-import com.Sheltersapp.Sheltersapp.model.Role;
 import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
 import com.Sheltersapp.Sheltersapp.model.Users;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
@@ -11,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,40 +21,36 @@ public class ApplicationConfiguration {
     private final UserRepository userRepository;
     private final ShelterAccountsRepository shelterAccountsRepository;
 
+
     public ApplicationConfiguration(UserRepository userRepository, ShelterAccountsRepository shelterAccountsRepository) {
         this.userRepository = userRepository;
         this.shelterAccountsRepository = shelterAccountsRepository;
     }
 
     @Bean
-    UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService() {
         return username -> {
-            UserDetails user = userRepository.findByEmail(username)
+            UserDetails userDetails = userRepository.findByUsername(username)
                     .map(this::mapToUserDetails)
-                    .orElse(null);
+                    .orElseGet(() -> shelterAccountsRepository.findByUsername(username)
+                            .map(this::mapToUserDetailsShelter)
+                            .orElseThrow(() -> new UsernameNotFoundException("User not found")));
 
-            if (user != null) {
-                return user;
-            }
-
-            return shelterAccountsRepository.findByEmail(username)
-                    .map(this::mapToUserDetailsShelter)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            return userDetails;
         };
     }
 
     private UserDetails mapToUserDetails(Users user) {
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
+        return User.builder()
+                .username(user.getUsername())
                 .password(user.getPassword())
                 .build();
     }
 
-    private UserDetails mapToUserDetailsShelter(Shelter_accounts shelterAccount) {
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(shelterAccount.getEmail())
-                .password(shelterAccount.getPassword())
-                .roles(String.valueOf(Role.SHELTER))
+    private UserDetails mapToUserDetailsShelter(Shelter_accounts account) {
+        return User.builder()
+                .username(account.getUsername())
+                .password(account.getPassword())
                 .build();
     }
 

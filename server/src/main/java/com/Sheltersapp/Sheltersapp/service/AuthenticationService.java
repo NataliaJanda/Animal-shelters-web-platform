@@ -70,7 +70,7 @@ public class AuthenticationService {
 
 
     public Users authenticate(LoginUser input) {
-        Users users = userRepository.findByEmail(input.getEmail())
+        Users users = userRepository.findByUsername(input.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!users.isEnabled()) {
@@ -78,7 +78,7 @@ public class AuthenticationService {
         }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
+                        input.getUsername(),
                         input.getPassword()
                 )
         );
@@ -87,7 +87,7 @@ public class AuthenticationService {
     }
 
     public Shelter_accounts authenticateShelter(LoginUser input) {
-        Shelter_accounts shelter_accounts = ShelterAccountsRepository.findByEmail(input.getEmail())
+        Shelter_accounts shelter_accounts = ShelterAccountsRepository.findByUsername(input.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!shelter_accounts.isEnabled()) {
@@ -95,7 +95,7 @@ public class AuthenticationService {
         }
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
+                        input.getUsername(),
                         input.getPassword()
                 )
         );
@@ -104,7 +104,7 @@ public class AuthenticationService {
     }
 
     public void verifyUser(VerifyUser input) {
-        Optional<Users> optionalUser = userRepository.findByEmail(input.getEmail());
+        Optional<Users> optionalUser = userRepository.findByUsername(input.getUsername());
         if (optionalUser.isPresent()) {
             Users users = optionalUser.get();
             if (users.getExpired().isBefore(LocalDateTime.now())) {
@@ -123,7 +123,7 @@ public class AuthenticationService {
         }
     }
     public void verifyShelter(VerifyUser input) {
-        Optional<Shelter_accounts> optionalShelterAccounts = ShelterAccountsRepository.findByEmail(input.getEmail());
+        Optional<Shelter_accounts> optionalShelterAccounts = ShelterAccountsRepository.findByUsername(input.getUsername());
         if (optionalShelterAccounts.isPresent()) {
             Shelter_accounts shelter_accounts = optionalShelterAccounts.get();
             if (shelter_accounts.getExpired().isBefore(LocalDateTime.now())) {
@@ -144,7 +144,7 @@ public class AuthenticationService {
     }
 
     public void resendVerificationCode(String email) {
-        Optional<Users> optionalUser = userRepository.findByEmail(email);
+        Optional<Users> optionalUser = userRepository.findByUsername(email);
         if (optionalUser.isPresent()) {
             Users users = optionalUser.get();
             if (users.isEnabled()) {
