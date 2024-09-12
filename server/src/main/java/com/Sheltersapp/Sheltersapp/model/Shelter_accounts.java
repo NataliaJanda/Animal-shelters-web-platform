@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 public class Shelter_accounts implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String name;
@@ -26,6 +26,9 @@ public class Shelter_accounts implements UserDetails {
     private boolean activated;
     private String verificationCode;
     private LocalDateTime expired;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")

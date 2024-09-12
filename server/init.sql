@@ -1,56 +1,51 @@
 -- tables
 -- Table: Adoption
 CREATE TABLE Adoption (
-                          id int  NOT NULL,
+                          id SERIAL PRIMARY KEY,
                           date timestamp(6)  NOT NULL,
                           description varchar(20)  NOT NULL,
                           User_id int  NOT NULL,
-                          Animal_id int  NOT NULL,
-                          CONSTRAINT Adoption_pk PRIMARY KEY (id)
+                          Animal_id int  NOT NULL
 );
 
 -- Table: Animal
 CREATE TABLE Animal (
-                        id int  NOT NULL,
+                        id SERIAL PRIMARY KEY,
                         name varchar(20)  NOT NULL,
                         atitude varchar(30)  NOT NULL,
                         age int  NOT NULL,
                         Shelter_id int  NOT NULL,
-                        Species_id int  NOT NULL,
-                        CONSTRAINT Animal_pk PRIMARY KEY (id)
+                        Species_id int  NOT NULL
 );
 
 -- Table: Campaigns
 CREATE TABLE Campaigns (
-                           id int  NOT NULL,
+                           id SERIAL PRIMARY KEY,
                            Shelter_id int,
                            description varchar(40)  NOT NULL,
                            start_date varchar(40)  NOT NULL,
                            end_date varchar(40)  NOT NULL,
-                           goal int  NOT NULL,
-                           CONSTRAINT Campaigns_pk PRIMARY KEY (id)
+                           goal int  NOT NULL
 );
 
 -- Table: News
 CREATE TABLE News (
-                      id int  NOT NULL,
+                      id SERIAL PRIMARY KEY,
                       Shelter_id int  NOT NULL,
                       description int  NOT NULL,
-                      date timestamp(6)  NOT NULL,
-                      CONSTRAINT News_pk PRIMARY KEY (id)
+                      date timestamp(6)  NOT NULL
 );
 
 -- Table: Photo
 CREATE TABLE Photo (
-                       id int  NOT NULL,
+                       id SERIAL PRIMARY KEY,
                        data smallint  NOT NULL,
-                       Animal_id int  NOT NULL,
-                       CONSTRAINT Photo_pk PRIMARY KEY (id)
+                       Animal_id int  NOT NULL
 );
 
 -- Table: Shelter
 CREATE TABLE Shelter (
-                         id int  NOT NULL,
+                         id SERIAL PRIMARY KEY,
                          name varchar(20)  NOT NULL,
                          address varchar(30)  NOT NULL,
                          description varchar(60),
@@ -62,47 +57,45 @@ CREATE TABLE Shelter (
 --                                   tax_id_number varchar(100) NOT NULL,
                          real_estate_number varchar(100) NOT NULL,
                          regon int NOT NULL,
-                         voivodeship varchar(20) NOT NULL,
-                         CONSTRAINT Shelter_pk PRIMARY KEY (id)
+                         voivodeship varchar(20) NOT NULL
 );
 
 -- Table: Shelter_accounts
 CREATE TABLE Shelter_accounts (
-                                  id int  NOT NULL,
+                                  id SERIAL PRIMARY KEY,
                                   username varchar(100) NOT NULL,
                                   name varchar(100)  NOT NULL,
                                   last_name varchar(100)  NOT NULL,
                                   email varchar(100)  NOT NULL,
                                   phone_number varchar(100)  NOT NULL,
+                                  role varchar(100) NOT NULL,
                                   password varchar(100)  NOT NULL,
                                   Shelter_id int,
                                   activated boolean NOT NULL,
                                   verification_code varchar(200),
-                                  expired timestamp(6),
-                                  CONSTRAINT Shelter_accounts_pk PRIMARY KEY (id)
+                                  expired timestamp(6)
 );
 
 -- Table: Species
 CREATE TABLE Species (
-                         id int  NOT NULL,
+                         id SERIAL PRIMARY KEY,
                          name varchar(20)  NOT NULL,
                          amount int  NOT NULL,
-                         Animal_id int  NOT NULL,
-                         CONSTRAINT Species_pk PRIMARY KEY (id)
+                         Animal_id int  NOT NULL
 );
 
 -- Table: User
 CREATE TABLE Users (
-                       id int  NOT NULL,
+                       id SERIAL PRIMARY KEY,
                        username varchar(100) NOT NULL,
                        name varchar(100)  NOT NULL,
                        last_name varchar(100)  NOT NULL,
                        email varchar(100)  NOT NULL,
+                       role varchar(100) NOT NULL,
                        password varchar(100)  NOT NULL,
                        activated boolean NOT NULL,
                        verification_code varchar(200),
-                       expired timestamp(6),
-                       CONSTRAINT User_pk PRIMARY KEY (id)
+                       expired timestamp(6)
 );
 
 -- foreign keys

@@ -1,5 +1,6 @@
 package com.Sheltersapp.Sheltersapp.config;
 
+import com.Sheltersapp.Sheltersapp.model.Role;
 import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
 import com.Sheltersapp.Sheltersapp.model.Users;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
@@ -53,7 +54,7 @@ public class ApplicationConfiguration {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(shelterAccount.getEmail())
                 .password(shelterAccount.getPassword())
-                .roles("SHELTER") // Ustaw odpowiednią rolę dla shelter_accounts
+                .roles(String.valueOf(Role.SHELTER))
                 .build();
     }
 

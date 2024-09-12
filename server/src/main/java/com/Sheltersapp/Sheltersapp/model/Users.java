@@ -15,7 +15,7 @@ import java.util.List;
 public class Users implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String name;
@@ -26,6 +26,9 @@ public class Users implements UserDetails {
     private boolean activated;
     private String verificationCode;
     private LocalDateTime expired;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Users(String username, String email, String name, String last_name, String password) {
         this.username = username;

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Entity
 public class Campaigns {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
     private String start_date;

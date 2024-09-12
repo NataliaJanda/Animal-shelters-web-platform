@@ -4,6 +4,7 @@ import com.Sheltersapp.Sheltersapp.DTO.LoginUser;
 import com.Sheltersapp.Sheltersapp.DTO.RegisterShelter;
 import com.Sheltersapp.Sheltersapp.DTO.RegisterUser;
 import com.Sheltersapp.Sheltersapp.DTO.VerifyUser;
+import com.Sheltersapp.Sheltersapp.model.Role;
 import com.Sheltersapp.Sheltersapp.model.Shelter;
 import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
 import com.Sheltersapp.Sheltersapp.model.Users;
@@ -48,6 +49,7 @@ public class AuthenticationService {
         users.setVerificationCode(generateVerificationCode());
         users.setExpired(LocalDateTime.now().plusMinutes(15));
         users.setActivated(false);
+        users.setRole(Role.USER);
         sendVerificationEmail(users);
         return userRepository.save(users);
     }
@@ -60,6 +62,7 @@ public class AuthenticationService {
         shelter_accounts.setVerificationCode(generateVerificationCode());
         shelter_accounts.setExpired(LocalDateTime.now().plusMinutes(15));
         shelter_accounts.setActivated(false);
+        shelter_accounts.setRole(Role.SHELTER);
         sendVerificationEmailForShelter(shelter_accounts);
         shelterRepository.save(shelter);
         return ShelterAccountsRepository.save(shelter_accounts);
