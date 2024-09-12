@@ -42,9 +42,6 @@ public class Shelter {
     @JoinColumn(name = "shelter_id")
     private List<Animal> animals;
 
-    @OneToMany
-    @JoinColumn(name = "shelter_id")
-    private List<Campaigns> campaigns;
 
     @OneToMany
     @JoinColumn(name = "shelter_id")
