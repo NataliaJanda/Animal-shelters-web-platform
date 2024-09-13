@@ -6,7 +6,7 @@ import NavbarTop from "../Navbar/NavbarTop";
 function RegisterAccept() {
     const navigate = useNavigate();
 
-    const [email, setMail] = useState("");
+    const [username, setUsername] = useState("");
     const [verificationCode, setCode] = useState("");
 
     const handleLoginRedirect = () => {
@@ -14,14 +14,14 @@ function RegisterAccept() {
     };
 
     const getIsFormValid = () => {
-        return email && verificationCode;
+        return username && verificationCode;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const requestBody = {
-            email: email,
+            username: username,
             verificationCode: verificationCode,
         };
 
@@ -68,8 +68,8 @@ function RegisterAccept() {
                         label="Email"
                         variant="outlined"
                         margin="normal"
-                        value={email}
-                        onChange={(e) => setMail(e.target.value)}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         sx={{ width: "125%" }}
                     />
                     <TextField

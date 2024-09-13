@@ -14,7 +14,7 @@ export default function ShelterRegisterButton() {
             sx={{
                 display: "flex",
                 position: "absolute",
-                top: "45%",
+                top: "63%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
                 "& > *": {

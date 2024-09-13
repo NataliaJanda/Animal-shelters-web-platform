@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-
+import React, { useState, useEffect } from "react";
 import {
     Bars, NavBarSignLink,
     NavBtn, NavBtnLink,
@@ -16,26 +15,57 @@ export const Nav = styled.nav`
     z-index: 15;
     margin: -8px;
 `;
+
 const NavbarTopUnlogin = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, []);
 
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+    };
 
     return (
         <>
             <Nav>
                 <Bars onClick={toggleSidebar} />
                 <NavMenu>
-                    <NavLink to="/" activeStyle>
-                        Home
-                    </NavLink>
+                    {isLoggedIn ? (
+                        <NavLink to="/MainPageSessionUser" activeStyle>Home</NavLink>
+                    ) : (
+                        <>
+                            <NavLink to="/" activeStyle>Home</NavLink>
+                        </>
+                    )}
                     <NavLink to="/about" activeStyle>O nas</NavLink>
-                    <NavLink to="/events" activeStyle>Tablica ogłoszeń</NavLink>
                     <NavLink to="/collection">Zbiórki</NavLink>
+                    {isLoggedIn ? (
+                        <NavLink to="/my-account">Moje konto</NavLink>
+                    ) : (
+                        <></>
+                    )}
+                    <NavLink to="/events" activeStyle>Tablica ogłoszeń</NavLink>
                 </NavMenu>
                 <NavBtn>
-                    <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
-                    <NavBtnLink to="/SigninOption">Zaloguj się</NavBtnLink>
+                    {isLoggedIn ? (
+                        <NavBtnLink to="/" onClick={handleLogout}>Wyloguj się</NavBtnLink>
+                    ) : (
+                        <>
+                            <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
+                            <NavBtnLink to="/SigninOption">Zaloguj się</NavBtnLink>
+                        </>
+                    )}
                 </NavBtn>
             </Nav>
             <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />

@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-// import background from "./image.png";
 import "./Background.css";
 import VariantButtonGroup from "./BackgroundElement";
 
 class Background2 extends Component {
     render() {
         const myStyle = {
-            // backgroundImage: `url(${background})`,
             height: "120vh",
             marginTop: "7px",
             fontSize: "50px",

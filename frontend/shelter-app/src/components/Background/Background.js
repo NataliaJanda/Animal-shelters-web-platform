@@ -1,30 +1,39 @@
-import React, { Component } from "react";
-import background from "./image.png";
+import React, {useEffect, useState} from "react";
 import "./Background.css";
 import ShelterRegisterButton from "../ShelterRegister/ShelterRegisterButton";
+import {HeroOverlay, HeroSection, HeroText} from "../Navbar/collection";
 
-class Background extends Component {
-  render() {
-    const myStyle = {
-      backgroundImage: `url(${background})`,
-      height: "63vh",
-      marginTop: "7px",
-      fontSize: "50px",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      width: "100%",
-    };
+const Background = () =>{
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        setIsLoggedIn(true);
+    } else {
+    setIsLoggedIn(false);
+    }
+    }, []);
 
     return (
         <>
-            <div style={myStyle}>
-                <div className="title">
-                    <ShelterRegisterButton/>
-                </div>
-            </div>
+            <HeroSection>
+                <HeroOverlay>
+                    <HeroText>
+                        <h1>Dołącz do nas!</h1>
+                        <p>
+                            {isLoggedIn ? (<></>
+                            ) : (
+                                <>
+                                    <ShelterRegisterButton/>
+                                </>
+                            )}
+                        </p>
+                    </HeroText>
+                </HeroOverlay>
+            </HeroSection>
         </>
     );
-  }
 }
 
 export default Background;

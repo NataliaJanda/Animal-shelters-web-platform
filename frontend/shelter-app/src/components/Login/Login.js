@@ -5,18 +5,18 @@ import BackgroundImage from "./piesek2.png";
 import NavbarTop from "../Navbar/NavbarTop";
 
 function Login() {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const getIsFormValid = () => {
-        return email && password;
+        return username && password;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const requestBody = {
-            email: email,
+            username: username,
             password: password,
         };
 
@@ -79,8 +79,8 @@ function Login() {
                                 label="Adres email"
                                 variant="outlined"
                                 margin="normal"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
                             <TextField
                                 fullWidth

@@ -8,7 +8,7 @@ export const validateEmail = (email) => {
     return String(email)
         .toLowerCase()
         .match(
-            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         );
 };
 
@@ -16,15 +16,15 @@ function ShelterRegister() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
-    const [last_name, setLastName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
-    const [phone_number, setPhoneNumber] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
     const [commune, setCommune] = useState("");
-    const [post_code, setPostCode] = useState("");
+    const [postCode, setPostCode] = useState("");
     const [town, setTown] = useState("");
     const [county, setCounty] = useState("");
-    const [real_estate_number, setRealEstateNumber] = useState("");
+    const [realEstateNumber, setRealEstateNumber] = useState("");
     const [regon, setRegon] = useState("");
     const [voivodeship, setVoivodeship] = useState("");
     const [password, setPassword] = useState({
@@ -39,10 +39,10 @@ function ShelterRegister() {
     const clearForm = () => {
         setUsername("");
         setFirstName("");
-        setPhoneNumber("");
-        setAddress("");
         setLastName("");
         setEmail("");
+        setPhoneNumber("");
+        setAddress("");
         setCommune("");
         setPostCode("");
         setTown("");
@@ -60,20 +60,20 @@ function ShelterRegister() {
         e.preventDefault();
 
         const requestBody = {
-            email: email,
-            username: username,
+            email,
+            username,
             name: firstName,
-            last_name: last_name,
+            last_name: lastName,
             password: password.value,
-            phone_number: phone_number,
-            address:address,
-            post_code:post_code,
-            commune:commune,
-            town:town,
-            county:county,
-            real_estate_number:real_estate_number,
-            regon:regon,
-            voivodeship:voivodeship
+            phone_number: phoneNumber,
+            address,
+            post_code: postCode,
+            commune,
+            town,
+            county,
+            real_estate_number: realEstateNumber,
+            regon,
+            voivodeship
         };
 
         try {
@@ -109,9 +109,8 @@ function ShelterRegister() {
                     backgroundPosition: 'left',
                     backgroundSize: 'contain',
                     backgroundRepeat: 'no-repeat',
-                    display: 'inline-flex',
+                    display: 'flex',
                     justifyContent: 'center',
-
                 }}
             >
                 <Container maxWidth="sm">
@@ -144,7 +143,7 @@ function ShelterRegister() {
                                 label="Nazwisko"
                                 variant="outlined"
                                 margin="normal"
-                                value={last_name}
+                                value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                             <TextField
@@ -160,7 +159,7 @@ function ShelterRegister() {
                                 label="Numer telefonu"
                                 variant="outlined"
                                 margin="normal"
-                                value={phone_number}
+                                value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                             />
                             <TextField
@@ -176,12 +175,12 @@ function ShelterRegister() {
                                 label="Kod pocztowy"
                                 variant="outlined"
                                 margin="normal"
-                                value={post_code}
+                                value={postCode}
                                 onChange={(e) => setPostCode(e.target.value)}
                             />
                             <TextField
                                 fullWidth
-                                label="Powiat"
+                                label="Gmina"
                                 variant="outlined"
                                 margin="normal"
                                 value={commune}
@@ -197,7 +196,7 @@ function ShelterRegister() {
                             />
                             <TextField
                                 fullWidth
-                                label="Gmina"
+                                label="Powiat"
                                 variant="outlined"
                                 margin="normal"
                                 value={county}
@@ -205,7 +204,7 @@ function ShelterRegister() {
                             />
                             <TextField
                                 fullWidth
-                                label="Wojewódźtwo"
+                                label="Województwo"
                                 variant="outlined"
                                 margin="normal"
                                 value={voivodeship}
@@ -213,15 +212,15 @@ function ShelterRegister() {
                             />
                             <TextField
                                 fullWidth
-                                label="NIP"
+                                label="Numer NIP"
                                 variant="outlined"
                                 margin="normal"
-                                value={real_estate_number}
+                                value={realEstateNumber}
                                 onChange={(e) => setRealEstateNumber(e.target.value)}
                             />
                             <TextField
                                 fullWidth
-                                label="Regon"
+                                label="Numer REGON"
                                 variant="outlined"
                                 margin="normal"
                                 value={regon}
@@ -254,7 +253,6 @@ function ShelterRegister() {
                 </Container>
             </Box>
         </>
-
     );
 }
 

@@ -14,7 +14,7 @@ export default function VariantButtonGroup() {
       sx={{
         display: "flex",
         position: "absolute",
-        top: "69%",
+        top: "80%",
         left: "50%",
         transform: "translate(-50%, -50%)",
         "& > *": {
