@@ -4,8 +4,8 @@ CREATE TABLE Adoption (
                           id SERIAL PRIMARY KEY,
                           date timestamp(6)  NOT NULL,
                           description varchar(20)  NOT NULL,
-                          User_id int  NOT NULL,
-                          Animal_id int  NOT NULL
+                          User_id int,
+                          Animal_id int
 );
 
 -- Table: Animal
@@ -14,8 +14,8 @@ CREATE TABLE Animal (
                         name varchar(20)  NOT NULL,
                         atitude varchar(30)  NOT NULL,
                         age int  NOT NULL,
-                        Shelter_id int  NOT NULL,
-                        Species_id int  NOT NULL
+                        Shelter_id int ,
+                        Species_id int
 );
 
 -- Table: Campaigns
@@ -31,7 +31,7 @@ CREATE TABLE Campaigns (
 -- Table: News
 CREATE TABLE News (
                       id SERIAL PRIMARY KEY,
-                      Shelter_id int  NOT NULL,
+                      Shelter_id int,
                       description int  NOT NULL,
                       date timestamp(6)  NOT NULL
 );
@@ -40,7 +40,7 @@ CREATE TABLE News (
 CREATE TABLE Photo (
                        id SERIAL PRIMARY KEY,
                        data smallint  NOT NULL,
-                       Animal_id int  NOT NULL
+                       Animal_id int
 );
 
 -- Table: Shelter
@@ -81,7 +81,7 @@ CREATE TABLE Species (
                          id SERIAL PRIMARY KEY,
                          name varchar(20)  NOT NULL,
                          amount int  NOT NULL,
-                         Animal_id int  NOT NULL
+                         Animal_id int
 );
 
 -- Table: User

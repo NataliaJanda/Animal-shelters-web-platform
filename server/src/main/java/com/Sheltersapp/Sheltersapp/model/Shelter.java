@@ -38,16 +38,15 @@ public class Shelter {
 
     public Shelter(){}
 
-    @OneToMany
-    @JoinColumn(name = "shelter_id")
-    private List<Animal> animals;
+//    @OneToMany
+//    @JoinColumn(name = "shelter_id")
+//    private List<Animal> animals;
+//
 
+//    @JoinColumn(name = "shelter_id")
+//    private List<Shelter_accounts> shelterAccounts;
 
-    @OneToMany
-    @JoinColumn(name = "shelter_id")
-    private List<Shelter_accounts> shelterAccounts;
-
-    @OneToMany
-    @JoinColumn(name = "shelter_id")
-    private List<News> news;
+//    @OneToMany
+//    @JoinColumn(name = "shelter_id")
+//    private List<News> news;
 }

@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShelterRepository extends CrudRepository<Shelter, Long> {
-//    Optional<Shelter> findByUsername(String username);
+//    @Override
+//    Optional<Shelter> findById(Long aLong);
 }

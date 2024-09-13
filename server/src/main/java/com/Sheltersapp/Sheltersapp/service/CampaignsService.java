@@ -33,4 +33,7 @@ public class CampaignsService {
         campaignsRepository.deleteById(id);
     }
 
+    public List<Campaigns> findByShelterId(Long shelterId) {
+        return campaignsRepository.findByShelterId(shelterId);
+    }
 }
