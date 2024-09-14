@@ -1,20 +1,22 @@
 package com.Sheltersapp.Sheltersapp.response;
 
-
 import com.Sheltersapp.Sheltersapp.model.Role;
 import lombok.Getter;
 import lombok.Setter;
-
 @Getter
 @Setter
-public class LoginResponse {
+public class LoginResponseShelter {
+
     private String token;
+    private Long shelterId;
     private long expiresIn;
     private Role role;
 
-    public LoginResponse(String token,Role role, long expiresIn) {
+    public LoginResponseShelter(String token, Role role, Long shelterId, long expiresIn) {
         this.token = token;
+        this.shelterId = shelterId;
         this.role = role;
         this.expiresIn = expiresIn;
     }
 }
+

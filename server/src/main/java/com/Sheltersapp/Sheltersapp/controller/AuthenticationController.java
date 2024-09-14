@@ -4,9 +4,11 @@ import com.Sheltersapp.Sheltersapp.DTO.LoginUser;
 import com.Sheltersapp.Sheltersapp.DTO.RegisterShelter;
 import com.Sheltersapp.Sheltersapp.DTO.RegisterUser;
 import com.Sheltersapp.Sheltersapp.DTO.VerifyUser;
+import com.Sheltersapp.Sheltersapp.model.Role;
 import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
 import com.Sheltersapp.Sheltersapp.model.Users;
 import com.Sheltersapp.Sheltersapp.response.LoginResponse;
+import com.Sheltersapp.Sheltersapp.response.LoginResponseShelter;
 import com.Sheltersapp.Sheltersapp.service.AuthenticationService;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +42,18 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUser loginUserDto){
         Users authenticatedUsers = authenticationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUsers);
-        LoginResponse loginResponse = new LoginResponse(jwtToken, jwtService.getExpirationTime());
+        Role role = authenticatedUsers.getRole();
+        LoginResponse loginResponse = new LoginResponse(jwtToken, role, jwtService.getExpirationTime());
         return ResponseEntity.ok(loginResponse);
     }
     @PostMapping("/login-shelter")
-    public ResponseEntity<LoginResponse> authenticateShelter(@RequestBody LoginUser loginUserDto){
+    public ResponseEntity<LoginResponseShelter> authenticateShelter(@RequestBody LoginUser loginUserDto) {
         Shelter_accounts authenticatedShelter = authenticationService.authenticateShelter(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedShelter);
-        LoginResponse loginResponse = new LoginResponse(jwtToken, jwtService.getExpirationTime());
+        Long shelterId = authenticatedShelter.getShelter_id().getId();
+        Role role = authenticatedShelter.getRole();
+
+        LoginResponseShelter loginResponse = new LoginResponseShelter(jwtToken, role, shelterId, jwtService.getExpirationTime());
         return ResponseEntity.ok(loginResponse);
     }
 
