@@ -5,7 +5,7 @@ import Register from "./components/SignUp/Register.js";
 import Events from "./components/Navbar/Events.js";
 import Login from "./components/Login/Login.js";
 import Table from "./components/Navbar/Table.js";
-import Collection from "./components/Navbar/collection.js";
+import Campaigns from "./components/Navbar/Campaigns.js";
 import AdoptDog from "./components/Adopt/AdoptDog.js";
 import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
 import RegisterAccept from "./components/SignUp/RegisterAccept.js";
@@ -14,6 +14,8 @@ import ShelterRegisterAccept from "./components/SignUp/SheterRegisterAccept";
 import LoginShelter from "./components/Login/LoginShelter";
 import SigninOption from "./components/Login/SigninOption";
 import MainPageSessionShelter from "./components/MainPage/MainPageSessionShelter";
+import CreateCampaign from "./components/ShelterComponents/CreateCampaign";
+import ManageCampaigns from "./components/ShelterComponents/ManageCampaigns";
 
 function App() {
   return (
@@ -26,10 +28,10 @@ function App() {
         <Route path="/signin" element={<Login />} />
         <Route path="/signin-shelter" element={<LoginShelter />} />
         <Route path="/tablica" element={<Table />} />
-        <Route path="/collection" element={<Collection />} />
+        <Route path="/collection" element={<Campaigns />} />
         <Route path="/AdoptDog" element={<AdoptDog />} />
-        <Route path="/AdoptCat" element={<Collection />} />
-        <Route path="/AdoptOther" element={<Collection />} />
+        <Route path="/AdoptCat" element={<Campaigns />} />
+        <Route path="/AdoptOther" element={<Campaigns />} />
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/RegisterAccept" element={<RegisterAccept />}/>
         <Route path="/MainPageSessionUser" element={<MainPageSessionUser />}/>
@@ -37,6 +39,8 @@ function App() {
         <Route path="/ShelterRegisterAccept" element={<ShelterRegisterAccept />}/>
         <Route path="/SigninOption" element={<SigninOption />}/>
         <Route path="/MainPageSessionShelter" element={<MainPageSessionShelter />}/>
+        <Route path="/create-campaign" element={<CreateCampaign />}/>
+        <Route path="/manage-campaigns" element={<ManageCampaigns/>}/>
       </Routes>
     </Router>
   );

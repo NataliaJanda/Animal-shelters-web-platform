@@ -34,6 +34,7 @@ const NavbarTopUnlogin = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         setIsLoggedIn(false);
     };
 

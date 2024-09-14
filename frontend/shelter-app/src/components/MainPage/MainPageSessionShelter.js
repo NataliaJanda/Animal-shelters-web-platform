@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-    Nav,
-    NavLink,
-    Bars,
-    NavMenu,
-    NavBtn,
-    NavBtnLink,
-} from "../Navbar/NavbarElements.js";
 import SideBar from "../SideBar/SideBar";
+import NavbarTopShelter from "../ShelterComponents/NavbarTopShelter";
 
 const MainPageSessionShelter = () => {
 
@@ -23,32 +16,10 @@ const MainPageSessionShelter = () => {
         }
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.href = "/";
-    };
 
     return (
         <>
-            <Nav>
-                <Bars onClick={toggleSidebar} />
-                <NavMenu>
-                    <NavLink to="/about" activeStyle>
-                        O nas
-                    </NavLink>
-                    <NavLink to="/events" activeStyle>
-                        Współpraca
-                    </NavLink>
-                    <NavLink to="/collection">Zbiórki</NavLink>
-                    <NavLink to="/my-account">Moje konto</NavLink>
-                    <NavLink to="/tablica">Tablica ogłoszeń</NavLink>
-                </NavMenu>
-                <NavBtn>
-                    <NavBtnLink as="button" onClick={handleLogout}>
-                        Wyloguj się
-                    </NavBtnLink>
-                </NavBtn>
-            </Nav>
+            <NavbarTopShelter />
             <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         </>
     );
