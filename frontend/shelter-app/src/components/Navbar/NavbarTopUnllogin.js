@@ -35,6 +35,7 @@ const NavbarTopUnlogin = () => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
+        localStorage.removeItem('shelterId');
         setIsLoggedIn(false);
     };
 
@@ -45,12 +46,12 @@ const NavbarTopUnlogin = () => {
                 <NavMenu>
                     {isLoggedIn ? (
                         <NavLink to="/MainPageSessionUser" activeStyle>
-                            <img src={logo} alt="Logo" style={{height: '50px'}}/>
+                            <img src={logo} alt="Logo" style={{height: '65px'}}/>
                         </NavLink>
                     ) : (
                         <>
                             <NavLink to="/" activeStyle>
-                                <img src={logo} alt="Logo" style={{height: '50px'}}/>
+                                <img src={logo} alt="Logo" style={{height: '65px'}}/>
                             </NavLink>
                         </>
                     )}

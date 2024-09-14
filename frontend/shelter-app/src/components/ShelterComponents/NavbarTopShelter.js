@@ -111,11 +111,11 @@ const NavbarTopShelter = () => {
                 <NavMenu>
                     {isLoggedIn ? (
                         <CollectionButton onClick={() => (window.location.href = "/MainPageSessionShelter")}>
-                            <img src={logo} alt="Logo" style={{ height: '50px' }} />
+                            <img src={logo} alt="Logo" style={{ height: '65px' }} />
                         </CollectionButton>
                     ) : (
                         <CollectionButton onClick={() => (window.location.href = "/")}>
-                            <img src={logo} alt="Logo" style={{ height: '50px' }} />
+                            <img src={logo} alt="Logo" style={{ height: '65px' }} />
                         </CollectionButton>
                     )}
                     <NavItem>

@@ -4,7 +4,6 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import BackgroundImage from "./piesek2.png";
 import NavbarTop from "../Navbar/NavbarTop";
 
-
 function LoginShelter() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -33,6 +32,8 @@ function LoginShelter() {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('shelterId', data.shelterId);
+                localStorage.setItem('role',data.role)
                 window.location.href = "/MainPageSessionShelter";
             } else {
                 const contentType = response.headers.get("Content-Type");
@@ -67,7 +68,7 @@ function LoginShelter() {
                 }}
             >
                 <Container maxWidth="sm">
-                    <Box sx={{ textAlign: "center", mt: 5}}>
+                    <Box sx={{ textAlign: "center", mt: 5 }}>
                         <Typography variant="h4" gutterBottom>
                             Logowanie dla schronisk
                         </Typography>
