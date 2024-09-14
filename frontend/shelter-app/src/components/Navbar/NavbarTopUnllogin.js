@@ -6,6 +6,7 @@ import {
 } from "./NavbarElements.js";
 import styled from "styled-components";
 import SideBar from "../SideBar/SideBar";
+import logo from "./logo.png"
 
 export const Nav = styled.nav`
     background: white;
@@ -42,10 +43,14 @@ const NavbarTopUnlogin = () => {
                 <Bars onClick={toggleSidebar} />
                 <NavMenu>
                     {isLoggedIn ? (
-                        <NavLink to="/MainPageSessionUser" activeStyle>Home</NavLink>
+                        <NavLink to="/MainPageSessionUser" activeStyle>
+                            <img src={logo} alt="Logo" style={{height: '50px'}}/>
+                        </NavLink>
                     ) : (
                         <>
-                            <NavLink to="/" activeStyle>Home</NavLink>
+                            <NavLink to="/" activeStyle>
+                                <img src={logo} alt="Logo" style={{height: '50px'}}/>
+                            </NavLink>
                         </>
                     )}
                     <NavLink to="/about" activeStyle>O nas</NavLink>

@@ -5,8 +5,8 @@ import Box from "@mui/material/Box";
 import { NavLink } from "react-router-dom";
 import { lightGreen } from "@mui/material/colors";
 
-const color = lightGreen[700];
-const color2 = lightGreen[400];
+const primaryColor = lightGreen[700];
+const hoverColor = lightGreen[400];
 
 export default function ShelterRegisterButton() {
     return (
@@ -27,19 +27,26 @@ export default function ShelterRegisterButton() {
                 aria-label="Basic button group"
                 sx={{
                     "& .MuiButton-root": {
-                        fontSize: "calc(0.4rem + 1vw)",
-                        color: "white",
-                        borderColor: "white",
-                        backgroundColor: color,
+                        fontSize: "calc(0.5rem + 1vw)",
+                        color: primaryColor,
+                        borderColor: "transparent",
+                        backgroundColor: "white",
+                        borderRadius: "50px",
+                        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+                        transition: "all 0.3s ease",
+                        backgroundImage: `linear-gradient(135deg, white 10%, ${primaryColor} 100%)`,
                         "&:hover": {
-                            backgroundColor: color2,
+                            backgroundColor: hoverColor,
+                            color: "white",
+                            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
+                            transform: "translateY(-3px)",
                         },
-                        width: "calc(160px + 10vw)",
-                        height: "calc(50px + 3vh)",
+                        width: "calc(180px + 10vw)",
+                        height: "calc(60px + 3vh)",
                     },
                 }}
             >
-                <NavLink to="/ShelterRegister">
+                <NavLink to="/ShelterRegister" style={{ textDecoration: "none" }}>
                     <Button>Zarejestruj swoje schronisko!</Button>
                 </NavLink>
             </ButtonGroup>
