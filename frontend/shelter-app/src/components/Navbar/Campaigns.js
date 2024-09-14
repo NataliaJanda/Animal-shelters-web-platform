@@ -4,10 +4,9 @@ import styled from "styled-components";
 import NavbarTopUnlogin from "./NavbarTopUnllogin";
 import background from "./image.png";
 
-const Collection = () => {
+const Campaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(true);
-    const shelterId = 1;
 
     useEffect(() => {
         const fetchCampaigns = async () => {
@@ -17,7 +16,7 @@ const Collection = () => {
                     ? { headers: { Authorization: `Bearer ${token}` } }
                     : {};
 
-                const response = await axios.get(`http://localhost:8080/campaigns/shelter/${shelterId}`, config);
+                const response = await axios.get(`http://localhost:8080/campaigns/`, config);
                 setCampaigns(response.data);
                 setLoading(false);
             } catch (error) {
@@ -27,7 +26,7 @@ const Collection = () => {
         };
 
         fetchCampaigns();
-    }, [shelterId]);
+    }, );
 
     if (loading) {
         return <p>Ładowanie...</p>;
@@ -185,4 +184,4 @@ export const FooterText = styled.p`
     margin: 0;
     font-size: 1rem;
 `;
-export default Collection;
+export default Campaigns;

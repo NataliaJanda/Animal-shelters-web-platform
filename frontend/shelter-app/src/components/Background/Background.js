@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./Background.css";
 import ShelterRegisterButton from "../ShelterRegister/ShelterRegisterButton";
-import {HeroOverlay, HeroSection, HeroText} from "../Navbar/collection";
+import {HeroOverlay, HeroSection, HeroText} from "../Navbar/Campaigns";
 
 const Background = () =>{
     const [isLoggedIn, setIsLoggedIn] = useState(false);
