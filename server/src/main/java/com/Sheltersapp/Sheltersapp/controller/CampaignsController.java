@@ -9,6 +9,7 @@ import com.Sheltersapp.Sheltersapp.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,7 @@ public class CampaignsController {
     }
 
     @GetMapping("/")
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Campaigns>> getAllCampaigns() {
         List<Campaigns> campaigns = campaignsService.allCampaigns();
         return ResponseEntity.ok(campaigns);
