@@ -11,12 +11,12 @@ import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
 import RegisterAccept from "./components/SignUp/RegisterAccept.js";
 import MainPageSessionUser from "./components/MainPage/MainPageSessionUser";
 import ShelterRegisterAccept from "./components/SignUp/SheterRegisterAccept";
-import LoginShelter from "./components/Login/LoginShelter";
-import SigninOption from "./components/Login/SigninOption";
 import MainPageSessionShelter from "./components/MainPage/MainPageSessionShelter";
 import CreateCampaign from "./components/ShelterComponents/Campaigns/CreateCampaign";
 import ManageCampaigns from "./components/ShelterComponents/Campaigns/ManageCampaigns";
 import AddAnimal from "./components/ShelterComponents/Animal/AddAnimal"
+import Animals from "./components/Navbar/Animals"
+import ManageAnimals from "./components/ShelterComponents/Animal/ManageAnimals";
 
 function App() {
   return (
@@ -27,7 +27,6 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/sign-up" element={<Register />} />
         <Route path="/signin" element={<Login />} />
-        <Route path="/signin-shelter" element={<LoginShelter />} />
         <Route path="/tablica" element={<Table />} />
         <Route path="/collection" element={<Campaigns />} />
         <Route path="/AdoptDog" element={<AdoptDog />} />
@@ -38,11 +37,12 @@ function App() {
         <Route path="/MainPageSessionUser" element={<MainPageSessionUser />}/>
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/ShelterRegisterAccept" element={<ShelterRegisterAccept />}/>
-        <Route path="/SigninOption" element={<SigninOption />}/>
         <Route path="/MainPageSessionShelter" element={<MainPageSessionShelter />}/>
         <Route path="/create-campaign" element={<CreateCampaign />}/>
         <Route path="/manage-campaigns" element={<ManageCampaigns/>}/>
         <Route path="/addAnimal" element={<AddAnimal/>}/>
+        <Route path="/animals" element={<Animals/>}/>
+        <Route path="/ManageAnimals" element={<ManageAnimals/>}/>
       </Routes>
     </Router>
   );

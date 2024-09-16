@@ -39,7 +39,7 @@ function CreateCampaign() {
                 return;
             }
 
-            const response = await fetch("http://localhost:8080/admin/campaigns/add", {
+            const response = await fetch("http://localhost:8080/campaigns/admin/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

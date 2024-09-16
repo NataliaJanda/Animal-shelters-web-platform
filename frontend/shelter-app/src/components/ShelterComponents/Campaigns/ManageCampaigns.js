@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {
-    ContentSection, SectionTitle, SectionText, CollectionGridSection, CollectionCard,
-    CollectionImage, CollectionInfo, CollectionTitle, CollectionGoal, CollectionDescription
-} from "../../Navbar/Campaigns";
 import NavbarTopShelter from "../NavbarTopShelter";
+import {
+    CollectionCard, CollectionDescription, CollectionGoal,
+    CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
+    ContentSection,
+    SectionText,
+    SectionTitle
+} from "../../Navbar/style";
 
 const ManageCampaigns = () => {
     const [campaigns, setCampaigns] = useState([]);

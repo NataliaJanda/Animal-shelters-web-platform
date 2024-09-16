@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import BackgroundImage from "./kot2.png";
-import NavbarTop from "../Navbar/NavbarTop";
+import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
 
 export const validateEmail = (email) => {
   return String(email)
@@ -73,7 +73,7 @@ function Register() {
 
   return (
       <>
-        <NavbarTop/>
+        <NavbarTopUnllogin/>
       <Box
           sx={{
             height: '100vh',

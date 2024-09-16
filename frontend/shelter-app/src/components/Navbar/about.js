@@ -26,27 +26,6 @@ const About = () => {
                 </SectionText>
             </ContentSection>
 
-            <TeamSection>
-                <SectionTitle>Nasz Zespół</SectionTitle>
-                <TeamGrid>
-                    <TeamMember>
-                        <MemberImage src="https://via.placeholder.com/150" alt="Członek zespołu" />
-                        <MemberName>xxxxxxx</MemberName>
-                        <MemberPosition>xxx</MemberPosition>
-                    </TeamMember>
-                    <TeamMember>
-                        <MemberImage src="https://via.placeholder.com/150" alt="Członek zespołu" />
-                        <MemberName>xxxxxxx</MemberName>
-                        <MemberPosition>xxx</MemberPosition>
-                    </TeamMember>
-                    <TeamMember>
-                        <MemberImage src="https://via.placeholder.com/150" alt="Członek zespołu" />
-                        <MemberName>xxxxxxx</MemberName>
-                        <MemberPosition>xxx</MemberPosition>
-                    </TeamMember>
-                </TeamGrid>
-            </TeamSection>
-
             <Footer>
                 <FooterText>© 2024 Wszelkie prawa zastrzeżone.</FooterText>
             </Footer>

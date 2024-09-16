@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import NavbarTop from "../Navbar/NavbarTop";
+import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
 
 function ShelterRegisterAccept() {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function ShelterRegisterAccept() {
 
     return (
         <>
-            <NavbarTop />
+            <NavbarTopUnllogin />
             <Container maxWidth="sm">
                 <Box sx={{ textAlign: "center", mt: 5 }}>
                     <Typography variant="h4" gutterBottom>

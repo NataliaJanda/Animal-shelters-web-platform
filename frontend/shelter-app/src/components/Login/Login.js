@@ -1,12 +1,12 @@
-import "./Login.css";
 import React, { useState } from "react";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, TextField, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import BackgroundImage from "./piesek2.png";
-import NavbarTop from "../Navbar/NavbarTop";
+import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("user");
 
     const getIsFormValid = () => {
         return username && password;
@@ -20,8 +20,10 @@ function Login() {
             password: password,
         };
 
+        const endpoint = role === "user" ? "/auth/login" : "/auth/login-shelter";
+
         try {
-            const response = await fetch("http://localhost:8080/auth/login", {
+            const response = await fetch(`http://localhost:8080${endpoint}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,8 +34,14 @@ function Login() {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('role',data.role)
-                window.location.href = "/MainPageSessionUser";
+                localStorage.setItem('role', data.role);
+
+                if (role === "shelter") {
+                    localStorage.setItem('shelterId', data.shelterId);
+                    window.location.href = "/MainPageSessionShelter";
+                } else {
+                    window.location.href = "/MainPageSessionUser";
+                }
             } else {
                 const contentType = response.headers.get("Content-Type");
 
@@ -53,7 +61,7 @@ function Login() {
 
     return (
         <>
-            <NavbarTop/>
+            <NavbarTopUnllogin/>
             <Box
                 sx={{
                     height: '100vh',
@@ -67,9 +75,9 @@ function Login() {
                 }}
             >
                 <Container maxWidth="sm">
-                    <Box sx={{ textAlign: "center", mt: 5}}>
+                    <Box sx={{ textAlign: "center", mt: 5 }}>
                         <Typography variant="h4" gutterBottom>
-                            Logowanie dla użytkowników
+                            Logowanie
                         </Typography>
                     </Box>
 
@@ -92,6 +100,16 @@ function Login() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+
+                            <RadioGroup
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}
+                            >
+                                <FormControlLabel value="user" control={<Radio />} label="Zwykły użytkownik" />
+                                <FormControlLabel value="shelter" control={<Radio />} label="Schronisko" />
+                            </RadioGroup>
+
                             <Button
                                 fullWidth
                                 variant="contained"

@@ -12,8 +12,8 @@ import {
     SectionTitle
 } from "./style";
 
-const Campaigns = () => {
-    const [campaigns, setCampaigns] = useState([]);
+const Animals = () => {
+    const [animals, setAnimals] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -24,11 +24,11 @@ const Campaigns = () => {
                     ? { headers: { Authorization: `Bearer ${token}` } }
                     : {};
 
-                const response = await axios.get(`http://localhost:8080/campaigns/`, config);
-                setCampaigns(response.data);
+                const response = await axios.get(`http://localhost:8080/animal/`, config);
+                setAnimals(response.data);
                 setLoading(false);
             } catch (error) {
-                console.error("Błąd przy pobieraniu kampanii:", error);
+                console.error("Błąd przy pobieraniu zwierząt:", error);
                 setLoading(false);
             }
         };
@@ -46,30 +46,28 @@ const Campaigns = () => {
             <HeroSection>
                 <HeroOverlay>
                     <HeroText>
-                        <h1>Nasze Zbiórki</h1>
+                        <h1>Zwierzęta</h1>
                         <p>
-                            Pomóż wspierać nasze akcje charytatywne i zbiórki. Każda złotówka ma znaczenie!
                         </p>
                     </HeroText>
                 </HeroOverlay>
             </HeroSection>
 
             <ContentSection>
-                <SectionTitle>Aktywne Zbiórki</SectionTitle>
+                <SectionTitle>Zwierzęta do adopcji</SectionTitle>
                 <SectionText>
-                    Poniżej znajdziesz listę aktualnych zbiórek, które prowadzimy. Możesz wziąć udział i wesprzeć naszą misję.
                 </SectionText>
             </ContentSection>
 
             <CollectionGridSection>
-                {campaigns.map((campaign) => (
-                    <CollectionCard key={campaign.id}>
-                        <CollectionImage src="https://via.placeholder.com/400" alt={campaign.title} />
+                {animals.map((animals) => (
+                    <CollectionCard key={animals.id}>
+                        <CollectionImage src="https://via.placeholder.com/400" alt={animals.name} />
                         <CollectionInfo>
-                            <CollectionTitle>{campaign.title}</CollectionTitle>
-                            <CollectionGoal>Cel: {campaign.goal}</CollectionGoal>
-                            <CollectionDescription>
-                                {campaign.description}
+                            <CollectionTitle>{animals.name}</CollectionTitle>
+                            <CollectionGoal>Zachowanie: {animals.atitude}</CollectionGoal>
+                            <CollectionDescription>Wiek:
+                                {animals.age}
                             </CollectionDescription>
                         </CollectionInfo>
                     </CollectionCard>
@@ -83,4 +81,4 @@ const Campaigns = () => {
     );
 };
 
-export default Campaigns;
+export default Animals;

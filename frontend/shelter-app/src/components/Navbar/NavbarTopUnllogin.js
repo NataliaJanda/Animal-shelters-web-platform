@@ -63,6 +63,7 @@ const NavbarTopUnlogin = () => {
                         <></>
                     )}
                     <NavLink to="/events" activeStyle>Tablica ogłoszeń</NavLink>
+                    <NavLink to="/animals" activeStyle>Zwierzęta</NavLink>
                 </NavMenu>
                 <NavBtn>
                     {isLoggedIn ? (
@@ -70,7 +71,7 @@ const NavbarTopUnlogin = () => {
                     ) : (
                         <>
                             <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
-                            <NavBtnLink to="/SigninOption">Zaloguj się</NavBtnLink>
+                            <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
                         </>
                     )}
                 </NavBtn>

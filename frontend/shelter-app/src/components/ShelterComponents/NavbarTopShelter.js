@@ -166,7 +166,7 @@ const NavbarTopShelter = () => {
                         <DropdownMenu isOpen={openMenu === 'animals'}>
                             <DropdownItem to="/addAnimal">Dodaj</DropdownItem>
                             <DropdownItem to="/create-campaign">Szczepienia</DropdownItem>
-                            <DropdownItem to="/manage-campaigns">Zarządzaj</DropdownItem>
+                            <DropdownItem to="/ManageAnimals">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
@@ -183,7 +183,7 @@ const NavbarTopShelter = () => {
                     ) : (
                         <>
                             <NavBarSignLink to="/sign-up">Zarejestruj się</NavBarSignLink>
-                            <NavBtnLink to="/SigninOption">Zaloguj się</NavBtnLink>
+                            <NavBtnLink to="/signin">Zaloguj się</NavBtnLink>
                         </>
                     )}
                 </NavBtn>
