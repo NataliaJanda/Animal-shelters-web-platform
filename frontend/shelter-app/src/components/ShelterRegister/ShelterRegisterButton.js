@@ -4,8 +4,9 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
 import { NavLink } from "react-router-dom";
 import { lightGreen } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 
-const primaryColor = lightGreen[700];
+const greens = green[100];
 const hoverColor = lightGreen[400];
 
 export default function ShelterRegisterButton() {
@@ -28,16 +29,16 @@ export default function ShelterRegisterButton() {
                 sx={{
                     "& .MuiButton-root": {
                         fontSize: "calc(0.5rem + 1vw)",
-                        color: primaryColor,
+                        color: "black",
                         borderColor: "transparent",
-                        backgroundColor: "white",
+                        backgroundColor: greens,
                         borderRadius: "50px",
                         boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                         transition: "all 0.3s ease",
-                        backgroundImage: `linear-gradient(135deg, white 10%, ${primaryColor} 100%)`,
+                        backgroundImage: `linear-gradient(135deg, white 10%, ${greens} 100%)`,
                         "&:hover": {
                             backgroundColor: hoverColor,
-                            color: "white",
+                            color: hoverColor,
                             boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                             transform: "translateY(-3px)",
                         },

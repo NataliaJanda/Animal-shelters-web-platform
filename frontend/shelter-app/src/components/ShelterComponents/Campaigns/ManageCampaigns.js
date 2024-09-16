@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import {
     ContentSection, SectionTitle, SectionText, CollectionGridSection, CollectionCard,
     CollectionImage, CollectionInfo, CollectionTitle, CollectionGoal, CollectionDescription
-} from "../Navbar/Campaigns";
-import NavbarTopShelter from "./NavbarTopShelter";
+} from "../../Navbar/Campaigns";
+import NavbarTopShelter from "../NavbarTopShelter";
 
 const ManageCampaigns = () => {
     const [campaigns, setCampaigns] = useState([]);

@@ -5,8 +5,8 @@ import Box from "@mui/material/Box";
 import { NavLink } from "react-router-dom";
 import { lightGreen } from "@mui/material/colors";
 
-const primaryColor = lightGreen[700];
-const hoverColor = lightGreen[400];
+const primaryColor = lightGreen[800];
+const hoverColor = lightGreen[500];
 
 export default function VariantButtonGroup() {
     return (

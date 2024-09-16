@@ -26,7 +26,7 @@ const Campaigns = () => {
         };
 
         fetchCampaigns();
-    }, );
+    }, []);
 
     if (loading) {
         return <p>Ładowanie...</p>;
@@ -74,6 +74,7 @@ const Campaigns = () => {
         </>
     );
 };
+
 
 export const HeroSection = styled.div`
     background-image: url(${background});

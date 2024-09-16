@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
-import NavbarTopShelter from "./NavbarTopShelter";
+import NavbarTopShelter from "../NavbarTopShelter";
 
 
 function CreateCampaign() {
@@ -39,7 +39,7 @@ function CreateCampaign() {
                 return;
             }
 
-            const response = await fetch("http://localhost:8080/campaigns/add", {
+            const response = await fetch("http://localhost:8080/admin/campaigns/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

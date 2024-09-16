@@ -164,6 +164,7 @@ const NavbarTopShelter = () => {
                             Zwierzęta
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'animals'}>
+                            <DropdownItem to="/addAnimal">Dodaj</DropdownItem>
                             <DropdownItem to="/create-campaign">Szczepienia</DropdownItem>
                             <DropdownItem to="/manage-campaigns">Zarządzaj</DropdownItem>
                         </DropdownMenu>

@@ -14,8 +14,9 @@ import ShelterRegisterAccept from "./components/SignUp/SheterRegisterAccept";
 import LoginShelter from "./components/Login/LoginShelter";
 import SigninOption from "./components/Login/SigninOption";
 import MainPageSessionShelter from "./components/MainPage/MainPageSessionShelter";
-import CreateCampaign from "./components/ShelterComponents/CreateCampaign";
-import ManageCampaigns from "./components/ShelterComponents/ManageCampaigns";
+import CreateCampaign from "./components/ShelterComponents/Campaigns/CreateCampaign";
+import ManageCampaigns from "./components/ShelterComponents/Campaigns/ManageCampaigns";
+import AddAnimal from "./components/ShelterComponents/Animal/AddAnimal"
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/MainPageSessionShelter" element={<MainPageSessionShelter />}/>
         <Route path="/create-campaign" element={<CreateCampaign />}/>
         <Route path="/manage-campaigns" element={<ManageCampaigns/>}/>
+        <Route path="/addAnimal" element={<AddAnimal/>}/>
       </Routes>
     </Router>
   );
