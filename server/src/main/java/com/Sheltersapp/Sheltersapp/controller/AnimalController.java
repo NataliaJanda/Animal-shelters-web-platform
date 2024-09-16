@@ -143,4 +143,21 @@ public class AnimalController {
         animalService.deleteAnimal(id);
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/admin/edit/{id}")
+    public ResponseEntity<Animal> editAnimal(@PathVariable Long id, @RequestBody Animal updatedAnimal) {
+        Optional<Animal> optionalAnimal = animalService.getAnimalById(id);
+
+        if (optionalAnimal.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Animal existingAnimal = optionalAnimal.get();
+        existingAnimal.setName(updatedAnimal.getName());
+        existingAnimal.setAtitude(updatedAnimal.getAtitude());
+        existingAnimal.setAge(updatedAnimal.getAge());
+
+        Animal savedAnimal = animalService.addAnimal(existingAnimal);
+
+        return ResponseEntity.ok(savedAnimal);
+    }
 }

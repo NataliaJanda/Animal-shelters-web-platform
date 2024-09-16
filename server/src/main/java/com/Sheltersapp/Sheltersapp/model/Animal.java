@@ -23,10 +23,6 @@ public class Animal {
     @JoinColumn(name = "species_id")
     private Species species;
 
-//    @OneToOne
-//    @JoinColumn(name = "animal_id")
-//    private Adoption adoption;
-//
 //    @OneToMany
 //    @JoinColumn(name = "animal_id")
 //    private List<Photo> photo;

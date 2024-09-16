@@ -5,6 +5,7 @@ CREATE TABLE Adoption (
                           date timestamp(6)  NOT NULL,
                           description varchar(20)  NOT NULL,
                           User_id int,
+                          Shelter_id int,
                           Animal_id int
 );
 
@@ -121,6 +122,12 @@ ALTER TABLE Adoption ADD CONSTRAINT Adoption_User
             INITIALLY IMMEDIATE
 ;
 
+ALTER TABLE Adoption ADD CONSTRAINT Adoption_Shelter
+    FOREIGN KEY (Shelter_id)
+        REFERENCES Shelter (id)
+        NOT DEFERRABLE
+            INITIALLY IMMEDIATE
+;
 -- Reference: Animal_Shelter (table: Animal)
 ALTER TABLE Animal ADD CONSTRAINT Animal_Shelter
     FOREIGN KEY (Shelter_id)

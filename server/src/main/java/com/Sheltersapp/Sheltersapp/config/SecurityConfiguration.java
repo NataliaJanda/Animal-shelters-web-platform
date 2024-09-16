@@ -33,6 +33,8 @@ public class SecurityConfiguration implements WebMvcConfigurer{
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/campaigns/shelter/**").permitAll()
                         .requestMatchers("/campaigns/").permitAll()
+                        .requestMatchers("/animal/" ).permitAll()
+                        .requestMatchers("/adoption/" ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
