@@ -17,6 +17,7 @@ import ManageCampaigns from "./components/ShelterComponents/Campaigns/ManageCamp
 import AddAnimal from "./components/ShelterComponents/Animal/AddAnimal"
 import Animals from "./components/Navbar/Animals"
 import ManageAnimals from "./components/ShelterComponents/Animal/ManageAnimals";
+import CreateAdoption from "./components/ShelterComponents/Adoption/CreateAdoption";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/addAnimal" element={<AddAnimal/>}/>
         <Route path="/animals" element={<Animals/>}/>
         <Route path="/ManageAnimals" element={<ManageAnimals/>}/>
+        <Route path="/CreateAdoption" element={<CreateAdoption/>}/>
       </Routes>
     </Router>
   );

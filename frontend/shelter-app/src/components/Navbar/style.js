@@ -58,6 +58,9 @@ export const CollectionGridSection = styled.section`
     gap: 2rem;
     padding: 4rem 2rem;
     background-color: #fff;
+    @media (min-width: 600px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
 `;
 
 export const CollectionCard = styled.div`
@@ -66,6 +69,7 @@ export const CollectionCard = styled.div`
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.2s;
+    min-height: 350px;
 
     &:hover {
         transform: translateY(-10px);

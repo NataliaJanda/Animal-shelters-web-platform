@@ -143,7 +143,7 @@ const NavbarTopShelter = () => {
                             Adopcje
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'adoption'}>
-                            <DropdownItem to="/create-campaign">Dodaj</DropdownItem>
+                            <DropdownItem to="/CreateAdoption">Dodaj</DropdownItem>
                             <DropdownItem to="/manage-campaigns">Koty</DropdownItem>
                             <DropdownItem to="/manage-campaigns">Psy</DropdownItem>
                         </DropdownMenu>

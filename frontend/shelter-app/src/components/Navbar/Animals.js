@@ -5,35 +5,32 @@ import {
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
     ContentSection, Footer, FooterText,
-    HeroOverlay,
-    HeroSection,
-    HeroText,
-    SectionText,
-    SectionTitle
+    HeroOverlay, HeroSection, HeroText,
+    SectionText, SectionTitle
 } from "./style";
 
-const Animals = () => {
-    const [animals, setAnimals] = useState([]);
+const Adoptions = () => {
+    const [adoptions, setAdoptions] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchCampaigns = async () => {
+        const fetchAdoptions = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const config = token
-                    ? { headers: { Authorization: `Bearer ${token}` } }
-                    : {};
+                const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+                const response = await axios.get('http://localhost:8080/adoption/', config);
 
-                const response = await axios.get(`http://localhost:8080/animal/`, config);
-                setAnimals(response.data);
+                console.log("Dane adopcji:", response.data);  // Dodaj tę linię, aby sprawdzić dane
+
+                setAdoptions(response.data);
                 setLoading(false);
             } catch (error) {
-                console.error("Błąd przy pobieraniu zwierząt:", error);
+                console.error("Błąd przy pobieraniu adopcji:", error);
                 setLoading(false);
             }
         };
 
-        fetchCampaigns();
+        fetchAdoptions();
     }, []);
 
     if (loading) {
@@ -46,32 +43,34 @@ const Animals = () => {
             <HeroSection>
                 <HeroOverlay>
                     <HeroText>
-                        <h1>Zwierzęta</h1>
-                        <p>
-                        </p>
+                        <h1>Zwierzęta do adopcji</h1>
+                        <p>Znajdź swojego nowego przyjaciela.</p>
                     </HeroText>
                 </HeroOverlay>
             </HeroSection>
 
             <ContentSection>
-                <SectionTitle>Zwierzęta do adopcji</SectionTitle>
-                <SectionText>
-                </SectionText>
+                <SectionTitle>Adopcje</SectionTitle>
+                <SectionText>Przeglądaj dostępne zwierzęta do adopcji z różnych schronisk.</SectionText>
             </ContentSection>
 
             <CollectionGridSection>
-                {animals.map((animals) => (
-                    <CollectionCard key={animals.id}>
-                        <CollectionImage src="https://via.placeholder.com/400" alt={animals.name} />
-                        <CollectionInfo>
-                            <CollectionTitle>{animals.name}</CollectionTitle>
-                            <CollectionGoal>Zachowanie: {animals.atitude}</CollectionGoal>
-                            <CollectionDescription>Wiek:
-                                {animals.age}
-                            </CollectionDescription>
-                        </CollectionInfo>
-                    </CollectionCard>
-                ))}
+                {adoptions.map((adoption) => {
+                    const animal = adoption.animal || {};
+                    const shelter = adoption.shelter || {};
+
+                    return (
+                        <CollectionCard key={adoption.id}>
+                            <CollectionImage src="https://via.placeholder.com/400" alt={animal.name || "Nieznane zwierzę"} />
+                            <CollectionInfo>
+                                <CollectionTitle>{animal.name || "Nieznana nazwa"}</CollectionTitle>
+                                <CollectionGoal>Schronisko: {shelter.name || "Nieznane schronisko"}</CollectionGoal>
+                                <CollectionDescription>Wiek: {animal.age || "Nieznany wiek"} lat</CollectionDescription>
+                                <CollectionDescription>Opis: {adoption.description || "Brak opisu"}</CollectionDescription>
+                            </CollectionInfo>
+                        </CollectionCard>
+                    );
+                })}
             </CollectionGridSection>
 
             <Footer>
@@ -81,4 +80,4 @@ const Animals = () => {
     );
 };
 
-export default Animals;
+export default Adoptions;
