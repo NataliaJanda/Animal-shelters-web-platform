@@ -22,6 +22,7 @@ CREATE TABLE Animal (
 CREATE TABLE Campaigns (
                            id SERIAL PRIMARY KEY,
                            Shelter_id int,
+--                            title varchar(20) NOT NULL,
                            description varchar(40)  NOT NULL,
                            start_date varchar(40)  NOT NULL,
                            end_date varchar(40)  NOT NULL,
@@ -50,11 +51,9 @@ CREATE TABLE Shelter (
                          address varchar(30)  NOT NULL,
                          description varchar(60),
                          commune varchar(100) NOT NULL,
---                          address varchar(100) NOT NULL,
                          post_code varchar(100) NOT NULL,
                          town varchar(100) NOT NULL,
                          county varchar(100) NOT NULL,
---                                   tax_id_number varchar(100) NOT NULL,
                          real_estate_number varchar(100) NOT NULL,
                          regon int NOT NULL,
                          voivodeship varchar(20) NOT NULL
@@ -80,8 +79,7 @@ CREATE TABLE Shelter_accounts (
 CREATE TABLE Species (
                          id SERIAL PRIMARY KEY,
                          name varchar(20)  NOT NULL,
-                         amount int  NOT NULL,
-                         Animal_id int
+                         amount int
 );
 
 -- Table: User
@@ -97,6 +95,14 @@ CREATE TABLE Users (
                        verification_code varchar(200),
                        expired timestamp(6)
 );
+
+INSERT INTO Species (name) VALUES ('Dog');
+INSERT INTO Species (name) VALUES ('Cat');
+INSERT INTO Species (name) VALUES ('Rabbit');
+
+INSERT INTO Species (amount) VALUES (0);
+INSERT INTO Species (amount) VALUES (0);
+INSERT INTO Species (amount) VALUES (0);
 
 -- foreign keys
 -- Reference: Adoption_Animal (table: Adoption)

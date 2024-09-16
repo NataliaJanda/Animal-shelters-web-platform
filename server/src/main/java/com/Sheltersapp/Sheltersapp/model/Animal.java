@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
@@ -17,12 +15,20 @@ public class Animal {
     private String atitude;
     private int age;
 
-    @OneToOne
-    @JoinColumn(name = "animal_id")
-    private Adoption adoption;
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
 
-    @OneToMany
-    @JoinColumn(name = "animal_id")
-    private List<Photo> photo;
+    @ManyToOne
+    @JoinColumn(name = "species_id")
+    private Species species;
+
+//    @OneToOne
+//    @JoinColumn(name = "animal_id")
+//    private Adoption adoption;
+//
+//    @OneToMany
+//    @JoinColumn(name = "animal_id")
+//    private List<Photo> photo;
 
 }

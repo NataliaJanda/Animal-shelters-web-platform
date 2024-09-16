@@ -32,7 +32,7 @@ public class CampaignsController {
         this.shelterAccountsRepository = shelterAccountsRepository;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/admin/add")
     public ResponseEntity<Campaigns> createCampaign(@RequestBody Campaigns campaign, @RequestHeader("Authorization")String authHeader ){
 
         String jwtToken = authHeader.substring(7);
@@ -82,7 +82,7 @@ public class CampaignsController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Void> deleteCampaign(@PathVariable Long id) {
         campaignsService.deleteCampaign(id);
         return ResponseEntity.noContent().build();

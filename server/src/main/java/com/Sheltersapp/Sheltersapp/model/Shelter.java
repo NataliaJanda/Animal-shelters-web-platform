@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
@@ -41,10 +39,6 @@ public class Shelter {
 //    @OneToMany
 //    @JoinColumn(name = "shelter_id")
 //    private List<Animal> animals;
-//
-
-//    @JoinColumn(name = "shelter_id")
-//    private List<Shelter_accounts> shelterAccounts;
 
 //    @OneToMany
 //    @JoinColumn(name = "shelter_id")
