@@ -62,7 +62,9 @@ const Campaigns = () => {
             </ContentSection>
 
             <CollectionGridSection>
-                {campaigns.map((campaign) => (
+                {campaigns.map((campaign) => {
+                    const shelter = campaign.shelter || {};
+                    return(
                     <CollectionCard key={campaign.id}>
                         <CollectionImage src="https://via.placeholder.com/400" alt={campaign.title} />
                         <CollectionInfo>
@@ -71,9 +73,11 @@ const Campaigns = () => {
                             <CollectionDescription>
                                 {campaign.description}
                             </CollectionDescription>
+                            <CollectionGoal>Schronisko: {shelter.name}</CollectionGoal>
                         </CollectionInfo>
                     </CollectionCard>
-                ))}
+            );
+            })}
             </CollectionGridSection>
 
             <Footer>

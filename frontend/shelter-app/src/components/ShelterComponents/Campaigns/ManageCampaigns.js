@@ -13,6 +13,8 @@ const ManageCampaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [shelterId, setShelterId] = useState(null);
+    const [editingCampaing, setEditingCampaing] = useState(null);
+    const [updatedCampaing, setUpdatedCampaing] = useState({});
 
     useEffect(() => {
         const id = localStorage.getItem('shelterId');
@@ -45,6 +47,41 @@ const ManageCampaigns = () => {
         fetchCampaigns();
     }, [shelterId]);
 
+    const deleteCampaign = async (id) => {
+        try {
+            const token = localStorage.getItem('token');
+            const config = token
+                ? { headers: { Authorization: `Bearer ${token}` } }
+                : {};
+
+            await axios.delete(`http://localhost:8080/campaigns/admin/delete/${id}`, config);
+            setCampaigns(campaigns.filter(campaigns => campaigns.id !== id));
+        } catch (error) {
+            console.error("Błąd przy usuwaniu zwierzęcia:", error);
+        }
+    };
+
+    const editCampaing = (campaigns) => {
+        setEditingCampaing(campaigns);
+        setUpdatedCampaing(campaigns);
+    };
+
+    const handleEditSubmit = async (id) => {
+        try {
+            const token = localStorage.getItem('token');
+            const config = token
+                ? { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
+                : { headers: { 'Content-Type': 'application/json' } };
+
+            const response = await axios.put(`http://localhost:8080/campaigns/admin/edit/${id}`, updatedCampaing, config);
+
+            setCampaigns(campaigns.map(c => (c.id === id ? response.data : c)));
+            setEditingCampaing(null);
+        } catch (error) {
+            console.error("Błąd przy edytowaniu kampanii:", error);
+        }
+    };
+
     if (loading) {
         return <p>Ładowanie...</p>;
     }
@@ -60,18 +97,52 @@ const ManageCampaigns = () => {
             </ContentSection>
 
             <CollectionGridSection>
-                {campaigns.map((campaign) => (
+                {campaigns.map((campaign) => {
+                    const shelter = campaign.shelter || {};
+                    return(
                     <CollectionCard key={campaign.id}>
-                        <CollectionImage src="https://via.placeholder.com/400" alt={campaign.title} />
+                        <CollectionImage src="https://via.placeholder.com/400" alt={campaign.title}/>
                         <CollectionInfo>
                             <CollectionTitle>{campaign.title}</CollectionTitle>
                             <CollectionGoal>Cel: {campaign.goal}</CollectionGoal>
                             <CollectionDescription>
                                 {campaign.description}
                             </CollectionDescription>
+                            <CollectionDescription>Schronisko: {shelter.name}</CollectionDescription>
+
+
+                            {editingCampaing && editingCampaing.id === campaign.id ? (
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    handleEditSubmit(campaign.id);
+                                }}>
+                                    <input
+                                        type="number"
+                                        value={updatedCampaing.goal || ""}
+                                        onChange={(e) => setUpdatedCampaing({...updatedCampaing, goal: e.target.value})}
+                                        placeholder="Cel"
+                                    />
+                                    <input
+                                        type="text"
+                                        value={updatedCampaing.description || ""}
+                                        onChange={(e) => setUpdatedCampaing({
+                                            ...updatedCampaing,
+                                            description: e.target.value
+                                        })}
+                                        placeholder="Opis adopcji"
+                                    />
+                                    <button type="submit">Zapisz zmiany</button>
+                                </form>
+                            ) : (
+                                <>
+                                    <button onClick={() => editCampaing(campaign)}>Edytuj</button>
+                                    <button onClick={() => deleteCampaign(campaign.id)}>Usuń</button>
+                                </>
+                            )}
                         </CollectionInfo>
                     </CollectionCard>
-                ))}
+                    );
+                })}
             </CollectionGridSection>
         </>
     );

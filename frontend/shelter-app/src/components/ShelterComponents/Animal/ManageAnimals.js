@@ -81,6 +81,16 @@ const ManageAnimals = () => {
         }
     };
 
+    const handlePhotoChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setUpdatedAnimal((prevAnimal) => ({
+                ...prevAnimal,
+                photo: file
+            }));
+        }
+    };
+
     const deleteAnimal = async (id) => {
         try {
             const token = localStorage.getItem('token');
@@ -107,7 +117,22 @@ const ManageAnimals = () => {
                 ? { headers: { Authorization: `Bearer ${token}` } }
                 : {};
 
-            const response = await axios.put(`http://localhost:8080/animal/admin/edit/${id}`, updatedAnimal, config);
+            const formData = new FormData();
+            formData.append('name', updatedAnimal.name);
+            formData.append('atitude', updatedAnimal.atitude);
+            formData.append('age', updatedAnimal.age);
+            if (updatedAnimal.photo) {
+                formData.append('photo', updatedAnimal.photo);
+            }
+
+            const response = await axios.put(`http://localhost:8080/animal/admin/edit/${id}`, formData, {
+                ...config,
+                headers: {
+                    ...config.headers,
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+
             setAnimals(animals.map(a => (a.id === id ? response.data : a)));
             setEditingAnimal(null);
         } catch (error) {
@@ -129,6 +154,7 @@ const ManageAnimals = () => {
 
             <CollectionGridSection>
                 {animals.map((animal) => (
+
                     <CollectionCard key={animal.id}>
                         <CollectionImage src={animalPhotos[animal.id] || "https://via.placeholder.com/400"} alt={animal.name} />
                         <CollectionInfo>
@@ -140,22 +166,34 @@ const ManageAnimals = () => {
                                 <form onSubmit={(e) => { e.preventDefault(); handleEditSubmit(animal.id); }}>
                                     <input
                                         type="text"
-                                        value={updatedAnimal.name}
+                                        value={updatedAnimal.name || ""}
                                         onChange={(e) => setUpdatedAnimal({ ...updatedAnimal, name: e.target.value })}
                                         placeholder="Nazwa"
                                     />
                                     <input
                                         type="text"
-                                        value={updatedAnimal.atitude}
+                                        value={updatedAnimal.atitude || ""}
                                         onChange={(e) => setUpdatedAnimal({ ...updatedAnimal, atitude: e.target.value })}
                                         placeholder="Zachowanie"
                                     />
                                     <input
                                         type="number"
-                                        value={updatedAnimal.age}
+                                        value={updatedAnimal.age || ""}
                                         onChange={(e) => setUpdatedAnimal({ ...updatedAnimal, age: e.target.value })}
                                         placeholder="Wiek"
                                     />
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handlePhotoChange}
+                                    />
+                                    {updatedAnimal.photo && (
+                                        <img
+                                            src={URL.createObjectURL(updatedAnimal.photo)}
+                                            alt="Podgląd zdjęcia"
+                                            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                                        />
+                                    )}
                                     <button type="submit">Zapisz zmiany</button>
                                 </form>
                             ) : (

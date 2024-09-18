@@ -146,6 +146,7 @@ const NavbarTopShelter = () => {
                             <DropdownItem to="/CreateAdoption">Dodaj</DropdownItem>
                             <DropdownItem to="/manage-campaigns">Koty</DropdownItem>
                             <DropdownItem to="/manage-campaigns">Psy</DropdownItem>
+                            <DropdownItem to="/ManageAdoption">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 

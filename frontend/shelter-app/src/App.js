@@ -18,6 +18,7 @@ import AddAnimal from "./components/ShelterComponents/Animal/AddAnimal"
 import Animals from "./components/Navbar/Animals"
 import ManageAnimals from "./components/ShelterComponents/Animal/ManageAnimals";
 import CreateAdoption from "./components/ShelterComponents/Adoption/CreateAdoption";
+import ManageAdoptions from "./components/ShelterComponents/Adoption/ManageAdoption";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/animals" element={<Animals/>}/>
         <Route path="/ManageAnimals" element={<ManageAnimals/>}/>
         <Route path="/CreateAdoption" element={<CreateAdoption/>}/>
+        <Route path="/ManageAdoption" element={<ManageAdoptions/>}/>
       </Routes>
     </Router>
   );
