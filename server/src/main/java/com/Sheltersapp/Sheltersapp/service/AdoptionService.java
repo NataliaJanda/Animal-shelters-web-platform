@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdoptionService {
@@ -21,5 +22,17 @@ public class AdoptionService {
     }
 
     public List<Adoption> allAdoptions() {return adoptionRepository.findAll();}
+
+    public List<Adoption> findByShelterId(Long shelterId) {
+        return adoptionRepository.findByShelterId(shelterId);
+    }
+
+    public Optional<Adoption> getAdoptionById(Long id){
+        return adoptionRepository.findById(id);
+    }
+
+    public void deleteAdoption(Long id){
+        adoptionRepository.deleteById(id);
+    }
 
 }

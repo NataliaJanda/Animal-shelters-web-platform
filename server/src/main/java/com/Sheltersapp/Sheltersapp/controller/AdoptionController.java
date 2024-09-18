@@ -87,5 +87,37 @@ public class AdoptionController {
         return ResponseEntity.ok(adoptions);
     }
 
+    @GetMapping("/shelter/{shelter_id}")
+    public ResponseEntity<List<Adoption>> getAnimalsByShelterId(@PathVariable Long shelter_id) {
+        try {
+            List<Adoption> adoptions = adoptionService.findByShelterId(shelter_id);
+            if (adoptions.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(adoptions);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<Void> deleteAdoption(@PathVariable Long id) {
+        adoptionService.deleteAdoption(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/admin/edit/{id}")
+    public ResponseEntity<Adoption> editAdoption(@PathVariable Long id, @RequestBody Adoption updatedAdoption) {
+        Optional<Adoption> optionalAdoption = adoptionService.getAdoptionById(id);
+
+        if (optionalAdoption.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Adoption existingAdoption = optionalAdoption.get();
+        existingAdoption.setDescription(updatedAdoption.getDescription());
+
+        Adoption savedAnimal = adoptionService.createAdoption(existingAdoption);
+
+        return ResponseEntity.ok(savedAnimal);
+    }
 }
