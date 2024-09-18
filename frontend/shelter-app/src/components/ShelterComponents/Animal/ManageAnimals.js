@@ -4,14 +4,14 @@ import {
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
     ContentSection, Footer, FooterText,
-    SectionText,
-    SectionTitle
+    SectionText, SectionTitle
 } from "../../Navbar/style";
 import NavbarTopShelter from "../NavbarTopShelter";
 
 const ManageAnimals = () => {
     const [animals, setAnimals] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [animalPhotos, setAnimalPhotos] = useState({}); // Stan na zdjęcia
     const [shelterId, setShelterId] = useState(null);
     const [editingAnimal, setEditingAnimal] = useState(null);
     const [updatedAnimal, setUpdatedAnimal] = useState({});
@@ -38,6 +38,7 @@ const ManageAnimals = () => {
                 const response = await axios.get(`http://localhost:8080/animal/shelter/${shelterId}`, config);
                 setAnimals(response.data);
                 setLoading(false);
+                response.data.forEach(animal => fetchAnimalPhoto(animal.id));
             } catch (error) {
                 console.error("Błąd przy pobieraniu zwierząt:", error);
                 setLoading(false);
@@ -46,6 +47,39 @@ const ManageAnimals = () => {
 
         fetchAnimals();
     }, [shelterId]);
+
+    const fetchAnimalPhoto = async (animalId) => {
+        try {
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                console.error("Brak tokena autoryzacyjnego. Użytkownik musi się zalogować.");
+                return;
+            }
+
+            const config = {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                responseType: 'blob',
+            };
+
+            const response = await axios.get(`http://localhost:8080/animal/photo/${animalId}`, config);
+
+            if (response.status === 200) {
+                const imageUrl = URL.createObjectURL(response.data);
+                setAnimalPhotos((prevPhotos) => ({
+                    ...prevPhotos,
+                    [animalId]: imageUrl,
+                }));
+            } else {
+                console.error(`Błąd przy pobieraniu zdjęcia dla zwierzęcia ${animalId}: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(`Błąd przy pobieraniu zdjęcia dla zwierzęcia ${animalId}:`, error);
+        }
+    };
 
     const deleteAnimal = async (id) => {
         try {
@@ -74,8 +108,6 @@ const ManageAnimals = () => {
                 : {};
 
             const response = await axios.put(`http://localhost:8080/animal/admin/edit/${id}`, updatedAnimal, config);
-
-            // Aktualizacja stanu z nowymi danymi po edycji
             setAnimals(animals.map(a => (a.id === id ? response.data : a)));
             setEditingAnimal(null);
         } catch (error) {
@@ -92,14 +124,13 @@ const ManageAnimals = () => {
             <NavbarTopShelter />
             <ContentSection>
                 <SectionTitle>Zwierzęta</SectionTitle>
-                <SectionText>
-                </SectionText>
+                <SectionText></SectionText>
             </ContentSection>
 
             <CollectionGridSection>
                 {animals.map((animal) => (
                     <CollectionCard key={animal.id}>
-                        <CollectionImage src="https://via.placeholder.com/400" alt={animal.name} />
+                        <CollectionImage src={animalPhotos[animal.id] || "https://via.placeholder.com/400"} alt={animal.name} />
                         <CollectionInfo>
                             <CollectionTitle>{animal.name}</CollectionTitle>
                             <CollectionGoal>Zachowanie: {animal.atitude}</CollectionGoal>

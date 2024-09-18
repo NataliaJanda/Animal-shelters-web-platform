@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -23,8 +25,5 @@ public class Animal {
     @JoinColumn(name = "species_id")
     private Species species;
 
-//    @OneToMany
-//    @JoinColumn(name = "animal_id")
-//    private List<Photo> photo;
 
 }

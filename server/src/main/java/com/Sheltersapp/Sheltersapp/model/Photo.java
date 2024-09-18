@@ -1,11 +1,10 @@
 package com.Sheltersapp.Sheltersapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,5 +13,11 @@ public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private byte data;
+
+    @Lob
+    private byte[] data;
+
+    @ManyToOne
+    @JoinColumn(name = "animal_id")
+    private Animal animal;
 }

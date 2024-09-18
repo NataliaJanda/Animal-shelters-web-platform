@@ -12,6 +12,7 @@ import {
 const Adoptions = () => {
     const [adoptions, setAdoptions] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [animalPhotos, setAnimalPhotos] = useState({});
 
     useEffect(() => {
         const fetchAdoptions = async () => {
@@ -20,7 +21,13 @@ const Adoptions = () => {
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
                 const response = await axios.get('http://localhost:8080/adoption/', config);
 
-                console.log("Dane adopcji:", response.data);  // Dodaj tę linię, aby sprawdzić dane
+                console.log("Dane adopcji:", response.data);
+
+                response.data.forEach(adoption => {
+                    if (adoption.animal && adoption.animal.id) {
+                        fetchAnimalPhoto(adoption.animal.id);
+                    }
+                });
 
                 setAdoptions(response.data);
                 setLoading(false);
@@ -32,6 +39,32 @@ const Adoptions = () => {
 
         fetchAdoptions();
     }, []);
+
+    const fetchAnimalPhoto = async (animalId) => {
+        try {
+
+            const config = {
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                responseType: 'blob',
+            };
+
+            const response = await axios.get(`http://localhost:8080/animal/photo/${animalId}`, config);
+
+            if (response.status === 200) {
+                const imageUrl = URL.createObjectURL(response.data);
+                setAnimalPhotos((prevPhotos) => ({
+                    ...prevPhotos,
+                    [animalId]: imageUrl,
+                }));
+            } else {
+                console.error(`Błąd przy pobieraniu zdjęcia dla zwierzęcia ${animalId}: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(`Błąd przy pobieraniu zdjęcia dla zwierzęcia ${animalId}:`, error);
+        }
+    };
 
     if (loading) {
         return <p>Ładowanie...</p>;
@@ -61,7 +94,10 @@ const Adoptions = () => {
 
                     return (
                         <CollectionCard key={adoption.id}>
-                            <CollectionImage src="https://via.placeholder.com/400" alt={animal.name || "Nieznane zwierzę"} />
+                            <CollectionImage
+                                src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
+                                alt={animal.name || "Brak nazwy"}
+                            />
                             <CollectionInfo>
                                 <CollectionTitle>{animal.name || "Nieznana nazwa"}</CollectionTitle>
                                 <CollectionGoal>Schronisko: {shelter.name || "Nieznane schronisko"}</CollectionGoal>

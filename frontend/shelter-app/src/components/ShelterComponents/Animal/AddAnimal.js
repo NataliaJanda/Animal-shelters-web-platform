@@ -10,13 +10,15 @@ function AddAnimal() {
     const [atitude, setAtitude] = useState("");
     const [age, setAge] = useState("");
     const [species, setSpecies] = useState("");
-    const [speciesList, setSpeciesList] = useState([]);  // New state for species options
+    const [speciesList, setSpeciesList] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const clearForm = () => {
         setName("");
         setAtitude("");
         setAge("");
         setSpecies("");
+        setSelectedFile(null);
     };
 
     useEffect(() => {
@@ -36,6 +38,26 @@ function AddAnimal() {
 
         fetchSpecies();
     }, []);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+
+        const validFileTypes = ['image/jpeg', 'image/png'];
+        if (file && !validFileTypes.includes(file.type)) {
+            alert('Proszę wybrać plik JPG lub PNG.');
+            setSelectedFile(null);
+            return;
+        }
+
+        const maxSizeInMB = 20;
+        if (file && file.size > maxSizeInMB * 1024 * 1024) {
+            alert('Plik jest za duży. Maksymalny rozmiar to 5MB.');
+            setSelectedFile(null);
+            return;
+        }
+
+        setSelectedFile(file);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,6 +87,20 @@ function AddAnimal() {
             });
 
             if (response.ok) {
+                const animal = await response.json();
+
+                if (selectedFile) {
+                    const formData = new FormData();
+                    formData.append('file', selectedFile);
+
+                    await axios.post(`http://localhost:8080/animal/${animal.id}/photo`, formData, {
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data"
+                        }
+                    });
+                }
+
                 clearForm();
                 navigate("/MainPageSessionShelter");
             } else {
@@ -76,6 +112,7 @@ function AddAnimal() {
             alert("An error occurred during making campaign. Please try again.");
         }
     };
+
 
     return (
         <>
@@ -94,7 +131,7 @@ function AddAnimal() {
                 <Container maxWidth="sm">
                     <Box sx={{ textAlign: "center", mt: 5 }}>
                         <Typography variant="h4" gutterBottom>
-                            Dodaj zwierzę
+                            Dodaj zwierze
                         </Typography>
                     </Box>
 
@@ -125,7 +162,6 @@ function AddAnimal() {
                                 onChange={(e) => setAge(e.target.value)}
                             />
 
-                            {/* Species Select Dropdown */}
                             <FormControl fullWidth margin="normal">
                                 <InputLabel id="species-label">Gatunek</InputLabel>
                                 <Select
@@ -137,11 +173,20 @@ function AddAnimal() {
                                 >
                                     {speciesList.map((specie) => (
                                         <MenuItem key={specie.id} value={specie.id}>
-                                            {specie.name}  {/* Display species name */}
+                                            {specie.name}
                                         </MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
+
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                sx={{ mt: 2 }}
+                            >
+                                Wybierz zdjęcie
+                                <input type="file" hidden onChange={handleFileChange} />
+                            </Button>
 
                             <Button
                                 fullWidth
