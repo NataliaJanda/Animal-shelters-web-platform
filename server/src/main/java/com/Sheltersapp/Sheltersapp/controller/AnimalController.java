@@ -5,8 +5,10 @@ import com.Sheltersapp.Sheltersapp.repository.AnimalRepository;
 import com.Sheltersapp.Sheltersapp.repository.PhotoRepository;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
 import com.Sheltersapp.Sheltersapp.repository.SpeciesRepository;
+import com.Sheltersapp.Sheltersapp.service.AdoptionService;
 import com.Sheltersapp.Sheltersapp.service.AnimalService;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
+import com.Sheltersapp.Sheltersapp.service.PhotoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +34,18 @@ public class AnimalController {
     private final SpeciesRepository speciesRepository;
     private final AnimalRepository animalRepository;
     private final PhotoRepository photoRepository;
+    private final PhotoService photoService;
+    private final AdoptionService adoptionService;
 
-    public AnimalController(JwtService jwtService, ShelterAccountsRepository shelterAccountsRepository, AnimalService animalService, SpeciesRepository speciesRepository, AnimalRepository animalRepository, PhotoRepository photoRepository) {
+    public AnimalController(JwtService jwtService, ShelterAccountsRepository shelterAccountsRepository, AnimalService animalService, SpeciesRepository speciesRepository, AnimalRepository animalRepository, PhotoRepository photoRepository, AdoptionService adoptionService, PhotoService photoService, AdoptionService adoptionService1) {
         this.jwtService = jwtService;
         this.shelterAccountsRepository = shelterAccountsRepository;
         this.animalService = animalService;
         this.speciesRepository = speciesRepository;
         this.animalRepository = animalRepository;
         this.photoRepository = photoRepository;
+        this.photoService = photoService;
+        this.adoptionService = adoptionService1;
     }
 
     @PostMapping("/admin/add")
@@ -148,7 +154,18 @@ public class AnimalController {
     }
 
     @DeleteMapping("/admin/delete/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteAnimal(@PathVariable Long id) {
+        Optional<Photo> optAnimal = photoRepository.findByAnimalId(id);
+        adoptionService.deleteAdoption(optAnimal.get().getId());
+        if (optAnimal.isPresent()) {
+            Photo photo = optAnimal.get();
+            photoService.deletePhoto(photo.getId());
+        }
+        Animal animal = optAnimal.get().getAnimal();
+        int amount = animal.getSpecies().getAmount();
+        --amount;
+        animal.getSpecies().setAmount(amount);
         animalService.deleteAnimal(id);
         return ResponseEntity.noContent().build();
     }

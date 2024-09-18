@@ -87,4 +87,21 @@ public class CampaignsController {
         campaignsService.deleteCampaign(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/admin/edit/{id}")
+    public ResponseEntity<Campaigns> editAdoption(@PathVariable Long id, @RequestBody Campaigns updateCampaigns) {
+        Optional<Campaigns> optionalCampaigns = campaignsService.getCampaignById(id);
+
+        if (optionalCampaigns.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Campaigns existingCampaigns = optionalCampaigns.get();
+        existingCampaigns.setDescription(updateCampaigns.getDescription());
+        existingCampaigns.setGoal(updateCampaigns.getGoal());
+
+        Campaigns savedCampaigns = campaignsService.createCampaign(existingCampaigns);
+
+        return ResponseEntity.ok(savedCampaigns);
+    }
 }
