@@ -78,7 +78,7 @@ export const CollectionCard = styled.div`
 
 export const CollectionImage = styled.img`
     width: 100%;
-    height: 200px;
+    height: 350px;
     object-fit: cover;
 `;
 

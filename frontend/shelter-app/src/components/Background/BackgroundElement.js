@@ -52,7 +52,7 @@ export default function VariantButtonGroup() {
                 <NavLink to="/AdoptCat" style={{ textDecoration: "none" }}>
                     <Button>Adoptuj kota</Button>
                 </NavLink>
-                <NavLink to="/AdoptOther" style={{ textDecoration: "none" }}>
+                <NavLink to="/AdoptRabbit" style={{ textDecoration: "none" }}>
                     <Button>Adoptuj królika</Button>
                 </NavLink>
             </ButtonGroup>

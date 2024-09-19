@@ -19,6 +19,11 @@ import Animals from "./components/Navbar/Animals"
 import ManageAnimals from "./components/ShelterComponents/Animal/ManageAnimals";
 import CreateAdoption from "./components/ShelterComponents/Adoption/CreateAdoption";
 import ManageAdoptions from "./components/ShelterComponents/Adoption/ManageAdoption";
+import ManageNews from "./components/ShelterComponents/News/ManageNews";
+import AddNews from "./components/ShelterComponents/News/AddNews";
+import MyAccount from "./components/ShelterComponents/MyAccount";
+import AdoptCat from "./components/Adopt/AdoptCat";
+import AdoptRabbit from "./components/Adopt/AdoptRabbit";
 
 function App() {
   return (
@@ -32,21 +37,24 @@ function App() {
         <Route path="/tablica" element={<Table />} />
         <Route path="/collection" element={<Campaigns />} />
         <Route path="/AdoptDog" element={<AdoptDog />} />
-        <Route path="/AdoptCat" element={<Campaigns />} />
-        <Route path="/AdoptOther" element={<Campaigns />} />
+        <Route path="/AdoptCat" element={<AdoptCat />} />
+        <Route path="/AdoptRabbit" element={<AdoptRabbit />} />
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/RegisterAccept" element={<RegisterAccept />}/>
         <Route path="/MainPageSessionUser" element={<MainPageSessionUser />}/>
         <Route path="/ShelterRegister" element={<ShelterRegister />}/>
         <Route path="/ShelterRegisterAccept" element={<ShelterRegisterAccept />}/>
         <Route path="/MainPageSessionShelter" element={<MainPageSessionShelter />}/>
-        <Route path="/create-campaign" element={<CreateCampaign />}/>
-        <Route path="/manage-campaigns" element={<ManageCampaigns/>}/>
+        <Route path="/CreateCampaign" element={<CreateCampaign />}/>
+        <Route path="/ManageCampaigns" element={<ManageCampaigns/>}/>
         <Route path="/addAnimal" element={<AddAnimal/>}/>
         <Route path="/animals" element={<Animals/>}/>
         <Route path="/ManageAnimals" element={<ManageAnimals/>}/>
         <Route path="/CreateAdoption" element={<CreateAdoption/>}/>
         <Route path="/ManageAdoption" element={<ManageAdoptions/>}/>
+        <Route path="/ManageNews" element={<ManageNews/>}/>
+        <Route path="/AddNews" element={<AddNews/>}/>
+        <Route path="/MyAccount" element={<MyAccount/>}/>
       </Routes>
     </Router>
   );

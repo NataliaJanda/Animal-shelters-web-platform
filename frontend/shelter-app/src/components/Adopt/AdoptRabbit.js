@@ -9,7 +9,7 @@ import {
     SectionText, SectionTitle
 } from "../Navbar/style";
 
-const AdoptDog= () => {
+const AdoptRabbit= () => {
     const [adoptions, setAdoptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [animalPhotos, setAnimalPhotos] = useState({});
@@ -19,7 +19,7 @@ const AdoptDog= () => {
             try {
                 const token = localStorage.getItem('token');
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-                const response = await axios.get('http://localhost:8080/adoption/species/1', config);
+                const response = await axios.get('http://localhost:8080/adoption/species/3', config);
 
                 console.log("Dane adopcji:", response.data);
 
@@ -116,4 +116,4 @@ const AdoptDog= () => {
     );
 };
 
-export default AdoptDog;
+export default AdoptRabbit;

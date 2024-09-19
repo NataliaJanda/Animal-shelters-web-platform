@@ -123,8 +123,8 @@ const NavbarTopShelter = () => {
                             Zbiórki
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'campaigns'}>
-                            <DropdownItem to="/create-campaign">Stwórz zbiórkę</DropdownItem>
-                            <DropdownItem to="/manage-campaigns">Zarządzaj zbiórkami</DropdownItem>
+                            <DropdownItem to="/CreateCampaign">Stwórz zbiórkę</DropdownItem>
+                            <DropdownItem to="/ManageCampaigns">Zarządzaj zbiórkami</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
@@ -133,8 +133,8 @@ const NavbarTopShelter = () => {
                             Tablica ogłoszeń
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'board'}>
-                            <DropdownItem to="/create-campaign">Dodaj</DropdownItem>
-                            <DropdownItem to="/manage-campaigns">Zarządzaj</DropdownItem>
+                            <DropdownItem to="/AddNews">Dodaj</DropdownItem>
+                            <DropdownItem to="/ManageNews">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
@@ -144,8 +144,8 @@ const NavbarTopShelter = () => {
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'adoption'}>
                             <DropdownItem to="/CreateAdoption">Dodaj</DropdownItem>
-                            <DropdownItem to="/manage-campaigns">Koty</DropdownItem>
-                            <DropdownItem to="/manage-campaigns">Psy</DropdownItem>
+                            <DropdownItem to="/">Koty</DropdownItem>
+                            <DropdownItem to="/">Psy</DropdownItem>
                             <DropdownItem to="/ManageAdoption">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
@@ -155,8 +155,8 @@ const NavbarTopShelter = () => {
                             Zapotrzebowanie
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'needs'}>
-                            <DropdownItem to="/create-campaign">Lista zapotrzebowania</DropdownItem>
-                            <DropdownItem to="/manage-campaigns">Zarządzaj</DropdownItem>
+                            <DropdownItem to="/">Lista zapotrzebowania</DropdownItem>
+                            <DropdownItem to="/">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
@@ -166,13 +166,13 @@ const NavbarTopShelter = () => {
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'animals'}>
                             <DropdownItem to="/addAnimal">Dodaj</DropdownItem>
-                            <DropdownItem to="/create-campaign">Szczepienia</DropdownItem>
+                            <DropdownItem to="/">Szczepienia</DropdownItem>
                             <DropdownItem to="/ManageAnimals">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
                     {isLoggedIn ? (
-                        <CollectionButton to="/my-account">Moje konto</CollectionButton>
+                        <CollectionButton to="/MyAccount">Moje konto</CollectionButton>
                     ) : (
                         <></>
                     )}
