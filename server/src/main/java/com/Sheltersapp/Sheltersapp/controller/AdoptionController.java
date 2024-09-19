@@ -120,4 +120,17 @@ public class AdoptionController {
 
         return ResponseEntity.ok(savedAnimal);
     }
+
+    @GetMapping("/species/{species_id}")
+    public ResponseEntity<List<Adoption>> getAdoptionsBySpeciesId(@PathVariable Long species_id) {
+        try {
+            List<Adoption> adoptions = adoptionService.findAdoptionsBySpeciesId(species_id);
+            if (adoptions.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(adoptions);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

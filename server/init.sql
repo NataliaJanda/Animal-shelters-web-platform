@@ -33,8 +33,9 @@ CREATE TABLE Campaigns (
 -- Table: News
 CREATE TABLE News (
                       id SERIAL PRIMARY KEY,
+                      title varchar(30) NOT NULL,
                       Shelter_id int,
-                      description int  NOT NULL,
+                      description varchar(100)  NOT NULL,
                       date timestamp(6)  NOT NULL
 );
 

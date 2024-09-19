@@ -35,4 +35,8 @@ public class AdoptionService {
         adoptionRepository.deleteById(id);
     }
 
+    public List<Adoption> findAdoptionsBySpeciesId(Long speciesId) {
+        return adoptionRepository.findByAnimalSpeciesId(speciesId);
+    }
+
 }

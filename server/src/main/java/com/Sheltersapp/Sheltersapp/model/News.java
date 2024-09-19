@@ -1,9 +1,6 @@
 package com.Sheltersapp.Sheltersapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,17 +11,17 @@ import java.time.LocalDateTime;
 @Entity
 public class News {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
     private String description;
     private LocalDateTime date;
 
-    public News(String description, LocalDateTime date) {
-        this.description = description;
-        this.date = date;
-    }
-
     public News() {
     }
+
+    @ManyToOne
+    @JoinColumn(name = "shelter_id")
+    private Shelter shelter;
 
 }
