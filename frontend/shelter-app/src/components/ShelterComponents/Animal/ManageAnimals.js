@@ -113,10 +113,6 @@ const ManageAnimals = () => {
     const handleEditSubmit = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const config = token
-                ? { headers: { Authorization: `Bearer ${token}` } }
-                : {};
-
             const formData = new FormData();
             formData.append('name', updatedAnimal.name);
             formData.append('atitude', updatedAnimal.atitude);
@@ -126,10 +122,9 @@ const ManageAnimals = () => {
             }
 
             const response = await axios.put(`http://localhost:8080/animal/admin/edit/${id}`, formData, {
-                ...config,
                 headers: {
-                    ...config.headers,
-                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
                 }
             });
 
@@ -187,13 +182,6 @@ const ManageAnimals = () => {
                                         accept="image/*"
                                         onChange={handlePhotoChange}
                                     />
-                                    {updatedAnimal.photo && (
-                                        <img
-                                            src={URL.createObjectURL(updatedAnimal.photo)}
-                                            alt="Podgląd zdjęcia"
-                                            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                                        />
-                                    )}
                                     <button type="submit">Zapisz zmiany</button>
                                 </form>
                             ) : (

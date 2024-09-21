@@ -11,6 +11,8 @@ import {
     SectionText,
     SectionTitle
 } from "./style";
+import logo from "./logo.png"
+
 
 const Campaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
@@ -66,7 +68,7 @@ const Campaigns = () => {
                     const shelter = campaign.shelter || {};
                     return(
                     <CollectionCard key={campaign.id}>
-                        <CollectionImage src="https://via.placeholder.com/400" alt={campaign.title} />
+                        <CollectionImage src={logo} alt={campaign.title} />
                         <CollectionInfo>
                             <CollectionTitle>{campaign.title}</CollectionTitle>
                             <CollectionGoal>Cel: {campaign.goal}</CollectionGoal>

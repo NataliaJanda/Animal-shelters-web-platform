@@ -8,6 +8,8 @@ import {
     SectionText,
     SectionTitle
 } from "../../Navbar/style";
+import logo from "../../Navbar/logo.png"
+
 
 const ManageNews = () => {
     const [news, setNews] = useState([]);
@@ -101,7 +103,7 @@ const ManageNews = () => {
                     const shelter = news.shelter || {};
                     return(
                         <CollectionCard key={news.id}>
-                            <CollectionImage src="https://via.placeholder.com/400" alt={news.title}/>
+                            <CollectionImage src={logo || "https://via.placeholder.com/400"} alt={news.title}/>
                             <CollectionInfo>
                                 <CollectionTitle>{news.title}</CollectionTitle>
                                 <CollectionDescription>

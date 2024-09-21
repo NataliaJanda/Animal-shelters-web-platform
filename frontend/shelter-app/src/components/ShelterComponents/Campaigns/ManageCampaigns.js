@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import NavbarTopShelter from "../NavbarTopShelter";
 import {
     CollectionCard, CollectionDescription, CollectionGoal,
-    CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
+    CollectionGridSection, CollectionImageNC, CollectionInfo, CollectionTitle,
     ContentSection,
     SectionText,
     SectionTitle
 } from "../../Navbar/style";
+import logo from "../../Navbar/logo.png"
 
 const ManageCampaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
@@ -101,10 +102,11 @@ const ManageCampaigns = () => {
                     const shelter = campaign.shelter || {};
                     return(
                     <CollectionCard key={campaign.id}>
-                        <CollectionImage src="https://via.placeholder.com/400" alt={campaign.title}/>
+                        <CollectionImageNC src={logo || "https://via.placeholder.com/400"} alt={campaign.title}/>
                         <CollectionInfo>
                             <CollectionTitle>{campaign.title}</CollectionTitle>
                             <CollectionGoal>Cel: {campaign.goal}</CollectionGoal>
+                            <CollectionGoal>Data zakończenia: {campaign.end_date}</CollectionGoal>
                             <CollectionDescription>
                                 {campaign.description}
                             </CollectionDescription>

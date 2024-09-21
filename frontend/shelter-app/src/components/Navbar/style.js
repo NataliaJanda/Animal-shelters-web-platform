@@ -22,6 +22,24 @@ export const HeroOverlay = styled.div`
     color: white;
 `;
 
+export const HeroText2 = styled.div`
+    background-image: url(${background});
+    //background-size: cover;
+    //background-position: center;
+    text-align: center;
+    color: white;
+    height: 7vh;
+    border-radius: 50px;
+    h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    font-size: 1.5rem;
+    max-width: 600px;
+  }
+`;
+
 export const HeroText = styled.div`
     text-align: center;
     h1 {
@@ -56,11 +74,28 @@ export const CollectionGridSection = styled.section`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    padding: 4rem 2rem;
+    padding: 4rem 4rem;
     background-color: #fff;
-    @media (min-width: 600px) {
+    @media (max-width: 599px) {
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 600px) and (max-width: 899px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 900px) and (max-width: 1199px) {
         grid-template-columns: repeat(3, 1fr);
     }
+
+    @media (min-width: 1200px) and (max-width: 1499px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (min-width: 1500px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    ;
 `;
 
 export const CollectionCard = styled.div`
@@ -69,8 +104,9 @@ export const CollectionCard = styled.div`
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.2s;
-    min-height: 350px;
-
+    min-width: 250px;
+    height: 550px;
+    //width:250px;
     &:hover {
         transform: translateY(-10px);
     }
@@ -78,13 +114,19 @@ export const CollectionCard = styled.div`
 
 export const CollectionImage = styled.img`
     width: 100%;
-    height: 350px;
+    height: 250px;
+    object-fit: cover;
+`;
+export const CollectionImageNC = styled.img`
+    width: 100%;
+    height: 250px;
     object-fit: cover;
 `;
 
 export const CollectionInfo = styled.div`
     padding: 1.5rem;
     text-align: center;
+    height: 50px;
 `;
 
 export const CollectionTitle = styled.h3`

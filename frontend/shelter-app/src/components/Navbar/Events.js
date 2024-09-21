@@ -8,6 +8,8 @@ import {
     SectionText,
     SectionTitle
 } from "./style";
+import logo from "./logo.png"
+
 
 const Events = () => {
     const [news, setNews] = useState([]);
@@ -62,7 +64,7 @@ const Events = () => {
                     const shelter = news.shelter || {};
                     return(
                         <CollectionCard key={news.id}>
-                            <CollectionImage src="https://via.placeholder.com/400" alt={news.title}/>
+                            <CollectionImage src={logo} alt={news.title}/>
                             <CollectionInfo>
                                 <CollectionTitle>{news.title}</CollectionTitle>
                                 <CollectionDescription>

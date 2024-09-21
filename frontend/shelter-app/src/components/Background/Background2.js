@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import "./Background.css";
 import VariantButtonGroup from "./BackgroundElement";
+import {HeroText2} from "../Navbar/style";
 
 class Background2 extends Component {
     render() {
         const myStyle = {
-            height: "120vh",
-            marginTop: "7px",
+            height: "10vh",
+            // marginTop: "7px",
             fontSize: "50px",
-            backgroundSize: "cover",
+            // backgroundSize: "cover",
             backgroundPosition: "center",
             width: "100%",
         };
@@ -16,9 +17,10 @@ class Background2 extends Component {
         return (
             <>
                 <div style={myStyle}>
-                    <div className="title">
+                    <HeroText2>
+                    <h1>Zwierzeta do adopcji</h1>
                         <VariantButtonGroup/>
-                    </div>
+                    </HeroText2>
                 </div>
             </>
         );

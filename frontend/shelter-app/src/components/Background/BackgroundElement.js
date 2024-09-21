@@ -16,6 +16,7 @@ export default function VariantButtonGroup() {
                 position: "absolute",
                 top: "80%",
                 left: "50%",
+                button: "0%",
                 transform: "translate(-50%, -50%)",
                 "& > *": {
                     m: 1,
