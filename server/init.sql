@@ -23,7 +23,7 @@ CREATE TABLE Animal (
 CREATE TABLE Campaigns (
                            id SERIAL PRIMARY KEY,
                            Shelter_id int,
---                            title varchar(20) NOT NULL,
+                           title varchar(20) NOT NULL,
                            description varchar(40)  NOT NULL,
                            start_date varchar(40)  NOT NULL,
                            end_date varchar(40)  NOT NULL,
