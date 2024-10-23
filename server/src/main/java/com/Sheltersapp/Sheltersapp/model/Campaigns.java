@@ -11,6 +11,7 @@ public class Campaigns {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//    private String title;
     private String description;
     private String start_date;
     private String end_date;

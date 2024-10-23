@@ -18,6 +18,6 @@ public class RegisterShelter {
     private String town;
     private String county;
     private String real_estate_number;
-    private Integer regon;
+    private String regon;
     private String voivodeship;
 }

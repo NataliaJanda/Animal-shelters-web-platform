@@ -3,7 +3,7 @@
 CREATE TABLE Adoption (
                           id SERIAL PRIMARY KEY,
                           date timestamp(6)  NOT NULL,
-                          description varchar(20)  NOT NULL,
+                          description varchar(250)  NOT NULL,
                           User_id int,
                           Shelter_id int,
                           Animal_id int
@@ -13,7 +13,12 @@ CREATE TABLE Adoption (
 CREATE TABLE Animal (
                         id SERIAL PRIMARY KEY,
                         name varchar(20)  NOT NULL,
-                        atitude varchar(30)  NOT NULL,
+                        atitude varchar(250)  NOT NULL,
+                        description varchar(250)  NOT NULL,
+                        sex varchar(40) NOT NULL,
+                        size varchar(40) NOT NULL,
+                        race varchar(40) NOT NULL,
+                        vaccination boolean NOT NULL,
                         age int  NOT NULL,
                         Shelter_id int ,
                         Species_id int
@@ -24,9 +29,9 @@ CREATE TABLE Campaigns (
                            id SERIAL PRIMARY KEY,
                            Shelter_id int,
                            title varchar(20) NOT NULL,
-                           description varchar(40)  NOT NULL,
-                           start_date varchar(40)  NOT NULL,
-                           end_date varchar(40)  NOT NULL,
+                           description varchar(250)  NOT NULL,
+                           start_date timestamp(6)  NOT NULL,
+                           end_date timestamp(6)  NOT NULL,
                            goal varchar(40)  NOT NULL
 );
 
@@ -35,7 +40,7 @@ CREATE TABLE News (
                       id SERIAL PRIMARY KEY,
                       title varchar(30) NOT NULL,
                       Shelter_id int,
-                      description varchar(100)  NOT NULL,
+                      description varchar(250)  NOT NULL,
                       date timestamp(6)  NOT NULL
 );
 
@@ -52,13 +57,13 @@ CREATE TABLE Shelter (
                          name varchar(20)  NOT NULL,
                          address varchar(30)  NOT NULL,
                          description varchar(60),
-                         commune varchar(100) NOT NULL,
-                         post_code varchar(100) NOT NULL,
+                         commune varchar(150) NOT NULL,
+                         post_code varchar(20) NOT NULL,
                          town varchar(100) NOT NULL,
                          county varchar(100) NOT NULL,
                          real_estate_number varchar(100) NOT NULL,
-                         regon int NOT NULL,
-                         voivodeship varchar(20) NOT NULL
+                         regon varchar(100) NOT NULL,
+                         voivodeship varchar(100) NOT NULL
 );
 
 -- Table: Shelter_accounts
@@ -67,9 +72,9 @@ CREATE TABLE Shelter_accounts (
                                   username varchar(100) NOT NULL,
                                   name varchar(100)  NOT NULL,
                                   last_name varchar(100)  NOT NULL,
-                                  email varchar(100)  NOT NULL,
-                                  phone_number varchar(100)  NOT NULL,
-                                  role varchar(100) NOT NULL,
+                                  email varchar(40)  NOT NULL,
+                                  phone_number varchar(20)  NOT NULL,
+                                  role varchar(10) NOT NULL,
                                   password varchar(100)  NOT NULL,
                                   Shelter_id int,
                                   activated boolean NOT NULL,
