@@ -156,3 +156,9 @@ export const FooterText = styled.p`
     margin: 0;
     font-size: 1rem;
 `;
+
+export const AppContainer = styled.div`
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 100vh;
+`;

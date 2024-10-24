@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
+import {Footer, FooterText} from "../../Navbar/style";
 
 
 function CreateCampaign() {
@@ -105,16 +106,24 @@ function CreateCampaign() {
                                 label="Data początku"
                                 variant="outlined"
                                 margin="normal"
+                                type="date" // Ustaw typ na date
                                 value={start_date}
                                 onChange={(e) => setStartDate(e.target.value)}
+                                InputLabelProps={{
+                                    shrink: true, // Aby etykieta była zawsze widoczna
+                                }}
                             />
                             <TextField
                                 fullWidth
                                 label="Data zakończenia"
                                 variant="outlined"
                                 margin="normal"
+                                type="date" // Ustaw typ na date
                                 value={end_date}
                                 onChange={(e) => setEndDate(e.target.value)}
+                                InputLabelProps={{
+                                    shrink: true, // Aby etykieta była zawsze widoczna
+                                }}
                             />
                             <TextField
                                 fullWidth
@@ -137,6 +146,9 @@ function CreateCampaign() {
                     </form>
                 </Container>
             </Box>
+            <Footer>
+                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+            </Footer>
         </>
     );
 }

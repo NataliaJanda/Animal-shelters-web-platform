@@ -1,11 +1,29 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-    CollectionCard, CollectionDescription, CollectionGoal,
-    CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
-    ContentSection, Footer, FooterText,
-    SectionText, SectionTitle
+    ContentSection,
+    Footer,
+    FooterText,
+    SectionText,
+    SectionTitle,
+    AppContainer,
 } from "../../Navbar/style";
+
+import {
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+} from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
 
 const ManageAdoptions = () => {
@@ -15,9 +33,10 @@ const ManageAdoptions = () => {
     const [editingAdoption, setEditingAdoption] = useState(null);
     const [updatedAdoption, setUpdatedAdoption] = useState({});
     const [adoptions, setAdoptions] = useState([]);
+    const [openEditDialog, setOpenEditDialog] = useState(false);
 
     useEffect(() => {
-        const id = localStorage.getItem('shelterId');
+        const id = localStorage.getItem("shelterId");
         if (id) {
             setShelterId(id);
         } else {
@@ -30,7 +49,7 @@ const ManageAdoptions = () => {
 
         const fetchAdoptions = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem("token");
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
                 const response = await axios.get(`http://localhost:8080/adoption/shelter/${shelterId}`, config);
 
@@ -56,9 +75,7 @@ const ManageAdoptions = () => {
     const deleteAdoption = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const config = token
-                ? { headers: { Authorization: `Bearer ${token}` } }
-                : {};
+            const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
             await axios.delete(`http://localhost:8080/adoption/admin/delete/${id}`, config);
             setAdoptions(adoptions.filter(adoption => adoption.id !== id));
@@ -95,18 +112,17 @@ const ManageAdoptions = () => {
     const editAdoption = (adoption) => {
         setEditingAdoption(adoption);
         setUpdatedAdoption(adoption);
+        setOpenEditDialog(true);
     };
 
     const handleEditSubmit = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const config = token
-                ? { headers: { Authorization: `Bearer ${token}` } }
-                : {};
+            const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
             const response = await axios.put(`http://localhost:8080/adoption/admin/edit/${id}`, updatedAdoption, config);
             setAdoptions(adoptions.map(a => (a.id === id ? response.data : a)));
-            setEditingAdoption(null);
+            setOpenEditDialog(false); // Close the dialog
         } catch (error) {
             console.error("Błąd przy edytowaniu adopcji:", error);
         }
@@ -124,48 +140,91 @@ const ManageAdoptions = () => {
                 <SectionText>Przeglądaj dostępne zwierzęta do adopcji z Twojego schroniska.</SectionText>
             </ContentSection>
 
-            <CollectionGridSection>
-                {adoptions.map((adoption) => {
-                    const animal = adoption.animal || {};
-                    const shelter = adoption.shelter || {};
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Zdjęcie</TableCell>
+                            <TableCell>Nazwa</TableCell>
+                            <TableCell>Schronisko</TableCell>
+                            <TableCell>Wiek</TableCell>
+                            <TableCell>Opis</TableCell>
+                            <TableCell>Akcje</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {adoptions.map((adoption) => {
+                            const animal = adoption.animal || {};
+                            const shelter = adoption.shelter || {};
 
-                    return (
-                        <CollectionCard key={adoption.id}>
-                            <CollectionImage
-                                src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
-                                alt={animal.name || "Brak nazwy"}
-                            />
-                            <CollectionInfo>
-                                <CollectionTitle>{animal.name || "Nieznana nazwa"}</CollectionTitle>
-                                <CollectionGoal>Schronisko: {shelter.name || "Nieznane schronisko"}</CollectionGoal>
-                                <CollectionDescription>Wiek: {animal.age || "Nieznany wiek"} lat</CollectionDescription>
-                                <CollectionDescription>Opis: {adoption.description || "Brak opisu"}</CollectionDescription>
-
-                                {editingAdoption && editingAdoption.id === adoption.id ? (
-                                    <form onSubmit={(e) => { e.preventDefault(); handleEditSubmit(adoption.id); }}>
-                                        <input
-                                            type="text"
-                                            value={updatedAdoption.description}
-                                            onChange={(e) => setUpdatedAdoption({ ...updatedAdoption, description: e.target.value })}
-                                            placeholder="Opis adopcji"
+                            return (
+                                <TableRow key={adoption.id}>
+                                    <TableCell>
+                                        <img
+                                            src={animalPhotos[animal.id] || "https://via.placeholder.com/80"}
+                                            alt={animal.name || "Brak nazwy"}
+                                            style={{ width: "80px", height: "80px", objectFit: "cover" }}
                                         />
-                                        <button type="submit">Zapisz zmiany</button>
-                                    </form>
-                                ) : (
-                                    <>
-                                        <button onClick={() => editAdoption(adoption)}>Edytuj</button>
-                                        <button onClick={() => deleteAdoption(adoption.id)}>Usuń</button>
-                                    </>
-                                )}
-                            </CollectionInfo>
-                        </CollectionCard>
-                    );
-                })}
-            </CollectionGridSection>
+                                    </TableCell>
+                                    <TableCell>{animal.name || "Nieznana nazwa"}</TableCell>
+                                    <TableCell>{shelter.name || "Nieznane schronisko"}</TableCell>
+                                    <TableCell>{animal.age || "Nieznany wiek"} lat</TableCell>
+                                    <TableCell>{adoption.description || "Brak opisu"}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => editAdoption(adoption)}
+                                            style={{ marginRight: "8px" }}
+                                        >
+                                            Edytuj
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => deleteAdoption(adoption.id)}
+                                        >
+                                            Usuń
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+                <DialogTitle>Edytuj adopcję</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Opis"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={updatedAdoption.description}
+                        onChange={(e) => setUpdatedAdoption({ ...updatedAdoption, description: e.target.value })}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenEditDialog(false)} color="primary">
+                        Anuluj
+                    </Button>
+                    <Button onClick={() => handleEditSubmit(editingAdoption.id)} color="primary">
+                        Zapisz
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <AppContainer>
+                <div>
+
+                </div>
+                <Footer>
+                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+                </Footer>
+            </AppContainer>
         </>
     );
 };

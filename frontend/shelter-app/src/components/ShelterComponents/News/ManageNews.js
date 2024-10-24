@@ -2,14 +2,29 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavbarTopShelter from "../NavbarTopShelter";
 import {
-    CollectionCard, CollectionDescription,
-    CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
+    AppContainer,
     ContentSection,
+    Footer,
+    FooterText,
     SectionText,
-    SectionTitle
+    SectionTitle,
 } from "../../Navbar/style";
-import logo from "../../Navbar/logo.png"
-
+import {
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+} from "@mui/material";
+import logo from "../../Navbar/logo.png";
 
 const ManageNews = () => {
     const [news, setNews] = useState([]);
@@ -17,6 +32,7 @@ const ManageNews = () => {
     const [shelterId, setShelterId] = useState(null);
     const [editingNews, setEditingNews] = useState(null);
     const [updatedNews, setUpdatedNews] = useState({});
+    const [openEditDialog, setOpenEditDialog] = useState(false);
 
     useEffect(() => {
         const id = localStorage.getItem('shelterId');
@@ -33,15 +49,18 @@ const ManageNews = () => {
         const fetchNews = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const config = token
-                    ? { headers: { Authorization: `Bearer ${token}` } }
-                    : {};
-
+                const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
                 const response = await axios.get(`http://localhost:8080/news/shelter/${shelterId}`, config);
-                setNews(response.data);
+
+                if (Array.isArray(response.data)) {
+                    setNews(response.data);
+                } else {
+                    setNews([]);
+                }
                 setLoading(false);
+
             } catch (error) {
-                console.error("Błąd przy pobieraniu kampanii:", error);
+                console.error("Błąd przy pobieraniu ogłoszeń:", error);
                 setLoading(false);
             }
         };
@@ -57,15 +76,16 @@ const ManageNews = () => {
                 : {};
 
             await axios.delete(`http://localhost:8080/news/admin/delete/${id}`, config);
-            setNews(news.filter(news => news.id !== id));
+            setNews(news.filter(newsItem => newsItem.id !== id));
         } catch (error) {
-            console.error("Błąd przy usuwaniu zwierzęcia:", error);
+            console.error("Błąd przy usuwaniu ogłoszenia:", error);
         }
     };
 
-    const editNews = (news) => {
-        setEditingNews(news);
-        setUpdatedNews(news);
+    const editNews = (newsItem) => {
+        setEditingNews(newsItem);
+        setUpdatedNews(newsItem);
+        setOpenEditDialog(true);
     };
 
     const handleEditSubmit = async (id) => {
@@ -76,11 +96,10 @@ const ManageNews = () => {
                 : { headers: { 'Content-Type': 'application/json' } };
 
             const response = await axios.put(`http://localhost:8080/news/admin/edit/${id}`, updatedNews, config);
-
-            setNews(news.map(c => (c.id === id ? response.data : c)));
-            setEditingNews(null);
+            setNews(news.map(item => (item.id === id ? response.data : item)));
+            setOpenEditDialog(false);
         } catch (error) {
-            console.error("Błąd przy edytowaniu kampanii:", error);
+            console.error("Błąd przy edytowaniu ogłoszenia:", error);
         }
     };
 
@@ -98,50 +117,97 @@ const ManageNews = () => {
                 </SectionText>
             </ContentSection>
 
-            <CollectionGridSection>
-                {news.map((news) => {
-                    const shelter = news.shelter || {};
-                    return(
-                        <CollectionCard key={news.id}>
-                            <CollectionImage src={logo || "https://via.placeholder.com/400"} alt={news.title}/>
-                            <CollectionInfo>
-                                <CollectionTitle>{news.title}</CollectionTitle>
-                                <CollectionDescription>
-                                    {news.description}
-                                </CollectionDescription>
-                                <CollectionDescription>Schronisko: {shelter.name}</CollectionDescription>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Logo</TableCell>
+                            <TableCell>Tytuł</TableCell>
+                            <TableCell>Opis</TableCell>
+                            <TableCell>Schronisko</TableCell>
+                            <TableCell>Akcje</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {news.map((newsItem) => {
+                            const shelter = newsItem.shelter || {};
+                            return (
+                                <TableRow key={newsItem.id}>
+                                    <TableCell>
+                                        <img
+                                            src={logo || "https://via.placeholder.com/80"}
+                                            alt={newsItem.title}
+                                            style={{ width: "80px", height: "80px", objectFit: "cover" }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>{newsItem.title}</TableCell>
+                                    <TableCell>{newsItem.description}</TableCell>
+                                    <TableCell>{shelter.name}</TableCell>
+                                    <TableCell>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => editNews(newsItem)}
+                                            style={{ marginRight: "8px" }}
+                                        >
+                                            Edytuj
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            onClick={() => deleteNews(newsItem.id)}
+                                        >
+                                            Usuń
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
-                                {editingNews && editingNews.id === news.id ? (
-                                    <form onSubmit={(e) => {
-                                        e.preventDefault();
-                                        handleEditSubmit(news.id);
-                                    }}>
-                                        <input
-                                            type="text"
-                                            value={updatedNews.title || ""}
-                                            onChange={(e) => setUpdatedNews({...updatedNews, title: e.target.value})}
-                                            placeholder="Tytuł"
-                                        />
-                                        <input
-                                            type="text"
-                                            value={updatedNews.description || ""}
-                                            onChange={(e) => setUpdatedNews({...updatedNews, description: e.target.value
-                                            })}
-                                            placeholder="Opis ogłoszenia"
-                                        />
-                                        <button type="submit">Zapisz zmiany</button>
-                                    </form>
-                                ) : (
-                                    <>
-                                        <button onClick={() => editNews(news)}>Edytuj</button>
-                                        <button onClick={() => deleteNews(news.id)}>Usuń</button>
-                                    </>
-                                )}
-                            </CollectionInfo>
-                        </CollectionCard>
-                    );
-                })}
-            </CollectionGridSection>
+            <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+                <DialogTitle>Edytuj ogłoszenie</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Tytuł"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={updatedNews.title || ""}
+                        onChange={(e) => setUpdatedNews({ ...updatedNews, title: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Opis"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={updatedNews.description || ""}
+                        onChange={(e) => setUpdatedNews({ ...updatedNews, description: e.target.value })}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenEditDialog(false)} color="primary">
+                        Anuluj
+                    </Button>
+                    <Button onClick={() => handleEditSubmit(editingNews.id)} color="primary">
+                        Zapisz
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <AppContainer>
+                <div>
+
+                </div>
+                <Footer>
+                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+                </Footer>
+            </AppContainer>
         </>
     );
 };

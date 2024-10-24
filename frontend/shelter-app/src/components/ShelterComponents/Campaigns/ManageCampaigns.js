@@ -2,23 +2,40 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavbarTopShelter from "../NavbarTopShelter";
 import {
-    CollectionCard, CollectionDescription, CollectionGoal,
-    CollectionGridSection, CollectionImageNC, CollectionInfo, CollectionTitle,
+    AppContainer,
     ContentSection,
+    Footer,
+    FooterText,
     SectionText,
-    SectionTitle
+    SectionTitle,
 } from "../../Navbar/style";
-import logo from "../../Navbar/logo.png"
+import {
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+} from "@mui/material";
+import logo from "../../Navbar/logo.png";
 
 const ManageCampaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [shelterId, setShelterId] = useState(null);
-    const [editingCampaing, setEditingCampaing] = useState(null);
-    const [updatedCampaing, setUpdatedCampaing] = useState({});
+    const [editingCampaign, setEditingCampaign] = useState(null);
+    const [updatedCampaign, setUpdatedCampaign] = useState({});
+    const [openEditDialog, setOpenEditDialog] = useState(false);
 
     useEffect(() => {
-        const id = localStorage.getItem('shelterId');
+        const id = localStorage.getItem("shelterId");
         if (id) {
             setShelterId(id);
         } else {
@@ -31,14 +48,17 @@ const ManageCampaigns = () => {
 
         const fetchCampaigns = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const config = token
-                    ? { headers: { Authorization: `Bearer ${token}` } }
-                    : {};
-
+                const token = localStorage.getItem("token");
+                const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
                 const response = await axios.get(`http://localhost:8080/campaigns/shelter/${shelterId}`, config);
-                setCampaigns(response.data);
+
+                if (Array.isArray(response.data)) {
+                    setCampaigns(response.data);
+                } else {
+                    setCampaigns([]);
+                }
                 setLoading(false);
+
             } catch (error) {
                 console.error("Błąd przy pobieraniu kampanii:", error);
                 setLoading(false);
@@ -50,34 +70,34 @@ const ManageCampaigns = () => {
 
     const deleteCampaign = async (id) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
             const config = token
                 ? { headers: { Authorization: `Bearer ${token}` } }
                 : {};
 
             await axios.delete(`http://localhost:8080/campaigns/admin/delete/${id}`, config);
-            setCampaigns(campaigns.filter(campaigns => campaigns.id !== id));
+            setCampaigns(campaigns.filter(campaign => campaign.id !== id));
         } catch (error) {
-            console.error("Błąd przy usuwaniu zwierzęcia:", error);
+            console.error("Błąd przy usuwaniu kampanii:", error);
         }
     };
 
-    const editCampaing = (campaigns) => {
-        setEditingCampaing(campaigns);
-        setUpdatedCampaing(campaigns);
+    const editCampaign = (campaign) => {
+        setEditingCampaign(campaign);
+        setUpdatedCampaign(campaign);
+        setOpenEditDialog(true); // Open the edit dialog
     };
 
     const handleEditSubmit = async (id) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
             const config = token
                 ? { headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' } }
                 : { headers: { 'Content-Type': 'application/json' } };
 
-            const response = await axios.put(`http://localhost:8080/campaigns/admin/edit/${id}`, updatedCampaing, config);
-
+            const response = await axios.put(`http://localhost:8080/campaigns/admin/edit/${id}`, updatedCampaign, config);
             setCampaigns(campaigns.map(c => (c.id === id ? response.data : c)));
-            setEditingCampaing(null);
+            setOpenEditDialog(false); // Close the dialog
         } catch (error) {
             console.error("Błąd przy edytowaniu kampanii:", error);
         }
@@ -97,55 +117,95 @@ const ManageCampaigns = () => {
                 </SectionText>
             </ContentSection>
 
-            <CollectionGridSection>
-                {campaigns.map((campaign) => {
-                    const shelter = campaign.shelter || {};
-                    return(
-                    <CollectionCard key={campaign.id}>
-                        <CollectionImageNC src={logo || "https://via.placeholder.com/400"} alt={campaign.title}/>
-                        <CollectionInfo>
-                            <CollectionTitle>{campaign.title}</CollectionTitle>
-                            <CollectionGoal>Cel: {campaign.goal}</CollectionGoal>
-                            <CollectionGoal>Data zakończenia: {campaign.end_date}</CollectionGoal>
-                            <CollectionDescription>
-                                {campaign.description}
-                            </CollectionDescription>
-                            <CollectionDescription>Schronisko: {shelter.name}</CollectionDescription>
-
-
-                            {editingCampaing && editingCampaing.id === campaign.id ? (
-                                <form onSubmit={(e) => {
-                                    e.preventDefault();
-                                    handleEditSubmit(campaign.id);
-                                }}>
-                                    <input
-                                        type="number"
-                                        value={updatedCampaing.goal || ""}
-                                        onChange={(e) => setUpdatedCampaing({...updatedCampaing, goal: e.target.value})}
-                                        placeholder="Cel"
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Logo</TableCell>
+                            <TableCell>Tytuł</TableCell>
+                            <TableCell>Cel</TableCell>
+                            <TableCell>Data zakończenia</TableCell>
+                            <TableCell>Opis</TableCell>
+                            <TableCell>Akcje</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {campaigns.map((campaign) => (
+                            <TableRow key={campaign.id}>
+                                <TableCell>
+                                    <img
+                                        src={logo || "https://via.placeholder.com/80"}
+                                        alt={campaign.title}
+                                        style={{ width: "80px", height: "80px", objectFit: "cover" }}
                                     />
-                                    <input
-                                        type="text"
-                                        value={updatedCampaing.description || ""}
-                                        onChange={(e) => setUpdatedCampaing({
-                                            ...updatedCampaing,
-                                            description: e.target.value
-                                        })}
-                                        placeholder="Opis adopcji"
-                                    />
-                                    <button type="submit">Zapisz zmiany</button>
-                                </form>
-                            ) : (
-                                <>
-                                    <button onClick={() => editCampaing(campaign)}>Edytuj</button>
-                                    <button onClick={() => deleteCampaign(campaign.id)}>Usuń</button>
-                                </>
-                            )}
-                        </CollectionInfo>
-                    </CollectionCard>
-                    );
-                })}
-            </CollectionGridSection>
+                                </TableCell>
+                                <TableCell>{campaign.title}</TableCell>
+                                <TableCell>{campaign.goal}</TableCell>
+                                <TableCell>{campaign.end_date}</TableCell>
+                                <TableCell>{campaign.description}</TableCell>
+                                <TableCell>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => editCampaign(campaign)}
+                                        style={{ marginRight: "8px" }}
+                                    >
+                                        Edytuj
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        color="secondary"
+                                        onClick={() => deleteCampaign(campaign.id)}
+                                    >
+                                        Usuń
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
+                <DialogTitle>Edytuj kampanię</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Cel"
+                        type="number"
+                        fullWidth
+                        variant="outlined"
+                        value={updatedCampaign.goal || ""}
+                        onChange={(e) => setUpdatedCampaign({ ...updatedCampaign, goal: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Opis"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={updatedCampaign.description || ""}
+                        onChange={(e) => setUpdatedCampaign({ ...updatedCampaign, description: e.target.value })}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenEditDialog(false)} color="primary">
+                        Anuluj
+                    </Button>
+                    <Button onClick={() => handleEditSubmit(editingCampaign.id)} color="primary">
+                        Zapisz
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <AppContainer>
+                <div>
+
+                </div>
+                <Footer>
+                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+                </Footer>
+            </AppContainer>
         </>
     );
 };

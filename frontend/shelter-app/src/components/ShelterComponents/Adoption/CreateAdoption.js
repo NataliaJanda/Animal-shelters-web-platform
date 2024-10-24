@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
 import axios from 'axios';
+import {Footer, FooterText} from "../../Navbar/style";
 
 function CreateAdoption() {
     const navigate = useNavigate();
@@ -146,6 +147,9 @@ function CreateAdoption() {
                     </form>
                 </Container>
             </Box>
+            <Footer>
+                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+            </Footer>
         </>
     );
 }
