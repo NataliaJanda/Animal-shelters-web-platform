@@ -15,6 +15,11 @@ public class Animal {
     private Long id;
     private String name;
     private String atitude;
+    private String description;
+    private String sex;
+    private String size;
+    private String race;
+    private boolean vaccination;
     private int age;
 
     @ManyToOne

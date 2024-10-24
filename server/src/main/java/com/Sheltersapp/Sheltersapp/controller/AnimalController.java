@@ -66,6 +66,12 @@ public class AnimalController {
 
         animal.setName((String) animalData.get("name"));
         animal.setAtitude((String) animalData.get("atitude"));
+        animal.setRace((String) animalData.get("race"));
+        animal.setSex((String) animalData.get("sex"));
+        animal.setSize((String) animalData.get("size"));
+        animal.setDescription((String) animalData.get("description"));
+        animal.setVaccination((Boolean) animalData.get("vaccination"));
+
 
         Integer age = null;
         try {
@@ -181,6 +187,11 @@ public class AnimalController {
         existingAnimal.setName(updatedAnimal.getName());
         existingAnimal.setAtitude(updatedAnimal.getAtitude());
         existingAnimal.setAge(updatedAnimal.getAge());
+        existingAnimal.setDescription(updatedAnimal.getDescription());
+        existingAnimal.setRace(updatedAnimal.getRace());
+        existingAnimal.setSex(updatedAnimal.getSex());
+        existingAnimal.setSize(updatedAnimal.getSize());
+        existingAnimal.setVaccination(updatedAnimal.isVaccination());
 
         Animal savedAnimal = animalService.addAnimal(existingAnimal);
 

@@ -85,7 +85,7 @@ CREATE TABLE Shelter_accounts (
 -- Table: Species
 CREATE TABLE Species (
                          id SERIAL PRIMARY KEY,
-                         name varchar(20)  NOT NULL,
+                         name varchar(20),
                          amount int
 );
 
@@ -103,13 +103,9 @@ CREATE TABLE Users (
                        expired timestamp(6)
 );
 
-INSERT INTO Species (name) VALUES ('Dog');
-INSERT INTO Species (name) VALUES ('Cat');
-INSERT INTO Species (name) VALUES ('Rabbit');
-
-INSERT INTO Species (amount) VALUES (0);
-INSERT INTO Species (amount) VALUES (0);
-INSERT INTO Species (amount) VALUES (0);
+INSERT INTO Species (name,amount) VALUES ('Dog',0);
+INSERT INTO Species (name,amount) VALUES ('Cat',0);
+INSERT INTO Species (name,amount) VALUES ('Rabbit',0);
 
 -- foreign keys
 -- Reference: Adoption_Animal (table: Adoption)
