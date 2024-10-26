@@ -43,7 +43,8 @@ public class AuthenticationController {
         Users authenticatedUsers = authenticationService.authenticate(loginUserDto);
         String jwtToken = jwtService.generateToken(authenticatedUsers);
         Role role = authenticatedUsers.getRole();
-        LoginResponse loginResponse = new LoginResponse(jwtToken, role, jwtService.getExpirationTime());
+        Long userId = authenticatedUsers.getId();
+        LoginResponse loginResponse = new LoginResponse(jwtToken, role, jwtService.getExpirationTime(),userId);
         return ResponseEntity.ok(loginResponse);
     }
     @PostMapping("/login-shelter")
