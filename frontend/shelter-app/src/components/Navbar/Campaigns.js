@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import NavbarTopUnlogin from "./NavbarTopUnllogin";
+import NavbarTopLoginSession from "./NavbarTopUnllogin";
 import {
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
@@ -44,7 +44,7 @@ const Campaigns = () => {
 
     return (
         <>
-            <NavbarTopUnlogin />
+            <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
                     <HeroText>

@@ -2,12 +2,12 @@ import React from "react";
 import background from "./image.png";
 
 import styled from "styled-components";
-import NavbarTopUnlogin from "./NavbarTopUnllogin";
+import NavbarTopLoginSession from "./NavbarTopUnllogin";
 
 const About = () => {
     return (
         <>
-            <NavbarTopUnlogin />
+            <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
                     <HeroText>

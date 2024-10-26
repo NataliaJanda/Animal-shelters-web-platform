@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import NavbarTopUnlogin from "../Navbar/NavbarTopUnllogin";
+import NavbarTopLoginSession from "../Navbar/NavbarTopUnllogin";
 import {
     CollectionCard, CollectionDescription,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
@@ -41,7 +41,7 @@ const Events = () => {
 
     return (
         <>
-            <NavbarTopUnlogin />
+            <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
                     <HeroText>

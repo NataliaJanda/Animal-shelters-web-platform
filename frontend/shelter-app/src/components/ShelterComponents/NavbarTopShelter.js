@@ -144,8 +144,6 @@ const NavbarTopShelter = () => {
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'adoption'}>
                             <DropdownItem to="/CreateAdoption">Dodaj</DropdownItem>
-                            <DropdownItem to="/">Koty</DropdownItem>
-                            <DropdownItem to="/">Psy</DropdownItem>
                             <DropdownItem to="/ManageAdoption">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
@@ -172,7 +170,14 @@ const NavbarTopShelter = () => {
                     </NavItem>
 
                     {isLoggedIn ? (
-                        <CollectionButton to="/MyAccount">Moje konto</CollectionButton>
+                        <NavItem>
+                            <CollectionButton onClick={() => handleMenuClick('MyAccount')}>
+                                Moje konto
+                            </CollectionButton>
+                            <DropdownMenu isOpen={openMenu === 'MyAccount'}>
+                                <DropdownItem to="/MyAccountShelter">Moje konto</DropdownItem>
+                            </DropdownMenu>
+                        </NavItem>
                     ) : (
                         <></>
                     )}

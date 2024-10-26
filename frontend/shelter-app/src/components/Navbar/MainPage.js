@@ -3,7 +3,7 @@ import SideBar from "../SideBar/SideBar";
 import Background2 from "../Background/Background2";
 import LowBackground from "../LowBackground/LowBackground";
 import Background from "../Background/Background";
-import NavbarTopUnlogin from "./NavbarTopUnllogin";
+import NavbarTopLoginSession from "./NavbarTopUnllogin";
 import {
     CollectionCard, CollectionDescription,
     CollectionGoal,
@@ -82,7 +82,7 @@ const MainPage = () => {
 
   return (
       <>
-        <NavbarTopUnlogin />
+        <NavbarTopLoginSession />
         <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         <Background />
         <LowBackground />
@@ -109,14 +109,12 @@ const MainPage = () => {
                   );
               })}
 
-        {/*{adoptions.length > maxVisible && (*/}
             <CollectionCard key="show-more" onClick={() => window.location.href = "/animals"}>
                 <CollectionInfo>
                     <CollectionTitle>Pokaż więcej</CollectionTitle>
                     <CollectionDescription>Odkryj więcej zwierząt</CollectionDescription>
                 </CollectionInfo>
             </CollectionCard>
-        {/*)}*/}
       </CollectionGridSection>
 </>
   );

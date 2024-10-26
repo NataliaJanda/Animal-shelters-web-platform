@@ -21,9 +21,10 @@ import CreateAdoption from "./components/ShelterComponents/Adoption/CreateAdopti
 import ManageAdoptions from "./components/ShelterComponents/Adoption/ManageAdoption";
 import ManageNews from "./components/ShelterComponents/News/ManageNews";
 import AddNews from "./components/ShelterComponents/News/AddNews";
-import MyAccount from "./components/ShelterComponents/MyAccount";
+import MyAccount from "./components/Navbar/MyAccount";
 import AdoptCat from "./components/Adopt/AdoptCat";
 import AdoptRabbit from "./components/Adopt/AdoptRabbit";
+import MyAccountShelter from "./components/ShelterComponents/MyAccountShelter";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
         <Route path="/ManageNews" element={<ManageNews/>}/>
         <Route path="/AddNews" element={<AddNews/>}/>
         <Route path="/MyAccount" element={<MyAccount/>}/>
+        <Route path="/MyAccountShelter" element={<MyAccountShelter/>}/>
       </Routes>
     </Router>
   );

@@ -160,5 +160,5 @@ export const FooterText = styled.p`
 export const AppContainer = styled.div`
     display: grid;
     grid-template-rows: 1fr auto;
-    min-height: 100vh;
+    min-height: 35vh;
 `;

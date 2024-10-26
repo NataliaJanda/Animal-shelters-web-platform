@@ -17,7 +17,7 @@ export const Nav = styled.nav`
     margin: -8px;
 `;
 
-const NavbarTopUnlogin = () => {
+const NavbarTopLoginSession = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -57,13 +57,13 @@ const NavbarTopUnlogin = () => {
                     )}
                     <NavLink to="/about" activeStyle>O nas</NavLink>
                     <NavLink to="/collection">Zbiórki</NavLink>
+                    <NavLink to="/events" activeStyle>Tablica ogłoszeń</NavLink>
+                    <NavLink to="/animals" activeStyle>Zwierzęta</NavLink>
                     {isLoggedIn ? (
-                        <NavLink to="/my-account">Moje konto</NavLink>
+                        <NavLink to="/MyAccount">Moje konto</NavLink>
                     ) : (
                         <></>
                     )}
-                    <NavLink to="/events" activeStyle>Tablica ogłoszeń</NavLink>
-                    <NavLink to="/animals" activeStyle>Zwierzęta</NavLink>
                 </NavMenu>
                 <NavBtn>
                     {isLoggedIn ? (
@@ -81,4 +81,4 @@ const NavbarTopUnlogin = () => {
     );
 };
 
-export default NavbarTopUnlogin;
+export default NavbarTopLoginSession;

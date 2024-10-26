@@ -1,10 +1,10 @@
 import React from "react";
-import NavbarTopUnlogin from "./NavbarTopUnllogin";
+import NavbarTopLoginSession from "./NavbarTopUnllogin";
 
 const Table = () => {
   return (
       <>
-          <NavbarTopUnlogin />
+          <NavbarTopLoginSession />
           <div
               style={{
                   display: "flex",

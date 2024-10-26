@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import NavbarTopUnlogin from "../Navbar/NavbarTopUnllogin";
+import NavbarTopLoginSession from "../Navbar/NavbarTopUnllogin";
 import {
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
@@ -72,7 +72,7 @@ const AdoptDog= () => {
 
     return (
         <>
-            <NavbarTopUnlogin />
+            <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
                     <HeroText>
