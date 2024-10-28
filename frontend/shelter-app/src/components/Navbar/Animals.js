@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
@@ -13,6 +14,7 @@ const Adoptions = () => {
     const [adoptions, setAdoptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [animalPhotos, setAnimalPhotos] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAdoptions = async () => {
@@ -23,13 +25,15 @@ const Adoptions = () => {
 
                 console.log("Dane adopcji:", response.data);
 
+                setAdoptions(response.data);
+
+                // Wczytywanie zdjęć po ustawieniu adopcji
                 response.data.forEach(adoption => {
                     if (adoption.animal && adoption.animal.id) {
                         fetchAnimalPhoto(adoption.animal.id);
                     }
                 });
 
-                setAdoptions(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error("Błąd przy pobieraniu adopcji:", error);
@@ -42,7 +46,6 @@ const Adoptions = () => {
 
     const fetchAnimalPhoto = async (animalId) => {
         try {
-
             const config = {
                 headers: {
                     "Content-Type": "application/json"
@@ -93,7 +96,11 @@ const Adoptions = () => {
                     const shelter = adoption.shelter || {};
 
                     return (
-                        <CollectionCard key={adoption.id}>
+                        <CollectionCard
+                            key={adoption.id}
+                            onClick={() => navigate(`/animal/${animal.id}`)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <CollectionImage
                                 src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
                                 alt={animal.name || "Brak nazwy"}

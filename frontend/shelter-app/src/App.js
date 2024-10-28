@@ -25,6 +25,7 @@ import MyAccount from "./components/Navbar/MyAccount";
 import AdoptCat from "./components/Adopt/AdoptCat";
 import AdoptRabbit from "./components/Adopt/AdoptRabbit";
 import MyAccountShelter from "./components/ShelterComponents/MyAccountShelter";
+import AnimalDetail from "./components/Navbar/AnimalDetail";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         <Route path="/AddNews" element={<AddNews/>}/>
         <Route path="/MyAccount" element={<MyAccount/>}/>
         <Route path="/MyAccountShelter" element={<MyAccountShelter/>}/>
+        <Route path="/animal/:id" element={<AnimalDetail/>} />
       </Routes>
     </Router>
   );
