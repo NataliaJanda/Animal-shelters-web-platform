@@ -17,8 +17,9 @@ function AddAnimal() {
     const [sex, setSex] = useState("");
     const [species, setSpecies] = useState("");
     const [speciesList, setSpeciesList] = useState([]);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [fileName, setFileName] = useState("");
+    const [selectedFiles, setSelectedFiles] = useState([]); // Zmiana na tablicę plików
+    const [fileNames, setFileNames] = useState([]); // Nazwy plików dla wielu zdjęć
+    const [UserRole, setUserRole] = useState(true);
 
     const clearForm = () => {
         setName("");
@@ -30,11 +31,18 @@ function AddAnimal() {
         setRace("");
         setVaccination("");
         setSex("");
-        setSelectedFile(null);
-        setFileName("");
+        setSelectedFiles([]);
+        setFileNames([]);
     };
 
     useEffect(() => {
+        const role = localStorage.getItem("role");
+        if (role === "SHELTER") {
+            setUserRole(true);
+        } else {
+            setUserRole(false);
+        }
+
         const fetchSpecies = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -53,26 +61,20 @@ function AddAnimal() {
     }, []);
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
+        const files = Array.from(e.target.files); // Konwersja na tablicę plików
 
         const validFileTypes = ['image/jpeg', 'image/png'];
-        if (file && !validFileTypes.includes(file.type)) {
-            alert('Proszę wybrać plik JPG lub PNG.');
-            setSelectedFile(null);
-            setFileName("");
-            return;
-        }
+        const validFiles = files.filter(file => validFileTypes.includes(file.type));
 
         const maxSizeInMB = 20;
-        if (file && file.size > maxSizeInMB * 1024 * 1024) {
-            alert('Plik jest za duży. Maksymalny rozmiar to 20MB.');
-            setSelectedFile(null);
-            setFileName("");
-            return;
+        const filteredFiles = validFiles.filter(file => file.size <= maxSizeInMB * 1024 * 1024);
+
+        if (filteredFiles.length !== files.length) {
+            alert('Niektóre pliki były nieprawidłowe i zostały pominięte.');
         }
 
-        setSelectedFile(file);
-        setFileName(file.name);
+        setSelectedFiles(filteredFiles);
+        setFileNames(filteredFiles.map(file => file.name));
     };
 
     const handleSubmit = async (e) => {
@@ -110,9 +112,10 @@ function AddAnimal() {
             if (response.ok) {
                 const animal = await response.json();
 
-                if (selectedFile) {
+                // Przesyłamy każdy plik z osobna
+                for (let file of selectedFiles) {
                     const formData = new FormData();
-                    formData.append('file', selectedFile);
+                    formData.append('file', file);
 
                     await axios.post(`http://localhost:8080/animal/${animal.id}/photo`, formData, {
                         headers: {
@@ -133,6 +136,10 @@ function AddAnimal() {
             alert("An error occurred during making campaign. Please try again.");
         }
     };
+
+    if (UserRole === false) {
+        window.location.href = ("/signin");
+    }
 
     return (
         <>
@@ -223,7 +230,7 @@ function AddAnimal() {
                                     label="Szczepienia"
                                     margin="normal"
                                     value={vaccination}
-                                    onChange={(e) => setVaccination(e.target.value === "true")}  // Ustawiamy boolean na podstawie wyboru
+                                    onChange={(e) => setVaccination(e.target.value === "true")}
                                 >
                                     <MenuItem value="true">Tak</MenuItem>
                                     <MenuItem value="false">Nie</MenuItem>
@@ -259,12 +266,12 @@ function AddAnimal() {
                                     variant="outlined"
                                     component="label"
                                 >
-                                    Wybierz zdjęcie
-                                    <input type="file" hidden onChange={handleFileChange} />
+                                    Wybierz zdjęcia
+                                    <input type="file" hidden multiple onChange={handleFileChange} />
                                 </Button>
-                                {fileName && (
+                                {fileNames.length > 0 && (
                                     <Typography variant="body2" sx={{ ml: 2 }}>
-                                        {fileName}
+                                        {fileNames.join(", ")}
                                     </Typography>
                                 )}
                             </Box>

@@ -36,6 +36,7 @@ const NavbarTopLoginSession = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('shelterId');
+        localStorage.removeItem('userId')
         setIsLoggedIn(false);
     };
 

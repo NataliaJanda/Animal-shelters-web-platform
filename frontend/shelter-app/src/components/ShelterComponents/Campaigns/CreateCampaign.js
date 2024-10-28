@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
@@ -12,6 +12,7 @@ function CreateCampaign() {
     const [start_date, setStartDate] = useState("");
     const [end_date, setEndDate] = useState("");
     const [goal, setGoal] = useState("");
+    const [UserRole, setUserRole] = useState(true);
 
     const clearForm = () => {
         setTitle("");
@@ -20,6 +21,17 @@ function CreateCampaign() {
         setEndDate("");
         setGoal("");
     };
+
+    useEffect(() => {
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
+    }, []);
+
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();

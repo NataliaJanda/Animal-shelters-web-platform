@@ -40,6 +40,7 @@ function Login() {
                     localStorage.setItem('shelterId', data.shelterId);
                     window.location.href = "/MainPageSessionShelter";
                 } else {
+                    localStorage.setItem('userId', data.userId);
                     window.location.href = "/MainPageSessionUser";
                 }
             } else {

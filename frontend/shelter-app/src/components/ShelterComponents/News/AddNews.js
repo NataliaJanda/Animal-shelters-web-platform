@@ -11,10 +11,22 @@ function AddNews() {
     const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [UserRole, setUserRole] = useState(true);
     // const [age, setAge] = useState("");
     // const [species, setSpecies] = useState("");
     // const [speciesList, setSpeciesList] = useState([]);
     // const [selectedFile, setSelectedFile] = useState(null);
+
+    useEffect(() => {
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
+    }, []);
+
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
 
     const clearForm = () => {
         setTitle("");

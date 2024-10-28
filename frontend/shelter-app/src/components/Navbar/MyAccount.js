@@ -22,6 +22,7 @@ const MyAccount = () => {
     const [userId, setUserId] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});
+    const [UserRole, setUserRole] = useState(true);
 
     useEffect(() => {
         const id = localStorage.getItem("userId");
@@ -30,6 +31,10 @@ const MyAccount = () => {
         } else {
             console.error("Nie znaleziono ID schroniska w localStorage");
         }
+        const role = localStorage.getItem("role")
+        if (role === "USER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
     }, []);
 
     useEffect(() => {
@@ -101,6 +106,10 @@ const MyAccount = () => {
             console.error("Błąd przy usuwaniu konta:", error);
         }
     };
+
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
 
     if (loading) {
         return (

@@ -34,6 +34,7 @@ const ManageAdoptions = () => {
     const [updatedAdoption, setUpdatedAdoption] = useState({});
     const [adoptions, setAdoptions] = useState([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [UserRole, setUserRole] = useState(true);
 
     useEffect(() => {
         const id = localStorage.getItem("shelterId");
@@ -42,6 +43,12 @@ const ManageAdoptions = () => {
         } else {
             console.error("Nie znaleziono ID schroniska w localStorage");
         }
+
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
+
     }, []);
 
     useEffect(() => {
@@ -127,6 +134,10 @@ const ManageAdoptions = () => {
             console.error("Błąd przy edytowaniu adopcji:", error);
         }
     };
+
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
 
     if (loading) {
         return <p>Ładowanie...</p>;

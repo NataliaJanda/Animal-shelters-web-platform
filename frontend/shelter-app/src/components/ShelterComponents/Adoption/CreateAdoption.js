@@ -11,6 +11,7 @@ function CreateAdoption() {
     const [animal_id, setAnimal] = useState("");
     const [animalsList, setAnimalsList] = useState([]);
     const [shelterId, setShelterId] = useState(null);
+    const [UserRole, setUserRole] = useState(true);
 
     const clearForm = () => {
         setDescription("");
@@ -24,6 +25,11 @@ function CreateAdoption() {
         } else {
             console.error("Nie znaleziono ID schroniska w localStorage");
         }
+
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
     }, []);
 
     useEffect(() => {
@@ -83,6 +89,10 @@ function CreateAdoption() {
             alert("An error occurred during making campaign. Please try again.");
         }
     };
+
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
 
     return (
         <>

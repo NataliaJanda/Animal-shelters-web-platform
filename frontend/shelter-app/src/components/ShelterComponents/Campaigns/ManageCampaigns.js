@@ -33,6 +33,7 @@ const ManageCampaigns = () => {
     const [editingCampaign, setEditingCampaign] = useState(null);
     const [updatedCampaign, setUpdatedCampaign] = useState({});
     const [openEditDialog, setOpenEditDialog] = useState(false);
+    const [UserRole, setUserRole] = useState(true);
 
     useEffect(() => {
         const id = localStorage.getItem("shelterId");
@@ -41,7 +42,15 @@ const ManageCampaigns = () => {
         } else {
             console.error("Nie znaleziono ID schroniska w localStorage");
         }
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
     }, []);
+
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
 
     useEffect(() => {
         if (shelterId === null) return;

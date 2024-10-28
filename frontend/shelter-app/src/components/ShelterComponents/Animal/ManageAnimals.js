@@ -44,6 +44,8 @@ const ManageAnimals = () => {
     const [filterSexAnimal, setFilterSexAnimal] = useState('');
     const [filterSizeAnimal, setFilterSizeAnimal] = useState('');
     const [filterVaccination, setFilterVaccination] = useState('');
+    const [filterTypeAnimal, setFilterTypeAnimal] = useState('');
+    const [UserRole, setUserRole] = useState(true);
 
     useEffect(() => {
         const id = localStorage.getItem("shelterId");
@@ -52,6 +54,12 @@ const ManageAnimals = () => {
         } else {
             console.error("Nie znaleziono ID schroniska w localStorage");
         }
+
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
+
     }, []);
 
     useEffect(() => {
@@ -175,6 +183,10 @@ const ManageAnimals = () => {
         }
     };
 
+    if(UserRole===false) {
+        window.location.href=("/signin")
+    }
+
     if (loading) {
         return <p>Ładowanie...</p>;
     }
@@ -184,8 +196,9 @@ const ManageAnimals = () => {
         const matchesSex = filterSexAnimal === '' || animal.sex === filterSexAnimal;
         const matchesSize = filterSizeAnimal === '' || animal.size === filterSizeAnimal;
         const matchesVaccination = filterVaccination === '' || (animal.vaccination ? "Tak" : "Nie") === filterVaccination;
+        const matchesType = filterTypeAnimal === '' || animal.species.name === filterTypeAnimal;
 
-        return matchesRace && matchesSex && matchesSize && matchesVaccination;
+        return matchesRace && matchesSex && matchesSize && matchesVaccination && matchesType;
     });
 
     return (
@@ -194,6 +207,20 @@ const ManageAnimals = () => {
             <ContentSection>
                 <SectionTitle>Zwierzęta</SectionTitle>
                 <SectionText>Lista zwierząt do zarządzania w schronisku.</SectionText>
+                <FormControl style={{ marginTop: '30px', minWidth: 200 }}>
+                    <InputLabel id="type-select-label">Wybierz typ</InputLabel>
+                    <Select
+                        labelId="type-select-label"
+                        label={"Wybierz typ"}
+                        value={filterTypeAnimal}
+                        onChange={(e) => setFilterTypeAnimal(e.target.value)}
+                    >
+                        <MenuItem value="">Wszystkie typy</MenuItem>
+                        {Array.from(new Set(animals.map(animal => animal.species.name))).map((name) => (
+                            <MenuItem key={name} value={name}>{name}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <FormControl style={{ marginTop: '30px', minWidth: 200 }}>
                     <InputLabel id="race-select-label">Wybierz rasę</InputLabel>
                     <Select
@@ -266,6 +293,7 @@ const ManageAnimals = () => {
                                 <TableCell>Rozmiar</TableCell>
                                 <TableCell>Rasa</TableCell>
                                 <TableCell>Ważność szczepień</TableCell>
+                                <TableCell>Typ</TableCell>
                                 <TableCell>Akcje</TableCell>
                             </TableRow>
                         </TableHead>
@@ -288,6 +316,7 @@ const ManageAnimals = () => {
                                     <TableCell>{animal.size}</TableCell>
                                     <TableCell>{animal.race}</TableCell>
                                     <TableCell>{animal.vaccination ? "Tak" : "Nie"}</TableCell>
+                                    <TableCell>{animal.species.name}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="contained"
