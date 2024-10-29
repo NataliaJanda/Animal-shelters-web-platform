@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/animal")
@@ -221,6 +222,31 @@ public class AnimalController {
         }
     }
 
+    @GetMapping("/photo/list/{animalId}")
+    @Transactional
+    public ResponseEntity<List<byte[]>> getAnimalPhotos(@PathVariable Long animalId) {
+        Optional<Animal> animalOptional = animalRepository.findById(animalId);
+
+        if (animalOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        Animal animal = animalOptional.get();
+        List<Photo> photos = photoRepository.findByAnimal(animal);
+
+        if (photos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        List<byte[]> photoDataList = photos.stream()
+                .map(Photo::getData)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(photoDataList);
+    }
+
     @GetMapping("/photo/{animalId}")
     @Transactional
     public ResponseEntity<byte[]> getAnimalPhoto(@PathVariable Long animalId) {
@@ -231,13 +257,13 @@ public class AnimalController {
         }
 
         Animal animal = animalOptional.get();
-        Optional<Photo> photoOptional = photoRepository.findByAnimal(animal);
+        List<Photo> photoOptional = photoRepository.findByAnimal(animal);
 
         if (photoOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        Photo photo = photoOptional.get();
+        Photo photo = photoOptional.get(0);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
