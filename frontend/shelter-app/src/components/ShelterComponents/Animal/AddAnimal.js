@@ -146,13 +146,8 @@ function AddAnimal() {
             <NavbarTopShelter />
             <Box
                 sx={{
-                    height: '100vh',
-                    width: '95vw',
-                    backgroundPosition: 'left',
-                    backgroundSize: 'contain',
-                    backgroundRepeat: 'no-repeat',
-                    display: 'inline-flex',
-                    justifyContent: 'center',
+                    display: 'center',
+                    mb:10
                 }}
             >
                 <Container maxWidth="sm">
@@ -281,7 +276,7 @@ function AddAnimal() {
                                 variant="contained"
                                 color="primary"
                                 type="submit"
-                                sx={{ mt: 3 }}
+                                sx={{ mt: 3}}
                             >
                                 Dodaj
                             </Button>

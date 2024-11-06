@@ -5,12 +5,13 @@ import LowBackground from "../LowBackground/LowBackground";
 import NavbarTopLoginSession from "../Navbar/NavbarTopUnllogin";
 import Background from "../Background/Background";
 import {
+    AppContainer,
     CollectionCard, CollectionDescription,
     CollectionGoal,
     CollectionGridSection,
     CollectionImage,
     CollectionInfo,
-    CollectionTitle
+    CollectionTitle, Footer, FooterText
 } from "../Navbar/style";
 import axios from "axios";
 const maxVisible = 9;
@@ -92,8 +93,7 @@ const MainPageSessionUser = () => {
 
 
     return (
-        <>
-            <>
+        <AppContainer>
                 <NavbarTopLoginSession />
                 <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
                 <Background />
@@ -121,17 +121,17 @@ const MainPageSessionUser = () => {
                         );
                     })}
 
-                    {/*{adoptions.length > maxVisible && (*/}
                     <CollectionCard key="show-more" onClick={() => window.location.href = "/animals"}>
                         <CollectionInfo>
                             <CollectionTitle>Pokaż więcej</CollectionTitle>
                             <CollectionDescription>Odkryj więcej zwierząt</CollectionDescription>
                         </CollectionInfo>
                     </CollectionCard>
-                    {/*)}*/}
                 </CollectionGridSection>
-            </>
-        </>
+                <Footer>
+                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+                </Footer>
+        </AppContainer>
     );
 };
 

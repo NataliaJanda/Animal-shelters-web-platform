@@ -4,7 +4,6 @@ import About from "./components/Navbar/about.js";
 import Register from "./components/SignUp/Register.js";
 import Events from "./components/Navbar/Events.js";
 import Login from "./components/Login/Login.js";
-import Table from "./components/Navbar/Table.js";
 import Campaigns from "./components/Navbar/Campaigns.js";
 import AdoptDog from "./components/Adopt/AdoptDog.js";
 import ShelterRegister from "./components/ShelterRegister/ShelterRegister";
@@ -36,7 +35,6 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/sign-up" element={<Register />} />
         <Route path="/signin" element={<Login />} />
-        <Route path="/tablica" element={<Table />} />
         <Route path="/collection" element={<Campaigns />} />
         <Route path="/AdoptDog" element={<AdoptDog />} />
         <Route path="/AdoptCat" element={<AdoptCat />} />

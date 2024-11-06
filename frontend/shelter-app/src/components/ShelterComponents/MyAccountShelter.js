@@ -173,10 +173,10 @@ const MyAccountShelter = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopShelter />
 
-            <Container sx={{ mt: 4 }}>
+            <Container sx={{ mt: 4 , mb:16}}>
                 <Typography variant="h4" gutterBottom>
                     Moje Konto
                 </Typography>
@@ -361,13 +361,10 @@ const MyAccountShelter = () => {
                 </DialogActions>
             </Dialog>
 
-            <AppContainer>
-                <div></div>
                 <Footer>
                     <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
                 </Footer>
-            </AppContainer>
-        </>
+        </AppContainer>
     );
 };
 

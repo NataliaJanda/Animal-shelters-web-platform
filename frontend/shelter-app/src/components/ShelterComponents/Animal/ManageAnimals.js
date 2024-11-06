@@ -202,7 +202,7 @@ const ManageAnimals = () => {
     });
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopShelter />
             <ContentSection>
                 <SectionTitle>Zwierzęta</SectionTitle>
@@ -279,7 +279,7 @@ const ManageAnimals = () => {
                     </Select>
                 </FormControl>
             </ContentSection>
-                <TableContainer component={Paper}>
+                <TableContainer sx={{mb:66}} component={Paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -446,15 +446,11 @@ const ManageAnimals = () => {
                         </Button>
                     </DialogActions>
                 </Dialog>
-                <AppContainer>
-                    <div>
 
-                    </div>
                     <Footer>
                         <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
                     </Footer>
-                </AppContainer>
-            </>
+            </AppContainer>
     );
 };
 

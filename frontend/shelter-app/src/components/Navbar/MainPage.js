@@ -5,12 +5,13 @@ import LowBackground from "../LowBackground/LowBackground";
 import Background from "../Background/Background";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
 import {
+    AppContainer,
     CollectionCard, CollectionDescription,
     CollectionGoal,
     CollectionGridSection,
     CollectionImage,
     CollectionInfo,
-    CollectionTitle
+    CollectionTitle, Footer, FooterText
 } from "./style";
 import axios from "axios";
 
@@ -81,7 +82,7 @@ const MainPage = () => {
     }
 
   return (
-      <>
+      <AppContainer>
         <NavbarTopLoginSession />
         <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
         <Background />
@@ -116,7 +117,10 @@ const MainPage = () => {
                 </CollectionInfo>
             </CollectionCard>
       </CollectionGridSection>
-</>
+          <Footer>
+              <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+          </Footer>
+</AppContainer>
   );
 };
 

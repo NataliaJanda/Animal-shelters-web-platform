@@ -117,7 +117,7 @@ const ManageCampaigns = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopShelter />
             <ContentSection>
                 <SectionTitle>Aktywne Zbiórki</SectionTitle>
@@ -126,7 +126,7 @@ const ManageCampaigns = () => {
                 </SectionText>
             </ContentSection>
 
-            <TableContainer component={Paper}>
+            <TableContainer sx={{mb:66}} component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -207,15 +207,10 @@ const ManageCampaigns = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <AppContainer>
-                <div>
-
-                </div>
                 <Footer>
                     <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
                 </Footer>
-            </AppContainer>
-        </>
+        </AppContainer>
     );
 };
 

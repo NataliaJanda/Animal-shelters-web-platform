@@ -10,6 +10,7 @@ import {
     CircularProgress,
 } from "@mui/material";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
+import {AppContainer, Footer, FooterText} from "./style";
 
 const AnimalDetail = () => {
     const { id } = useParams();
@@ -62,7 +63,7 @@ const AnimalDetail = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopLoginSession />
             <Typography
                 variant="h2"
@@ -135,7 +136,7 @@ const AnimalDetail = () => {
                 </Grid>
             </Box>
 
-            <Box sx={{ mt: 4, display: "flex", justifyContent: "center", gap: 2 }}>
+            <Box sx={{ mt: 4,mb:7, display: "flex", justifyContent: "center", gap: 2 }}>
                 <Button
                     variant="contained"
                     color="success"
@@ -153,7 +154,10 @@ const AnimalDetail = () => {
                     Adoptuj wirtualnie
                 </Button>
             </Box>
-        </>
+            <Footer>
+                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+            </Footer>
+        </AppContainer>
     );
 };
 

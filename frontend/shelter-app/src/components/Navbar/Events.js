@@ -2,9 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavbarTopLoginSession from "../Navbar/NavbarTopUnllogin";
 import {
+    AppContainer,
     CollectionCard, CollectionDescription,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
-    ContentSection, HeroOverlay, HeroSection, HeroText,
+    ContentSection, Footer, FooterText, HeroOverlay, HeroSection, HeroText,
     SectionText,
     SectionTitle
 } from "./style";
@@ -40,7 +41,7 @@ const Events = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
@@ -76,7 +77,10 @@ const Events = () => {
                     );
                 })}
             </CollectionGridSection>
-        </>
+            <Footer>
+                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
+            </Footer>
+        </AppContainer>
     );
 };
 

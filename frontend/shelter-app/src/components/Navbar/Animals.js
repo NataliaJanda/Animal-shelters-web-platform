@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
 import {
+    AppContainer,
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
     ContentSection, Footer, FooterText,
@@ -74,7 +75,7 @@ const Adoptions = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
@@ -119,7 +120,7 @@ const Adoptions = () => {
             <Footer>
                 <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
             </Footer>
-        </>
+        </AppContainer>
     );
 };
 

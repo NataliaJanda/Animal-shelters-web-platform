@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
 import {
+    AppContainer,
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
     ContentSection, Footer, FooterText,
@@ -43,7 +44,7 @@ const Campaigns = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopLoginSession />
             <HeroSection>
                 <HeroOverlay>
@@ -85,7 +86,7 @@ const Campaigns = () => {
             <Footer>
                 <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
             </Footer>
-        </>
+        </AppContainer>
     );
 };
 

@@ -69,6 +69,20 @@ const MyAccount = () => {
 
 
     const handleSave = async () => {
+        const requiredFields = [
+            { field: editData.name, fieldName: "Imię" },
+            { field: editData.last_name, fieldName: "Nazwisko" },
+            { field: editData.username, fieldName: "Nazwa użytkownika" },
+            { field: editData.email, fieldName: "Email" },
+        ];
+
+        const emptyFields = requiredFields.filter(field => !field.field);
+
+        if (emptyFields.length > 0) {
+            alert("Proszę wypełnić wszystkie wymagane pola: " + emptyFields.map(f => f.fieldName).join(", "));
+            return;
+        }
+
         if (editData.password && editData.password !== editData.confirmPassword) {
             alert("Hasła nie są takie same.");
             return;
@@ -127,10 +141,10 @@ const MyAccount = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopLoginSession />
 
-            <Container sx={{ mt: 4 }}>
+            <Container sx={{ mt: 4 , mb:51}}>
                 <Typography variant="h4" gutterBottom>
                     Moje Konto
                 </Typography>
@@ -140,11 +154,6 @@ const MyAccount = () => {
 
                 <Paper elevation={3} sx={{ p: 3, mt: 2 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography>
-                                <strong>ID użytkownika:</strong> {userData.id}
-                            </Typography>
-                        </Grid>
                         <Grid item xs={12}>
                             <Typography>
                                 <strong>Nazwa użytkownika:</strong> {userData.username}
@@ -167,28 +176,8 @@ const MyAccount = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography>
-                                <strong>Rola:</strong> {userData.role}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                <strong>Aktywowany:</strong> {userData.activated ? "Tak" : "Nie"}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                <strong>Konto wygasło:</strong> {userData.expired ? "Tak" : "Nie"}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
                                 <strong>Konto zablokowane:</strong>{" "}
                                 {userData.accountNonLocked ? "Nie" : "Tak"}
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Typography>
-                                <strong>Konto włączone:</strong> {userData.enabled ? "Tak" : "Nie"}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -202,7 +191,7 @@ const MyAccount = () => {
                 </Paper>
             </Container>
 
-            <Dialog open={editMode} onClose={() => setEditMode(false)}>
+            <Dialog  open={editMode} onClose={() => setEditMode(false)}>
                 <DialogTitle>Edytuj dane użytkownika</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -261,13 +250,10 @@ const MyAccount = () => {
                 </DialogActions>
             </Dialog>
 
-            <AppContainer>
-                <div></div>
                 <Footer>
                     <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
                 </Footer>
-            </AppContainer>
-        </>
+        </AppContainer>
     );
 };
 

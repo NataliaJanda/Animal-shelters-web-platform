@@ -117,7 +117,7 @@ const ManageNews = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopShelter />
             <ContentSection>
                 <SectionTitle>Aktywne Ogłoszenia</SectionTitle>
@@ -126,7 +126,7 @@ const ManageNews = () => {
                 </SectionText>
             </ContentSection>
 
-            <TableContainer component={Paper}>
+            <TableContainer sx={{mb:66}} component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -209,15 +209,10 @@ const ManageNews = () => {
                 </DialogActions>
             </Dialog>
 
-            <AppContainer>
-                <div>
-
-                </div>
                 <Footer>
                     <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
                 </Footer>
-            </AppContainer>
-        </>
+        </AppContainer>
     );
 };
 

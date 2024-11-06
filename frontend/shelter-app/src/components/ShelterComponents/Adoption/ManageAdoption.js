@@ -144,14 +144,14 @@ const ManageAdoptions = () => {
     }
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopShelter />
             <ContentSection>
                 <SectionTitle>Adopcje</SectionTitle>
                 <SectionText>Przeglądaj dostępne zwierzęta do adopcji z Twojego schroniska.</SectionText>
             </ContentSection>
 
-            <TableContainer component={Paper}>
+            <TableContainer sx={{mb:66}} component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -228,15 +228,10 @@ const ManageAdoptions = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <AppContainer>
-                <div>
-
-                </div>
                 <Footer>
                     <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
                 </Footer>
-            </AppContainer>
-        </>
+        </AppContainer>
     );
 };
 

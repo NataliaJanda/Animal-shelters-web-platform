@@ -24,8 +24,6 @@ export const HeroOverlay = styled.div`
 
 export const HeroText2 = styled.div`
     background-image: url(${background});
-    //background-size: cover;
-    //background-position: center;
     text-align: center;
     color: white;
     height: 7vh;
@@ -145,20 +143,26 @@ export const CollectionDescription = styled.p`
     color: #555;
 `;
 
+export const AppContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+`;
+
 export const Footer = styled.footer`
     background-color: #333;
     color: white;
     text-align: center;
     padding: 2rem 0;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-bottom: -20px;   
 `;
 
 export const FooterText = styled.p`
     margin: 0;
     font-size: 1rem;
-`;
-
-export const AppContainer = styled.div`
-    display: grid;
-    grid-template-rows: 1fr auto;
-    min-height: 35vh;
 `;
