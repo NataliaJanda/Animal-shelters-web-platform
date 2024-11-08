@@ -14,7 +14,7 @@ CREATE TABLE Animal (
                         id SERIAL PRIMARY KEY,
                         name varchar(20)  NOT NULL,
                         atitude varchar(250)  NOT NULL,
-                        description varchar(250)  NOT NULL,
+                        description varchar(1000)  NOT NULL,
                         sex varchar(40) NOT NULL,
                         size varchar(40) NOT NULL,
                         race varchar(40) NOT NULL,
@@ -101,6 +101,30 @@ CREATE TABLE Users (
                        activated boolean NOT NULL,
                        verification_code varchar(200),
                        expired timestamp(6)
+);
+
+CREATE TABLE Orders (
+                       id SERIAL PRIMARY KEY,
+                       Shelter_id int NOT NULL,
+                       date timestamp(6) NOT NULL,
+                       name varchar(100) NOT NULL,
+                       count int NOT NULL,
+                       link varchar(500) NOT NULL,
+                       info varchar(500) NOT NULL,
+                       active boolean NOT NULL,
+                       isPublic boolean NOT NULL,
+                       FOREIGN KEY (shelter_id) REFERENCES Shelter(id)
+);
+
+CREATE TABLE OrderContributions (
+                        id SERIAL PRIMARY KEY,
+                        order_id INT NOT NULL,
+                        shelter_id INT NOT NULL,
+                        quantity INT NOT NULL,
+                        date TIMESTAMP(6) NOT NULL,
+                        message varchar(500),
+                        FOREIGN KEY (order_id) REFERENCES Orders(id),
+                        FOREIGN KEY (shelter_id) REFERENCES Shelter(id)
 );
 
 INSERT INTO Species (name,amount) VALUES ('Dog',0);
