@@ -94,7 +94,7 @@ const ManageCampaigns = () => {
     const editCampaign = (campaign) => {
         setEditingCampaign(campaign);
         setUpdatedCampaign(campaign);
-        setOpenEditDialog(true); // Open the edit dialog
+        setOpenEditDialog(true);
     };
 
     const handleEditSubmit = async (id) => {
@@ -106,7 +106,7 @@ const ManageCampaigns = () => {
 
             const response = await axios.put(`http://localhost:8080/campaigns/admin/edit/${id}`, updatedCampaign, config);
             setCampaigns(campaigns.map(c => (c.id === id ? response.data : c)));
-            setOpenEditDialog(false); // Close the dialog
+            setOpenEditDialog(false);
         } catch (error) {
             console.error("Błąd przy edytowaniu kampanii:", error);
         }

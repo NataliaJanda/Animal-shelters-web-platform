@@ -28,7 +28,6 @@ const Adoptions = () => {
 
                 setAdoptions(response.data);
 
-                // Wczytywanie zdjęć po ustawieniu adopcji
                 response.data.forEach(adoption => {
                     if (adoption.animal && adoption.animal.id) {
                         fetchAnimalPhoto(adoption.animal.id);

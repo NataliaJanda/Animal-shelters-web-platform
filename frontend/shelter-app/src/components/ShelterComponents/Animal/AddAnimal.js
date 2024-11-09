@@ -17,8 +17,8 @@ function AddAnimal() {
     const [sex, setSex] = useState("");
     const [species, setSpecies] = useState("");
     const [speciesList, setSpeciesList] = useState([]);
-    const [selectedFiles, setSelectedFiles] = useState([]); // Zmiana na tablicę plików
-    const [fileNames, setFileNames] = useState([]); // Nazwy plików dla wielu zdjęć
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [fileNames, setFileNames] = useState([]);
     const [UserRole, setUserRole] = useState(true);
 
     const clearForm = () => {
@@ -61,7 +61,7 @@ function AddAnimal() {
     }, []);
 
     const handleFileChange = (e) => {
-        const files = Array.from(e.target.files); // Konwersja na tablicę plików
+        const files = Array.from(e.target.files);
 
         const validFileTypes = ['image/jpeg', 'image/png'];
         const validFiles = files.filter(file => validFileTypes.includes(file.type));
@@ -112,7 +112,6 @@ function AddAnimal() {
             if (response.ok) {
                 const animal = await response.json();
 
-                // Przesyłamy każdy plik z osobna
                 for (let file of selectedFiles) {
                     const formData = new FormData();
                     formData.append('file', file);
