@@ -1,8 +1,8 @@
 package com.Sheltersapp.Sheltersapp.controller;
 
-import com.Sheltersapp.Sheltersapp.model.Orders;
-import com.Sheltersapp.Sheltersapp.model.Shelter;
-import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
+import com.Sheltersapp.Sheltersapp.model.*;
+import com.Sheltersapp.Sheltersapp.repository.OrderContributionsRepository;
+import com.Sheltersapp.Sheltersapp.repository.OrdersRepository;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
 import com.Sheltersapp.Sheltersapp.service.OrdersService;
@@ -25,11 +25,15 @@ public class OrdersController {
     @Autowired
     private OrdersService orderService;
     private final ShelterAccountsRepository shelterAccountsRepository;
+    private final OrderContributionsRepository orderContributionsRepository;
+    private final OrdersRepository ordersRepository;
     private static final Logger logger = LoggerFactory.getLogger(CampaignsController.class);
     private final JwtService jwtService;
 
-    public OrdersController(ShelterAccountsRepository shelterAccountsRepository, JwtService jwtService) {
+    public OrdersController(ShelterAccountsRepository shelterAccountsRepository, OrderContributionsRepository orderContributionsRepository, OrdersRepository ordersRepository, JwtService jwtService) {
         this.shelterAccountsRepository = shelterAccountsRepository;
+        this.orderContributionsRepository = orderContributionsRepository;
+        this.ordersRepository = ordersRepository;
         this.jwtService = jwtService;
     }
     @GetMapping("")
@@ -82,5 +86,47 @@ public class OrdersController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PatchMapping("/{id}/archive")
+    public ResponseEntity<Void> archiveOrders(@PathVariable Long id) {
+        Optional<Orders> ordersOpt = orderService.getOrderById(id);
+
+        if (ordersOpt.isPresent()) {
+            Orders orders = ordersOpt.get();
+            orders.setActive(false);
+            orderService.createOrders(orders);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Transactional
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<Void> deleteOrders(@PathVariable Long id) {
+        Optional<Orders> orders  = ordersRepository.findById(id);
+        Orders orders1 = orders.get();
+        orderContributionsRepository.deleteByOrders(orders1);
+        orderService.deleteOrder(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/admin/edit/{id}")
+    public ResponseEntity<Orders> editOrders(@PathVariable Long id, @RequestBody Orders updateOrder) {
+        Optional<Orders> optionalOrders = orderService.getOrderById(id);
+
+        if (optionalOrders.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Orders existingOrders = optionalOrders.get();
+        existingOrders.setInfo(updateOrder.getInfo());
+        existingOrders.setCount(updateOrder.getCount());
+
+        Orders savedOrders = orderService.createOrders(existingOrders);
+
+        return ResponseEntity.ok(savedOrders);
     }
 }

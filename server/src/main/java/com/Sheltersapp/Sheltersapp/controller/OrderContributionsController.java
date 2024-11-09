@@ -11,6 +11,7 @@ import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
 import com.Sheltersapp.Sheltersapp.service.OrderContributionsService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -40,6 +42,21 @@ public class OrderContributionsController {
         this.orderContributionsRepository = orderContributionsRepository;
     }
 
+    @GetMapping("/orders/{orders_id}")
+    public ResponseEntity<List<Ordercontributions>> getOrdersContributionsByOrderId(@PathVariable Long orders_id) {
+        try {
+            List<Ordercontributions> ordercontributions = orderContributionsService.findByOrdersId(orders_id);
+
+            if (ordercontributions.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+
+            return ResponseEntity.ok(ordercontributions);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @PostMapping("/admin/add")
     public ResponseEntity<?> createOrderContribution(@RequestBody OrderContributionDto orderContributionDto, @RequestHeader("Authorization")String authHeader ) {
 
@@ -58,9 +75,25 @@ public class OrderContributionsController {
         orderContribution.setQuantity(orderContributionDto.getQuantity());
         orderContribution.setMessage(orderContributionDto.getMessage());
         orderContribution.setDate(LocalDateTime.now());
+        orderContribution.set_accept(false);
 
         orderContributionsRepository.save(orderContribution);
         return ResponseEntity.ok("Order Contribution created successfully");
     }
+
+    @PatchMapping("/{id}/accept")
+    public ResponseEntity<Void> acceptContribution(@PathVariable Long id) {
+        Optional<Ordercontributions> contributionOpt = orderContributionsService.getContributionById(id);
+
+        if (contributionOpt.isPresent()) {
+            Ordercontributions contribution = contributionOpt.get();
+            contribution.set_accept(true);
+            orderContributionsService.save(contribution);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }

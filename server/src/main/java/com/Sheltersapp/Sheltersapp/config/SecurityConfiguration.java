@@ -41,6 +41,7 @@ public class SecurityConfiguration implements WebMvcConfigurer{
                         .requestMatchers("/adoption/species/**").permitAll()
                         .requestMatchers("/shelterAccounts/**").permitAll()
                         .requestMatchers("/orders/**").permitAll()
+                        .requestMatchers("/OrderContributions/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -53,8 +54,8 @@ public class SecurityConfiguration implements WebMvcConfigurer{
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")  // URL frontendowej aplikacji
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }

@@ -123,6 +123,7 @@ CREATE TABLE OrderContributions (
                         quantity INT NOT NULL,
                         date TIMESTAMP(6) NOT NULL,
                         message varchar(500),
+                        is_accept boolean NOT NULL,
                         FOREIGN KEY (order_id) REFERENCES Orders(id),
                         FOREIGN KEY (shelter_id) REFERENCES Shelter(id)
 );

@@ -17,6 +17,7 @@ public class Ordercontributions {
     private int quantity;
     private LocalDateTime date;
     private String message;
+    private boolean is_accept;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")

@@ -28,4 +28,7 @@ public class OrdersService {
     public List<Orders> findByShelterId(Long shelterId) {
         return orderRepository.findByShelterId(shelterId);
     }
+    public void deleteOrder(Long id){
+        orderRepository.deleteById(id);
+    }
 }
