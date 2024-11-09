@@ -25,6 +25,10 @@ import AdoptCat from "./components/Adopt/AdoptCat";
 import AdoptRabbit from "./components/Adopt/AdoptRabbit";
 import MyAccountShelter from "./components/ShelterComponents/MyAccountShelter";
 import AnimalDetail from "./components/Navbar/AnimalDetail";
+import Orders from "./components/ShelterComponents/Orders/Orders";
+import OrderContributions from "./components/ShelterComponents/Orders/OrderContributions";
+import ListPublicOrder from "./components/ShelterComponents/Orders/ListPublicOrder";
+import ArchiveOrders from "./components/ShelterComponents/Orders/ArchiveOrders";
 
 function App() {
   return (
@@ -57,6 +61,10 @@ function App() {
         <Route path="/MyAccount" element={<MyAccount/>}/>
         <Route path="/MyAccountShelter" element={<MyAccountShelter/>}/>
         <Route path="/animal/:id" element={<AnimalDetail/>} />
+        <Route path="/Orders" element={<Orders/>}/>
+        <Route path="/OrdersList" element={<OrderContributions/>}/>
+        <Route path="/ListPublicOrder" element={<ListPublicOrder/>}/>
+        <Route path="/ArchiveOrders" element={<ArchiveOrders/>}/>
       </Routes>
     </Router>
   );

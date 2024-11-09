@@ -150,11 +150,11 @@ const NavbarTopShelter = () => {
 
                     <NavItem>
                         <CollectionButton onClick={() => handleMenuClick('needs')}>
-                            Zapotrzebowanie
+                            Zamówienia
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'needs'}>
-                            <DropdownItem to="/">Lista zapotrzebowania</DropdownItem>
-                            <DropdownItem to="/">Zarządzaj</DropdownItem>
+                            <DropdownItem to="/Orders">Zarządzaj</DropdownItem>
+                            <DropdownItem to="/OrdersList">Lista publicznych zamówień</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
@@ -164,7 +164,6 @@ const NavbarTopShelter = () => {
                         </CollectionButton>
                         <DropdownMenu isOpen={openMenu === 'animals'}>
                             <DropdownItem to="/addAnimal">Dodaj</DropdownItem>
-                            <DropdownItem to="/">Szczepienia</DropdownItem>
                             <DropdownItem to="/ManageAnimals">Zarządzaj</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
