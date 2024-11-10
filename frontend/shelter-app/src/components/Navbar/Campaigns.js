@@ -13,11 +13,13 @@ import {
     SectionTitle
 } from "./style";
 import logo from "./logo.png"
+import {useNavigate} from "react-router-dom";
 
 
 const Campaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCampaigns = async () => {
@@ -68,7 +70,8 @@ const Campaigns = () => {
                 {campaigns.map((campaign) => {
                     const shelter = campaign.shelter || {};
                     return(
-                    <CollectionCard key={campaign.id}>
+                    <CollectionCard key={campaign.id} onClick={() => navigate(`/campaign/${campaign.id}`)}
+                                    style={{ cursor: 'pointer' }}>
                         <CollectionImage src={logo} alt={campaign.title} />
                         <CollectionInfo>
                             <CollectionTitle>{campaign.title}</CollectionTitle>

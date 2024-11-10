@@ -32,7 +32,7 @@ public class SecurityConfiguration implements WebMvcConfigurer{
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/campaigns/shelter/**").permitAll()
-                        .requestMatchers("/campaigns/").permitAll()
+                        .requestMatchers("/campaigns/**").permitAll()
                         .requestMatchers("/animal/**" ).permitAll()
                         .requestMatchers("/adoption/" ).permitAll()
                         .requestMatchers("/news/" ).permitAll()

@@ -91,7 +91,7 @@ public class NewsController {
     }
 
     @PutMapping("/admin/edit/{id}")
-    public ResponseEntity<News> editAdoption(@PathVariable Long id, @RequestBody News updateNews) {
+    public ResponseEntity<News> editCampaigns(@PathVariable Long id, @RequestBody News updateNews) {
         Optional<News> optionalCampaigns = newsService.getNewsById(id);
 
         if (optionalCampaigns.isEmpty()) {

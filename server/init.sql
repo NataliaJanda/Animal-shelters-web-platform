@@ -32,7 +32,8 @@ CREATE TABLE Campaigns (
                            description varchar(250)  NOT NULL,
                            start_date timestamp(6)  NOT NULL,
                            end_date timestamp(6)  NOT NULL,
-                           goal varchar(40)  NOT NULL
+                           goal integer  NOT NULL,
+                           progress integer
 );
 
 -- Table: News

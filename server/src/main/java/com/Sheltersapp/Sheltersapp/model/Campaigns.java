@@ -17,7 +17,8 @@ public class Campaigns {
     private String description;
     private LocalDate start_date;
     private LocalDate end_date;
-    private String goal;
+    private Integer goal;
+    private Integer progress;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")
