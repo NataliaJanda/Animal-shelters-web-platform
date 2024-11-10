@@ -21,7 +21,6 @@ const MainPageSessionUser = () => {
     const [adoptions, setAdoptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [animalPhotos, setAnimalPhotos] = useState({});
-
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
@@ -90,8 +89,6 @@ const MainPageSessionUser = () => {
         return <p>Ładowanie...</p>;
     }
 
-
-
     return (
         <AppContainer>
                 <NavbarTopLoginSession />
@@ -105,7 +102,9 @@ const MainPageSessionUser = () => {
                         const shelter = adoption.shelter || {};
 
                         return (
-                            <CollectionCard key={adoption.id} onClick={() => window.location.href = "/animalProfile"}>
+                            <CollectionCard key={adoption.id} onClick={() => window.location.href = `/animal/${animal.id}`}
+                                            style={{ cursor: 'pointer'}}
+                                >
                                 <CollectionImage
                                     src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
                                     alt={animal.name || "Brak nazwy"}
@@ -121,7 +120,9 @@ const MainPageSessionUser = () => {
                         );
                     })}
 
-                    <CollectionCard key="show-more" onClick={() => window.location.href = "/animals"}>
+                    <CollectionCard key="show-more" onClick={() => window.location.href = "/animals"}
+                                    style={{ cursor: 'pointer'}}
+                        >
                         <CollectionInfo>
                             <CollectionTitle>Pokaż więcej</CollectionTitle>
                             <CollectionDescription>Odkryj więcej zwierząt</CollectionDescription>

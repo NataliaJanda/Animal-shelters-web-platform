@@ -12,6 +12,7 @@ class Background2 extends Component {
             // backgroundSize: "cover",
             backgroundPosition: "center",
             width: "100%",
+            marginBottom:"13px",
         };
 
         return (

@@ -94,7 +94,11 @@ const MainPage = () => {
                   const shelter = adoption.shelter || {};
 
                   return (
-                      <CollectionCard key={adoption.id} onClick={() => window.location.href = "/animalProfile"}>
+                      <CollectionCard
+                          key={adoption.id}
+                          onClick={() => window.location.href = `/animal/${animal.id}`}
+                          style={{ cursor: 'pointer'}
+                      }>
                           <CollectionImage
                               src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
                               alt={animal.name || "Brak nazwy"}
@@ -110,7 +114,7 @@ const MainPage = () => {
                   );
               })}
 
-            <CollectionCard key="show-more" onClick={() => window.location.href = "/animals"}>
+            <CollectionCard key="show-more" onClick={() => window.location.href = "/animals"} style={{ cursor: 'pointer'}}>
                 <CollectionInfo>
                     <CollectionTitle>Pokaż więcej</CollectionTitle>
                     <CollectionDescription>Odkryj więcej zwierząt</CollectionDescription>
