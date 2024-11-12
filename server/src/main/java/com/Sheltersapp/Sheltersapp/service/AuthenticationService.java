@@ -12,6 +12,8 @@ import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
 import com.Sheltersapp.Sheltersapp.repository.ShelterRepository;
 import com.Sheltersapp.Sheltersapp.repository.UserRepository;
 import jakarta.mail.MessagingException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,22 +56,35 @@ public class AuthenticationService {
         return userRepository.save(users);
     }
 
-    public Shelter_accounts signupShelter (RegisterShelter input) throws Exception {
+    public ResponseEntity<?> signupShelter(RegisterShelter input) throws Exception {
         GusService gusService = new GusService();
+
         if (!gusService.verifyRegonExists(input.getRegon())) {
-            throw new IllegalArgumentException("Nie znaleziono schroniska o podanym numerze REGON w bazie GUS");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Nie znaleziono schroniska o podanym numerze REGON w bazie GUS");
         }
-        Shelter shelter = new Shelter(input.getUsername(),input.getAddress(), input.getCommune(), input.getPost_code(), input.getTown(), input.getCounty(), input.getReal_estate_number(), input.getRegon(),  input.getVoivodeship());
-        Shelter_accounts shelter_accounts = new Shelter_accounts(input.getUsername(), input.getName(), input.getLast_name(), input.getEmail(), input.getPhone_number(), passwordEncoder.encode(input.getPassword()));
+
+        Shelter shelter = new Shelter(input.getUsername(), input.getAddress(), input.getCommune(),
+                input.getPost_code(), input.getTown(), input.getCounty(),
+                input.getReal_estate_number(), input.getRegon(), input.getVoivodeship());
+
+        Shelter_accounts shelter_accounts = new Shelter_accounts(input.getUsername(), input.getName(),
+                input.getLast_name(), input.getEmail(), input.getPhone_number(),
+                passwordEncoder.encode(input.getPassword()));
+
         shelter_accounts.setShelter_id(shelter);
         shelter_accounts.setVerificationCode(generateVerificationCode());
         shelter_accounts.setExpired(LocalDateTime.now().plusMinutes(15));
         shelter_accounts.setActivated(false);
         shelter_accounts.setRole(Role.SHELTER);
-        sendVerificationEmailForShelter(shelter_accounts);
+
         shelterRepository.save(shelter);
-        return ShelterAccountsRepository.save(shelter_accounts);
+        ShelterAccountsRepository.save(shelter_accounts);
+
+        return ResponseEntity.ok(shelter_accounts);
     }
+
 
 
     public Users authenticate(LoginUser input) {

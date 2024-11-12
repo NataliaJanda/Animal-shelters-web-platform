@@ -48,7 +48,6 @@ public class GusService {
 
     public boolean verifyRegonExists(String regon) throws Exception {
         login();
-
         String searchRequestPayload = createRegonSearchRequest(regon);
         String response = sendSoapRequest(searchRequestPayload, "http://CIS/BIR/PUBL/2014/07/IUslugaBIRzewnPubl/DaneSzukajPodmioty");
 
@@ -56,7 +55,7 @@ public class GusService {
 
         if (result.contains("<ErrorCode>")) {
             System.out.println("Odpowiedź z serwera: \n" + response);
-            throw new IllegalArgumentException("Nie znaleziono schroniska o podanym numerze REGON w bazie GUS.");
+            return false ;
         }
 
         System.out.println("Znaleziono dane: \n" + result);
