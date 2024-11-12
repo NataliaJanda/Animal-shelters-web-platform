@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import { TextField, Button, Container, Typography, Box, Snackbar } from "@mui/material";
 import BackgroundImage from "../SignUp/kot2.png";
-import NavbarTop from "../Navbar/NavbarTop";
+import Alert from '@mui/material/Alert';
+import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
 
 export const validateEmail = (email) => {
     return String(email)
@@ -27,13 +28,21 @@ function ShelterRegister() {
     const [realEstateNumber, setRealEstateNumber] = useState("");
     const [regon, setRegon] = useState("");
     const [voivodeship, setVoivodeship] = useState("");
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const [alertOpen, setAlertOpen] = useState(false);
+
     const [password, setPassword] = useState({
         value: "",
         isTouched: false,
     });
 
     const getIsFormValid = () => {
-        return username && validateEmail(email) && password.value.length >= 8;
+        return (
+            username && firstName && lastName && validateEmail(email) && phoneNumber &&
+            address && commune && postCode && town && county &&
+            realEstateNumber && regon && voivodeship && password.value.length >= 8
+        );
     };
 
     const clearForm = () => {
@@ -50,14 +59,17 @@ function ShelterRegister() {
         setRealEstateNumber("");
         setRegon("");
         setVoivodeship("");
-        setPassword({
-            value: "",
-            isTouched: false,
-        });
+        setPassword({ value: "", isTouched: false });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!getIsFormValid()) {
+            setError("Proszę uzupełnić wszystkie wymagane pola.");
+            setAlertOpen(true);
+            return;
+        }
 
         const requestBody = {
             email,
@@ -73,7 +85,7 @@ function ShelterRegister() {
             county,
             real_estate_number: realEstateNumber,
             regon,
-            voivodeship
+            voivodeship,
         };
 
         try {
@@ -85,22 +97,31 @@ function ShelterRegister() {
                 body: JSON.stringify(requestBody),
             });
 
-            if (response.ok) {
+            if (response.status === 400) {
+                setError("Niepoprawne dane: sprawdź REGON lub uzupełnij wszystkie wymagane pola.");
+                setSuccess(null);
+            } else if (response.ok) {
+                setSuccess("Rejestracja przebiegła pomyślnie!");
+                setError(null);
                 clearForm();
                 navigate("/ShelterRegisterAccept");
             } else {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.message}`);
+                setError("Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.");
+                setSuccess(null);
             }
+            setAlertOpen(true);
+
         } catch (error) {
             console.error("Error during registration:", error);
-            alert("An error occurred during registration. Please try again.");
+            setError("Wystąpił problem z połączeniem. Spróbuj ponownie później.");
+            setSuccess(null);
+            setAlertOpen(true);
         }
     };
 
     return (
         <>
-            <NavbarTop/>
+            <NavbarTopUnllogin/>
             <Box
                 sx={{
                     height: '100vh',
@@ -116,141 +137,77 @@ function ShelterRegister() {
                 <Container maxWidth="sm">
                     <Box sx={{ textAlign: "center", mt: 5 }}>
                         <Typography variant="h4" gutterBottom>
-                            Zarejestruj się
+                            Zarejestruj swoje schronisko
                         </Typography>
                     </Box>
-
                     <form onSubmit={handleSubmit} noValidate>
-                        <Box sx={{ mt: 3 }}>
-                            <TextField
-                                fullWidth
-                                label="Pełna nazwa"
-                                variant="outlined"
-                                margin="normal"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Imię"
-                                variant="outlined"
-                                margin="normal"
-                                value={firstName}
-                                onChange={(e) => setFirstName(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Nazwisko"
-                                variant="outlined"
-                                margin="normal"
-                                value={lastName}
-                                onChange={(e) => setLastName(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Adres email"
-                                variant="outlined"
-                                margin="normal"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Numer telefonu"
-                                variant="outlined"
-                                margin="normal"
-                                value={phoneNumber}
-                                onChange={(e) => setPhoneNumber(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Adres"
-                                variant="outlined"
-                                margin="normal"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Kod pocztowy"
-                                variant="outlined"
-                                margin="normal"
-                                value={postCode}
-                                onChange={(e) => setPostCode(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Gmina"
-                                variant="outlined"
-                                margin="normal"
-                                value={commune}
-                                onChange={(e) => setCommune(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Miasto"
-                                variant="outlined"
-                                margin="normal"
-                                value={town}
-                                onChange={(e) => setTown(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Powiat"
-                                variant="outlined"
-                                margin="normal"
-                                value={county}
-                                onChange={(e) => setCounty(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Województwo"
-                                variant="outlined"
-                                margin="normal"
-                                value={voivodeship}
-                                onChange={(e) => setVoivodeship(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Numer NIP"
-                                variant="outlined"
-                                margin="normal"
-                                value={realEstateNumber}
-                                onChange={(e) => setRealEstateNumber(e.target.value)}
-                            />
-                            <TextField
-                                fullWidth
-                                label="Numer REGON"
-                                variant="outlined"
-                                margin="normal"
-                                value={regon}
-                                onChange={(e) => setRegon(e.target.value)}
-                            />
+                        <Box sx={{ mt: 3 , mb:10 }}>
+                            <TextField sx={{mb :1}} fullWidth label="Pełna nazwa" value={username} onChange={(e) => setUsername(e.target.value)} error={!username && !!error}
+                                       helperText={!username && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Imię" value={firstName} onChange={(e) => setFirstName(e.target.value)} error={!firstName && !!error}
+                                       helperText={!firstName && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Nazwisko" value={lastName} onChange={(e) => setLastName(e.target.value)} error={!lastName && !!error}
+                                       helperText={!lastName && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Adres email" value={email} onChange={(e) => setEmail(e.target.value)} error={!email && !!error}
+                                       helperText={!email && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Numer telefonu" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} error={!phoneNumber && !!error}
+                                       helperText={!phoneNumber && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Adres" value={address} onChange={(e) => setAddress(e.target.value)} error={!address && !!error}
+                                       helperText={!address && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Adres" value={commune} onChange={(e) => setCommune(e.target.value)} error={!commune && !!error}
+                                       helperText={!commune && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Kod pocztowy" value={postCode} onChange={(e) => setPostCode(e.target.value)} error={!postCode && !!error}
+                                       helperText={!postCode && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Miasto" value={town} onChange={(e) => setTown(e.target.value)} error={!town && !!error}
+                                       helperText={!town && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Powiat" value={county} onChange={(e) => setCounty(e.target.value)} error={!county && !!error}
+                                       helperText={!county && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Województwo" value={voivodeship} onChange={(e) => setVoivodeship(e.target.value)} error={!voivodeship && !!error}
+                                       helperText={!voivodeship && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Numer REGON" value={regon} onChange={(e) => setRegon(e.target.value)} error={!regon && !!error}
+                                       helperText={!regon && !!error ? "To pole jest wymagane" : ""}/>
+                            <TextField sx={{mb :1}} fullWidth label="Numer NIP" value={realEstateNumber} onChange={(e) => setRealEstateNumber(e.target.value)} error={!realEstateNumber && !!error}
+                                       helperText={!realEstateNumber && !!error ? "To pole jest wymagane" : ""}/>
                             <TextField
                                 fullWidth
                                 label="Hasło"
-                                variant="outlined"
-                                margin="normal"
                                 type="password"
                                 value={password.value}
                                 onChange={(e) => setPassword({ ...password, value: e.target.value })}
                                 onBlur={() => setPassword({ ...password, isTouched: true })}
                                 error={password.isTouched && password.value.length < 8}
-                                helperText={password.isTouched && password.value.length < 8 ? "Password should have at least 8 characters" : ""}
+                                helperText={password.isTouched && password.value.length < 8 ? "Hasło powinno mieć co najmniej 8 znaków" : ""}
                             />
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                type="submit"
-                                disabled={!getIsFormValid()}
-                                sx={{ mt: 3 }}
-                            >
+                            <Button fullWidth variant="contained" color="primary" type="submit" disabled={!getIsFormValid()} sx={{ mt: 3 , mb :6}}>
                                 Stwórz konto
                             </Button>
                         </Box>
                     </form>
                 </Container>
+
+                <Snackbar
+                    open={alertOpen}
+                    autoHideDuration={6000}
+                    onClose={() => {
+                        setAlertOpen(false);
+                        setError(null);
+                        setSuccess(null);
+                    }}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                >
+                    <Alert
+                        onClose={() => {
+                            setAlertOpen(false);
+                            setError(null);
+                            setSuccess(null);
+                        }}
+                        severity={error ? "error" : "success"}
+                        icon={false}
+                    >
+                        {error || success}
+                    </Alert>
+                </Snackbar>
+
             </Box>
         </>
     );
