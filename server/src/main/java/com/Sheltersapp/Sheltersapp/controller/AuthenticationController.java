@@ -32,7 +32,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(registeredUsers);
     }
     @PostMapping("/signup-shelter")
-    public ResponseEntity<Shelter_accounts> register(@RequestBody RegisterShelter registerShelter) {
+    public ResponseEntity<Shelter_accounts> register(@RequestBody RegisterShelter registerShelter) throws Exception {
         Shelter_accounts registeredShelter = authenticationService.signupShelter(registerShelter);
         return ResponseEntity.ok(registeredShelter);
 

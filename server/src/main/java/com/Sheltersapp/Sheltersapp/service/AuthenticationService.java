@@ -54,10 +54,13 @@ public class AuthenticationService {
         return userRepository.save(users);
     }
 
-    public Shelter_accounts signupShelter (RegisterShelter input){
+    public Shelter_accounts signupShelter (RegisterShelter input) throws Exception {
+        GusService gusService = new GusService();
+        if (!gusService.verifyRegonExists(input.getRegon())) {
+            throw new IllegalArgumentException("Nie znaleziono schroniska o podanym numerze REGON w bazie GUS");
+        }
         Shelter shelter = new Shelter(input.getUsername(),input.getAddress(), input.getCommune(), input.getPost_code(), input.getTown(), input.getCounty(), input.getReal_estate_number(), input.getRegon(),  input.getVoivodeship());
         Shelter_accounts shelter_accounts = new Shelter_accounts(input.getUsername(), input.getName(), input.getLast_name(), input.getEmail(), input.getPhone_number(), passwordEncoder.encode(input.getPassword()));
-        //TODO Check if the REGON number is in the gus base
         shelter_accounts.setShelter_id(shelter);
         shelter_accounts.setVerificationCode(generateVerificationCode());
         shelter_accounts.setExpired(LocalDateTime.now().plusMinutes(15));
