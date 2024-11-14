@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Container, Typography, Box } from "@mui/material";
+import {TextField, Button, Container, Typography, Box, Snackbar} from "@mui/material";
 import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
 import ShelterFooter from "../Background/ShelterFooter";
+import Alert from "@mui/material/Alert";
 
 function ShelterRegisterAccept() {
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
     const [verificationCode, setCode] = useState("");
+    const [alertOpen, setAlertOpen] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertSeverity, setAlertSeverity] = useState("success");
 
     const handleLoginRedirect = () => {
         navigate("/signin-shelter");
@@ -17,6 +21,39 @@ function ShelterRegisterAccept() {
     const getIsFormValid = () => {
         return username && verificationCode;
     };
+
+    const ResendCode = async () => {
+        if (!username) {
+            setAlertMessage("Proszę podać email.");
+            setAlertSeverity("warning");
+            setAlertOpen(true);
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8080/auth/resend-shelter?email=${username}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                setAlertMessage("Kod weryfikacyjny został ponownie wysłany!");
+                setAlertSeverity("success");
+            } else {
+                const errorData = await response.json();
+                setAlertMessage(errorData.message || "Nie udało się wysłać kodu weryfikacyjnego.");
+                setAlertSeverity("error");
+            }
+        } catch (error) {
+            console.error("Błąd podczas ponownego wysyłania kodu:", error);
+            setAlertMessage("Wystąpił błąd podczas ponownego wysyłania kodu. Spróbuj ponownie później.");
+            setAlertSeverity("error");
+        }
+        setAlertOpen(true);
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,22 +72,38 @@ function ShelterRegisterAccept() {
                 body: JSON.stringify(requestBody),
             });
 
+            const contentType = response.headers.get("Content-Type");
+
             if (response.ok) {
-                window.location.href = "/signin";
-            } else {
+                setAlertMessage("Konto zostało pomyślnie zweryfikowane!");
+                setAlertSeverity("success");
+                setAlertOpen(true);
+                setTimeout(() => {
+                    window.location.href = "/signin";
+                }, 2000);
+            } else if (contentType && contentType.includes("application/json")) {
                 const errorData = await response.json();
-                alert(`Error: ${errorData.message}`);
+                setAlertMessage(errorData.message || "Wystąpił problem podczas weryfikacji");
+                setAlertSeverity("error");
+                setAlertOpen(true);
+            } else {
+                const errorText = await response.text();
+                setAlertMessage(`Błąd: ${errorText}`);
+                setAlertSeverity("error");
+                setAlertOpen(true);
             }
         } catch (error) {
-            console.error("Error during registration:", error);
-            alert("An error occurred during registration. Please try again.");
+            console.error("Błąd podczas weryfikacji:", error);
+            setAlertMessage("Wystąpił błąd podczas weryfikacji. Spróbuj ponownie później.");
+            setAlertSeverity("error");
+            setAlertOpen(true);
         }
     };
 
     return (
         <>
             <NavbarTopUnllogin />
-            <Container maxWidth="sm">
+            <Container maxWidth="sm" sx={{mb:20}}>
                 <Box sx={{ textAlign: "center", mt: 5 }}>
                     <Typography variant="h4" gutterBottom>
                         Rejestracja zakończona sukcesem!
@@ -84,6 +137,14 @@ function ShelterRegisterAccept() {
                         />
                         <Button
                             fullWidth
+                            variant="text"
+                            onClick={ResendCode}
+                            sx={{ mt: 2,width:"125%"}}
+                        >
+                            Wyślij kod ponownie
+                        </Button>
+                        <Button
+                            fullWidth
                             variant="contained"
                             color="primary"
                             type="submit"
@@ -104,6 +165,20 @@ function ShelterRegisterAccept() {
                 </form>
             </Container>
             <ShelterFooter/>
+            <Snackbar
+                open={alertOpen}
+                autoHideDuration={6000}
+                onClose={() => setAlertOpen(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert
+                    onClose={() => setAlertOpen(false)}
+                    severity={alertSeverity}
+                    sx={{ width: '100%' }}
+                >
+                    {alertMessage}
+                </Alert>
+            </Snackbar>
         </>
     );
 }

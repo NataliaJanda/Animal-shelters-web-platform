@@ -42,7 +42,6 @@ const ManageAnimals = () => {
     const [filterAnimal, setFilterAnimal] = useState('');
     const [filterSexAnimal, setFilterSexAnimal] = useState('');
     const [filterSizeAnimal, setFilterSizeAnimal] = useState('');
-    const [filterVaccination, setFilterVaccination] = useState('');
     const [filterTypeAnimal, setFilterTypeAnimal] = useState('');
     const [UserRole, setUserRole] = useState(true);
 
@@ -194,10 +193,9 @@ const ManageAnimals = () => {
         const matchesRace = filterAnimal === '' || animal.race === filterAnimal;
         const matchesSex = filterSexAnimal === '' || animal.sex === filterSexAnimal;
         const matchesSize = filterSizeAnimal === '' || animal.size === filterSizeAnimal;
-        const matchesVaccination = filterVaccination === '' || (animal.vaccination ? "Tak" : "Nie") === filterVaccination;
         const matchesType = filterTypeAnimal === '' || animal.species.name === filterTypeAnimal;
 
-        return matchesRace && matchesSex && matchesSize && matchesVaccination && matchesType;
+        return matchesRace && matchesSex && matchesSize && matchesType;
     });
 
     return (
@@ -263,20 +261,6 @@ const ManageAnimals = () => {
                     </Select>
                 </FormControl>
 
-                <FormControl style={{ marginTop: '30px', minWidth: 200 }}>
-                    <InputLabel id="vaccination-select-label">Wybierz ważność szczepień</InputLabel>
-                    <Select
-                        labelId="vaccination-select-label"
-                        label={"Wybierz ważność szczepień"}
-                        value={filterVaccination}
-                        onChange={(e) => setFilterVaccination(e.target.value)}
-                    >
-                        <MenuItem value="">Wszystkie szczepienia</MenuItem>
-                        {Array.from(new Set(animals.map(animal => animal.vaccination))).map((vaccination) => (
-                            <MenuItem key={vaccination} value={vaccination}>{vaccination}</MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
             </ContentSection>
                 <TableContainer sx={{mb:66}} component={Paper}>
                     <Table>

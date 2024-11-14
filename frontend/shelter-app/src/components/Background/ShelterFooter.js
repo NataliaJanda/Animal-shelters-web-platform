@@ -23,7 +23,7 @@ const SocialIconsContainer = styled(Box)(({ theme }) => ({
     },
 }));
 
-const StyledIconButton = styled(IconButton)(({  }) => ({
+const StyledIconButton = styled(IconButton)(({theme }) => ({
     transition: "all 0.3s ease-in-out",
     "&:hover": {
         transform: "scale(1.1)",

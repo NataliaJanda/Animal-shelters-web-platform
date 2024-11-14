@@ -4,6 +4,7 @@ import { TextField, Button, Container, Typography, Box, Snackbar } from "@mui/ma
 import BackgroundImage from "../SignUp/kot2.png";
 import Alert from '@mui/material/Alert';
 import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
+import {AppContainer} from "../Navbar/style";
 
 export const validateEmail = (email) => {
     return String(email)
@@ -120,7 +121,7 @@ function ShelterRegister() {
     };
 
     return (
-        <>
+        <AppContainer>
             <NavbarTopUnllogin/>
             <Box
                 sx={{
@@ -208,7 +209,7 @@ function ShelterRegister() {
                     </Alert>
                 </Snackbar>
             </Box>
-        </>
+        </AppContainer>
 );
 }
 
