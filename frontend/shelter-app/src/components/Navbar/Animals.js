@@ -6,10 +6,11 @@ import {
     AppContainer,
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
-    ContentSection, Footer, FooterText,
+    ContentSection,
     HeroOverlay, HeroSection, HeroText,
     SectionText, SectionTitle
 } from "./style";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const Adoptions = () => {
     const [adoptions, setAdoptions] = useState([]);
@@ -72,7 +73,9 @@ const Adoptions = () => {
     if (loading) {
         return <p>Ładowanie...</p>;
     }
-
+    /**
+     * TODO: filtrowanie zwierząt rasa/miasto/itp
+     */
     return (
         <AppContainer>
             <NavbarTopLoginSession />
@@ -116,9 +119,7 @@ const Adoptions = () => {
                 })}
             </CollectionGridSection>
 
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

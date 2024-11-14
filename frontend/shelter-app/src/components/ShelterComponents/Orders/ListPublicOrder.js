@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-    AppContainer, Footer, FooterText
+    AppContainer
 } from "../../Navbar/style";
 import {
     Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@mui/material';
 import NavbarTopShelter from "../NavbarTopShelter";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 function ListPublicOrder() {
     const [publicOrders, setPublicOrders] = useState([]);
@@ -229,9 +230,7 @@ function ListPublicOrder() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+                <ShelterFooter/>
             </AppContainer>
 
             <Dialog open={isDialogOpen} onClose={closeConfirmDialog}>

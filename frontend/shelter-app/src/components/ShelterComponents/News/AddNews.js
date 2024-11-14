@@ -4,7 +4,7 @@ import { TextField, Button, Container, Typography, Box,
     // Select, MenuItem, FormControl, InputLabel
 } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
-import {Footer, FooterText} from "../../Navbar/style";
+import ShelterFooter from "../../Background/ShelterFooter";
 // import axios from 'axios';
 
 function AddNews() {
@@ -216,9 +216,7 @@ function AddNews() {
                     </form>
                 </Container>
             </Box>
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </>
     );
 }

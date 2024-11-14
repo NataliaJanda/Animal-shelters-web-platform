@@ -4,10 +4,11 @@ import NavbarTopLoginSession from "../Navbar/NavbarTopUnllogin";
 import {
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
-    ContentSection, Footer, FooterText,
+    ContentSection,
     HeroOverlay, HeroSection, HeroText,
     SectionText, SectionTitle
 } from "../Navbar/style";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const AdoptDog= () => {
     const [adoptions, setAdoptions] = useState([]);
@@ -109,9 +110,7 @@ const AdoptDog= () => {
                 })}
             </CollectionGridSection>
 
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </>
     );
 };

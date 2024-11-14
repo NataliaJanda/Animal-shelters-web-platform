@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
     AppContainer,
-    Footer,
-    FooterText
 } from "../../Navbar/style";
 import {
     Box,
@@ -15,6 +13,7 @@ import {
     TableRow, Paper
 } from '@mui/material';
 import NavbarTopShelter from "../NavbarTopShelter";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 function ArchiveOrders() {
     const [shelterId, setShelterId] = useState(null);
@@ -117,9 +116,7 @@ function ArchiveOrders() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+                <ShelterFooter/>
             </AppContainer>
         </>
     );

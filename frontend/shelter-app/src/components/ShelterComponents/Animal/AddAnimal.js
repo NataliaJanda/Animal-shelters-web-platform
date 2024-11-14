@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
 import axios from 'axios';
-import {Footer, FooterText} from "../../Navbar/style";
+import Alert from '@mui/material/Alert';
+import Collapse from '@mui/material/Collapse';
+import ShelterFooter from "../../Background/ShelterFooter";
 
 function AddAnimal() {
-    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [atitude, setAtitude] = useState("");
     const [age, setAge] = useState("");
@@ -20,6 +20,7 @@ function AddAnimal() {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [fileNames, setFileNames] = useState([]);
     const [UserRole, setUserRole] = useState(true);
+    const [success, setSuccess] = useState(false);
 
     const clearForm = () => {
         setName("");
@@ -125,7 +126,10 @@ function AddAnimal() {
                 }
 
                 clearForm();
-                navigate("/MainPageSessionShelter");
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 3000);
             } else {
                 const errorData = await response.json();
                 alert(`Error: ${errorData.message}`);
@@ -155,6 +159,16 @@ function AddAnimal() {
                             Dodaj zwierzę
                         </Typography>
                     </Box>
+
+                    <Collapse in={success}>
+                        <Alert
+                            severity="success"
+                            sx={{ mb: 2 }}
+                            onClose={() => setSuccess(false)}
+                        >
+                            Zwierzę zostało pomyślnie dodane!
+                        </Alert>
+                    </Collapse>
 
                     <form onSubmit={handleSubmit} noValidate>
                         <Box sx={{ mt: 3 }}>
@@ -283,9 +297,7 @@ function AddAnimal() {
                     </form>
                 </Container>
             </Box>
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </>
     );
 }

@@ -29,6 +29,8 @@ import Orders from "./components/ShelterComponents/Orders/Orders";
 import OrderContributions from "./components/ShelterComponents/Orders/OrderContributions";
 import ListPublicOrder from "./components/ShelterComponents/Orders/ListPublicOrder";
 import ArchiveOrders from "./components/ShelterComponents/Orders/ArchiveOrders";
+import AdoptionForm from "./components/Adopt/AdoptionForm";
+import CampaignDetail from "./components/Navbar/CampaignDetail";
 
 function App() {
   return (
@@ -61,10 +63,12 @@ function App() {
         <Route path="/MyAccount" element={<MyAccount/>}/>
         <Route path="/MyAccountShelter" element={<MyAccountShelter/>}/>
         <Route path="/animal/:id" element={<AnimalDetail/>} />
+        <Route path="/campaign/:id" element={<CampaignDetail/>} />
         <Route path="/Orders" element={<Orders/>}/>
         <Route path="/OrdersList" element={<OrderContributions/>}/>
         <Route path="/ListPublicOrder" element={<ListPublicOrder/>}/>
         <Route path="/ArchiveOrders" element={<ArchiveOrders/>}/>
+        <Route path="/AdoptionForm" element={<AdoptionForm/>}/>
       </Routes>
     </Router>
   );

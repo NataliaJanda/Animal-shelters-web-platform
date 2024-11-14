@@ -151,18 +151,3 @@ export const AppContainer = styled.div`
     padding: 0;
     box-sizing: border-box;
 `;
-
-export const Footer = styled.footer`
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 2rem 0;
-    margin-left: -10px;
-    margin-right: -10px;
-    margin-bottom: -20px;   
-`;
-
-export const FooterText = styled.p`
-    margin: 0;
-    font-size: 1rem;
-`;

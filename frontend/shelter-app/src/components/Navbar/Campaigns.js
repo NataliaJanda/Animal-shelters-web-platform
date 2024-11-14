@@ -5,7 +5,7 @@ import {
     AppContainer,
     CollectionCard, CollectionDescription, CollectionGoal,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
-    ContentSection, Footer, FooterText,
+    ContentSection,
     HeroOverlay,
     HeroSection,
     HeroText,
@@ -14,6 +14,7 @@ import {
 } from "./style";
 import logo from "./logo.png"
 import {useNavigate} from "react-router-dom";
+import ShelterFooter from "../Background/ShelterFooter";
 
 
 const Campaigns = () => {
@@ -86,9 +87,7 @@ const Campaigns = () => {
             })}
             </CollectionGridSection>
 
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

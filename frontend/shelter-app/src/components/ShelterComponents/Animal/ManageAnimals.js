@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
     AppContainer,
     ContentSection,
-    Footer,
-    FooterText,
     SectionText,
     SectionTitle,
 } from "../../Navbar/style";
@@ -30,6 +28,7 @@ import {
     InputLabel,
     FormControl
 } from "@mui/material";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 const ManageAnimals = () => {
     const [animals, setAnimals] = useState([]);
@@ -447,9 +446,7 @@ const ManageAnimals = () => {
                     </DialogActions>
                 </Dialog>
 
-                    <Footer>
-                        <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                    </Footer>
+            <ShelterFooter/>
             </AppContainer>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
+import ShelterFooter from "../Background/ShelterFooter";
 
 function ShelterRegisterAccept() {
     const navigate = useNavigate();
@@ -102,6 +103,7 @@ function ShelterRegisterAccept() {
                     </Box>
                 </form>
             </Container>
+            <ShelterFooter/>
         </>
     );
 }

@@ -11,9 +11,10 @@ import {
     CollectionGridSection,
     CollectionImage,
     CollectionInfo,
-    CollectionTitle, Footer, FooterText
+    CollectionTitle
 } from "../Navbar/style";
 import axios from "axios";
+import ShelterFooter from "../Background/ShelterFooter";
 const maxVisible = 9;
 
 const MainPageSessionUser = () => {
@@ -129,9 +130,7 @@ const MainPageSessionUser = () => {
                         </CollectionInfo>
                     </CollectionCard>
                 </CollectionGridSection>
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

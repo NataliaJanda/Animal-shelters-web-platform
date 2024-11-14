@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "../SideBar/SideBar";
 import NavbarTopShelter from "../ShelterComponents/NavbarTopShelter";
-import {AppContainer, Footer, FooterText} from "../Navbar/style";
+import {AppContainer} from "../Navbar/style";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const MainPageSessionShelter = () => {
 
@@ -22,9 +23,7 @@ const MainPageSessionShelter = () => {
         <AppContainer>
             <NavbarTopShelter />
             <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

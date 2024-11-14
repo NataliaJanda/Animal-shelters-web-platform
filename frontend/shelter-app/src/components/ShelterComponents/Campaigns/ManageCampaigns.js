@@ -4,8 +4,6 @@ import NavbarTopShelter from "../NavbarTopShelter";
 import {
     AppContainer,
     ContentSection,
-    Footer,
-    FooterText,
     SectionText,
     SectionTitle,
 } from "../../Navbar/style";
@@ -22,9 +20,10 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    TextField,
+    TextField, LinearProgress,
 } from "@mui/material";
 import logo from "../../Navbar/logo.png";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 const ManageCampaigns = () => {
     const [campaigns, setCampaigns] = useState([]);
@@ -135,6 +134,7 @@ const ManageCampaigns = () => {
                             <TableCell>Cel</TableCell>
                             <TableCell>Data zakończenia</TableCell>
                             <TableCell>Opis</TableCell>
+                            <TableCell>Progres</TableCell>
                             <TableCell>Akcje</TableCell>
                         </TableRow>
                     </TableHead>
@@ -152,6 +152,13 @@ const ManageCampaigns = () => {
                                 <TableCell>{campaign.goal}</TableCell>
                                 <TableCell>{campaign.end_date}</TableCell>
                                 <TableCell>{campaign.description}</TableCell>
+                                <TableCell sx={{backgroundPosition: "center"}}>
+                                    {parseFloat(((campaign.progress / campaign.goal) * 100).toFixed(2))}%
+                                    <LinearProgress
+                                    variant="determinate"
+                                    value={parseFloat(((campaign.progress / campaign.goal) * 100).toFixed(2))}
+                                    sx={{height: 30, borderRadius: 5 }}
+                                /></TableCell>
                                 <TableCell>
                                     <Button
                                         variant="contained"
@@ -207,9 +214,7 @@ const ManageCampaigns = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

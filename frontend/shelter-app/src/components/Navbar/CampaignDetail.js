@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import background from "./lapy.jpg";
 import axios from "axios";
 import {
@@ -16,8 +16,9 @@ import {
     LinearProgress,
 } from "@mui/material";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
-import { AppContainer, CollectionImage, Footer, FooterText } from "./style";
+import { AppContainer, CollectionImage} from "./style";
 import logo from "./logo.png";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const CampaignDetail = () => {
     const { id } = useParams();
@@ -25,6 +26,7 @@ const CampaignDetail = () => {
     const [openPaymentDialog, setOpenPaymentDialog] = useState(false);
     const [donationAmount, setDonationAmount] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -34,7 +36,7 @@ const CampaignDetail = () => {
             setIsLoggedIn(false);
         }
         fetchCampaignData();
-    }, [id]);
+    }, [], );
 
     const fetchCampaignData = async () => {
         try {
@@ -62,8 +64,8 @@ const CampaignDetail = () => {
             });
 
             setOpenPaymentDialog(false);
-            setDonationAmount(""); // wyczyść pole kwoty
-            fetchCampaignData(); // odśwież dane kampanii po aktualizacji
+            setDonationAmount("");
+            fetchCampaignData();
         } catch (error) {
             console.error("Błąd przy wpłacaniu:", error);
             alert("Nie udało się zaktualizować wpłaty.");
@@ -155,7 +157,7 @@ const CampaignDetail = () => {
             </Box>
 
             {isLoggedIn ? (
-                <Box sx={{ mt: 4, mb: 7, display: "flex", justifyContent: "center", gap: 2 }}>
+                <Box sx={{ mt: 4, mb: 23, display: "flex", justifyContent: "center", gap: 2 }}>
                     <Button
                         variant="contained"
                         color="success"
@@ -166,7 +168,16 @@ const CampaignDetail = () => {
                     </Button>
                 </Box>
             ) : (
-                <Box sx={{ mt: 4, mb: 8, display: "flex", justifyContent: "center", gap: 2 }}/>
+                <Box sx={{ mt: 4, mb: 23, display: "flex", justifyContent: "center", gap: 2 }}>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={() => navigate("/signin")}
+                        sx={{ px: 4, py: 1.5, fontWeight: "bold", boxShadow: 2 }}
+                    >
+                        Wpłać
+                    </Button>
+                </Box>
             )}
 
 
@@ -194,9 +205,7 @@ const CampaignDetail = () => {
                 </DialogActions>
             </Dialog>
 
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

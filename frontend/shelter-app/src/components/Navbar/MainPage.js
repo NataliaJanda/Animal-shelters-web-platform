@@ -11,9 +11,10 @@ import {
     CollectionGridSection,
     CollectionImage,
     CollectionInfo,
-    CollectionTitle, Footer, FooterText
+    CollectionTitle,
 } from "./style";
 import axios from "axios";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const MainPage = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -121,9 +122,7 @@ const MainPage = () => {
                 </CollectionInfo>
             </CollectionCard>
       </CollectionGridSection>
-          <Footer>
-              <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-          </Footer>
+          <ShelterFooter/>
 </AppContainer>
   );
 };

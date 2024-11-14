@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    AppContainer,
-    Footer,
-    FooterText
+    AppContainer
 } from "../../Navbar/style";
 import {
     Box,
@@ -16,6 +14,7 @@ import {
     Paper, Button, DialogTitle, DialogContent, TextField, Dialog, DialogActions
 } from '@mui/material';
 import NavbarTopShelter from "../NavbarTopShelter";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 function OrderContributions() {
     const [publicOrders, setPublicOrders] = useState([]);
@@ -170,9 +169,7 @@ function OrderContributions() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+                <ShelterFooter/>
             </AppContainer>
         </>
     );

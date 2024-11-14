@@ -207,10 +207,9 @@ function ShelterRegister() {
                         {error || success}
                     </Alert>
                 </Snackbar>
-
             </Box>
         </>
-    );
+);
 }
 
 export default ShelterRegister;

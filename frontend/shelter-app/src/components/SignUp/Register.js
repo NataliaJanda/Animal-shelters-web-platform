@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { TextField, Button, Container, Typography, Box } from "@mui/material";
 import BackgroundImage from "./kot2.png";
 import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
+import ShelterFooter from "../Background/ShelterFooter";
 
 export const validateEmail = (email) => {
   return String(email)
@@ -154,6 +155,7 @@ function Register() {
         </form>
       </Container>
       </Box>
+        <ShelterFooter/>
       </>
 
   );

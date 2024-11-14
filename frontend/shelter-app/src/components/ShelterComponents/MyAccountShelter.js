@@ -13,8 +13,9 @@ import {
     DialogTitle,
     TextField
 } from "@mui/material";
-import {AppContainer, Footer, FooterText} from "../Navbar/style";
+import {AppContainer} from "../Navbar/style";
 import NavbarTopShelter from "./NavbarTopShelter";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const MyAccountShelter = () => {
     const [userData, setUserData] = useState({});
@@ -361,9 +362,7 @@ const MyAccountShelter = () => {
                 </DialogActions>
             </Dialog>
 
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

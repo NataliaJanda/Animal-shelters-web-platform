@@ -2,8 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
     ContentSection,
-    Footer,
-    FooterText,
     SectionText,
     SectionTitle,
     AppContainer,
@@ -25,6 +23,7 @@ import {
     TextField,
 } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 const ManageAdoptions = () => {
     const [loading, setLoading] = useState(true);
@@ -228,9 +227,7 @@ const ManageAdoptions = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

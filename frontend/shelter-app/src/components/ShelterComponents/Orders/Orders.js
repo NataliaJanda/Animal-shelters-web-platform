@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-    AppContainer,
-    Footer,
-    FooterText
+    AppContainer
 } from "../../Navbar/style";
 import { useNavigate } from 'react-router-dom';
 import {
@@ -28,6 +26,7 @@ import {
 } from '@mui/material';
 import NavbarTopShelter from "../NavbarTopShelter";
 import axios from "axios";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 function Orders() {
     const [name, setName] = useState('');
@@ -379,9 +378,7 @@ function Orders() {
                     </DialogActions>
                 </Dialog>
 
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+                <ShelterFooter/>
             </AppContainer>
         </>
     );

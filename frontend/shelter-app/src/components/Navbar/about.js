@@ -3,13 +3,12 @@ import NavbarTopLoginSession from "./NavbarTopUnllogin";
 import {
     AppContainer,
     ContentSection,
-    Footer,
-    FooterText,
     HeroOverlay,
     HeroSection,
     HeroText, SectionText,
     SectionTitle
 } from "./style";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const About = () => {
     return (
@@ -33,9 +32,7 @@ const About = () => {
                 </SectionText>
             </ContentSection>
 
-            <Footer>
-                <FooterText>© 2024 Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

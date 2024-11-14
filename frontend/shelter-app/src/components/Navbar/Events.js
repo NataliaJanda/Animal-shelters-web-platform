@@ -5,11 +5,12 @@ import {
     AppContainer,
     CollectionCard, CollectionDescription,
     CollectionGridSection, CollectionImage, CollectionInfo, CollectionTitle,
-    ContentSection, Footer, FooterText, HeroOverlay, HeroSection, HeroText,
+    ContentSection, HeroOverlay, HeroSection, HeroText,
     SectionText,
     SectionTitle
 } from "./style";
 import logo from "./logo.png"
+import ShelterFooter from "../Background/ShelterFooter";
 
 
 const Events = () => {
@@ -77,9 +78,7 @@ const Events = () => {
                     );
                 })}
             </CollectionGridSection>
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

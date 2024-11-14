@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import background from "./lapy.jpg";
 import axios from "axios";
 import {
@@ -10,13 +10,15 @@ import {
     CircularProgress,
 } from "@mui/material";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
-import {AppContainer, Footer, FooterText} from "./style";
+import {AppContainer} from "./style";
+import ShelterFooter from "../Background/ShelterFooter";
 
 const AnimalDetail = () => {
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAnimal = async () => {
@@ -140,23 +142,13 @@ const AnimalDetail = () => {
                 <Button
                     variant="contained"
                     color="success"
-                    onClick={() => alert("Adoptowano!")}
+                    onClick={() => navigate("/AdoptionForm")}
                     sx={{ px: 4, py: 1.5, fontWeight: "bold", boxShadow: 2 }}
                 >
                     Adoptuj
                 </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => alert("Adoptowano wirtualnie!")}
-                    sx={{ px: 4, py: 1.5, fontWeight: "bold", boxShadow: 2 }}
-                >
-                    Adoptuj wirtualnie
-                </Button>
             </Box>
-            <Footer>
-                <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-            </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };

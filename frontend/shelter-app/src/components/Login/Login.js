@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, Container, TextField, Typography, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import BackgroundImage from "./piesek2.png";
 import NavbarTopUnllogin from "../Navbar/NavbarTopUnllogin";
+import ShelterFooter from "../Background/ShelterFooter";
 
 function Login() {
     const [username, setUsername] = useState("");
@@ -125,6 +126,7 @@ function Login() {
                     </form>
                 </Container>
             </Box>
+            <ShelterFooter/>
         </>
     );
 }

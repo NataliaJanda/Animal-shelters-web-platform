@@ -4,8 +4,6 @@ import NavbarTopShelter from "../NavbarTopShelter";
 import {
     AppContainer,
     ContentSection,
-    Footer,
-    FooterText,
     SectionText,
     SectionTitle,
 } from "../../Navbar/style";
@@ -25,6 +23,7 @@ import {
     TextField,
 } from "@mui/material";
 import logo from "../../Navbar/logo.png";
+import ShelterFooter from "../../Background/ShelterFooter";
 
 const ManageNews = () => {
     const [news, setNews] = useState([]);
@@ -209,9 +208,7 @@ const ManageNews = () => {
                 </DialogActions>
             </Dialog>
 
-                <Footer>
-                    <FooterText>© 2024. Wszelkie prawa zastrzeżone.</FooterText>
-                </Footer>
+            <ShelterFooter/>
         </AppContainer>
     );
 };
