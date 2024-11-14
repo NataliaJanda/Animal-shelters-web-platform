@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -103,5 +104,12 @@ public class CampaignsController {
         Campaigns savedCampaigns = campaignsService.createCampaign(existingCampaigns);
 
         return ResponseEntity.ok(savedCampaigns);
+    }
+
+    @PostMapping("/{id}/donate")
+    public ResponseEntity<?> donateToCampaign(@PathVariable Long id, @RequestBody Map<String, Integer> request) {
+        int amount = request.get("amount");
+        Campaigns campaigns = campaignsService.addDonation(id, amount);
+        return ResponseEntity.ok(campaigns);
     }
 }

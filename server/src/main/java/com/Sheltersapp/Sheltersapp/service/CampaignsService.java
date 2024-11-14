@@ -36,4 +36,16 @@ public class CampaignsService {
     public List<Campaigns> findByShelterId(Long shelterId) {
         return campaignsRepository.findByShelterId(shelterId);
     }
+
+    public Campaigns addDonation(Long campaignId, int amount) {
+        Campaigns campaigns = campaignsRepository.findById(campaignId)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono kampanii"));
+
+        if (campaigns.getProgress() == null) {
+            campaigns.setProgress(0);
+        }
+
+        campaigns.setProgress(campaigns.getProgress() + amount);
+        return campaignsRepository.save(campaigns);
+    }
 }
