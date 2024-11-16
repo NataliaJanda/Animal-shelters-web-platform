@@ -41,6 +41,10 @@ public class Users implements UserDetails {
     public Users() {
     }
 
+    @Override
+    public String getPassword() {
+        return password != null ? password : "";
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

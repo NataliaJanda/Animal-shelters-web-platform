@@ -26,13 +26,13 @@ const Card = styled(MuiCard)(({ theme }) => ({
   margin: 'auto',
 }));
 
-export const validateEmail = (email) => {
-  return String(email)
-      .toLowerCase()
-      .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[a-zA-Z]{2,}))$/
-      );
-};
+// export const validateEmail = (email) => {
+//   return String(email)
+//       .toLowerCase()
+//       .match(
+//           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[a-zA-Z]{2,}))$/
+//       );
+// };
 
 function Register() {
   const navigate = useNavigate();
@@ -46,7 +46,9 @@ function Register() {
   });
 
   const getIsFormValid = () => {
-    return username && validateEmail(email) && password.value.length >= 8;
+    return username
+        // && validateEmail(email)
+        && password.value.length >= 8;
   };
 
   const clearForm = () => {

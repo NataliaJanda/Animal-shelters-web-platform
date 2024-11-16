@@ -47,7 +47,7 @@ public class AuthenticationService {
     }
 
     public Users signup(RegisterUser input) {
-        Users users = new Users(input.getUsername(), input.getEmail(),input.getName(), input.getLastName(), passwordEncoder.encode(input.getPassword()));
+        Users users = new Users(input.getEmail(), input.getEmail(),input.getName(), input.getLastName(), passwordEncoder.encode(input.getPassword()));
         users.setVerificationCode(generateVerificationCode());
         users.setExpired(LocalDateTime.now().plusMinutes(15));
         users.setActivated(false);
@@ -69,7 +69,7 @@ public class AuthenticationService {
                 input.getPost_code(), input.getTown(), input.getCounty(),
                 input.getReal_estate_number(), input.getRegon(), input.getVoivodeship());
 
-        Shelter_accounts shelter_accounts = new Shelter_accounts(input.getUsername(), input.getName(),
+        Shelter_accounts shelter_accounts = new Shelter_accounts(input.getEmail(), input.getName(),
                 input.getLast_name(), input.getEmail(), input.getPhone_number(),
                 passwordEncoder.encode(input.getPassword()));
 
@@ -87,46 +87,58 @@ public class AuthenticationService {
 
 
 
-    public Users authenticate(LoginUser input) {
+    public Users authenticate(LoginUser input){
         Users users = userRepository.findByUsername(input.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
 
         if (!users.isEnabled()) {
-            throw new RuntimeException("Account not verified. Please verify your account.");
+            throw new RuntimeException("Konto nie zostało zweryfikowane. Proszę zweryfikować konto.");
         }
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getUsername(),
-                        input.getPassword()
-                )
-        );
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            input.getUsername(),
+                            input.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Nieprawidłowe hasło");
+        }
 
         return users;
     }
 
-    public Shelter_accounts authenticateShelter(LoginUser input) {
+
+    public Shelter_accounts authenticateShelter(LoginUser input){
         Shelter_accounts shelter_accounts = ShelterAccountsRepository.findByUsername(input.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
 
         if (!shelter_accounts.isEnabled()) {
-            throw new RuntimeException("Account not verified. Please verify your account.");
+            throw new RuntimeException("Konto nie zostało zweryfikowane. Proszę zweryfikować konto.");
         }
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getUsername(),
-                        input.getPassword()
-                )
-        );
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            input.getUsername(),
+                            input.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Nieprawidłowe hasło");
+        }
 
         return shelter_accounts;
     }
+
 
     public void verifyUser(VerifyUser input) {
         Optional<Users> optionalUser = userRepository.findByUsername(input.getUsername());
         if (optionalUser.isPresent()) {
             Users users = optionalUser.get();
             if (users.getExpired().isBefore(LocalDateTime.now())) {
-                throw new RuntimeException("Verification code has expired");
+                throw new RuntimeException("Kod weryfikacyjny wygasł");
             }
             if (users.getVerificationCode().equals(input.getVerificationCode())) {
                 users.setActivated(true);
@@ -134,32 +146,35 @@ public class AuthenticationService {
                 users.setExpired(null);
                 userRepository.save(users);
             } else {
-                throw new RuntimeException("Invalid verification code");
+                throw new RuntimeException("Niepoprawny kod weryfikacyjny");
             }
         } else {
-            throw new RuntimeException("User not found");
+            throw new RuntimeException("Nie znaleziono użytkownika");
         }
     }
     public void verifyShelter(VerifyUser input) {
         Optional<Shelter_accounts> optionalShelterAccounts = ShelterAccountsRepository.findByUsername(input.getUsername());
-        if (optionalShelterAccounts.isPresent()) {
-            Shelter_accounts shelter_accounts = optionalShelterAccounts.get();
-            if (shelter_accounts.getExpired().isBefore(LocalDateTime.now())) {
-                throw new RuntimeException("Verification code has expired");
-            }
-            if (shelter_accounts.getVerificationCode().equals(input.getVerificationCode())) {
-                shelter_accounts.setActivated(true);
-                shelter_accounts.setVerificationCode(null);
-                shelter_accounts.setExpired(null);
-                ShelterAccountsRepository.save(shelter_accounts);
-            }
-            else {
-                throw new RuntimeException("Invalid verification code");
-            }
-        } else {
-            throw new RuntimeException("Shelter not found");
+
+        if (optionalShelterAccounts.isEmpty()) {
+            throw new RuntimeException("Nie znaleziono schroniska");
         }
+
+        Shelter_accounts shelter_accounts = optionalShelterAccounts.get();
+
+        if (shelter_accounts.getExpired().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Kod weryfikacyjny wygasł");
+        }
+
+        if (!shelter_accounts.getVerificationCode().equals(input.getVerificationCode())) {
+            throw new RuntimeException("Niepoprawny kod weryfikacyjny");
+        }
+
+        shelter_accounts.setActivated(true);
+        shelter_accounts.setVerificationCode(null);
+        shelter_accounts.setExpired(null);
+        ShelterAccountsRepository.save(shelter_accounts);
     }
+
 
     public void resendVerificationCode(String email) {
         Optional<Users> optionalUser = userRepository.findByUsername(email);
@@ -177,13 +192,36 @@ public class AuthenticationService {
         }
     }
 
-    private void sendVerificationEmail(Users users) {
+    public void resendVerificationCodeShelter(String email) {
+        Optional<Shelter_accounts> optionalShelterAccounts = ShelterAccountsRepository.findByUsername(email);
+
+        if (optionalShelterAccounts.isEmpty()) {
+            throw new RuntimeException("Shelter account not found");
+        }
+
+        Shelter_accounts shelter_accounts = optionalShelterAccounts.get();
+
+        if (shelter_accounts.isActivated()) {
+            throw new RuntimeException("Account is already verified");
+        }
+
+        String newVerificationCode = generateVerificationCode();
+        shelter_accounts.setVerificationCode(newVerificationCode);
+        shelter_accounts.setExpired(LocalDateTime.now().plusHours(1));
+
+        sendVerificationEmailForShelter(shelter_accounts);
+
+        ShelterAccountsRepository.save(shelter_accounts);
+    }
+
+
+    public void sendVerificationEmail(Users users) {
         String subject = "Account Verification";
         String verificationCode = "VERIFICATION CODE " + users.getVerificationCode();
         String htmlMessage = "<html>"
                 + "<body style=\"font-family: Arial, sans-serif;\">"
                 + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
-                + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
+                + "<h2 style=\"color: #333;\">Witaj!!</h2>"
                 + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
                 + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
                 + "<h3 style=\"color: #333;\">Verification Code:</h3>"
@@ -221,7 +259,7 @@ public class AuthenticationService {
             e.printStackTrace();
         }
     }
-    private String generateVerificationCode() {
+    public String generateVerificationCode() {
         Random random = new Random();
         int code = random.nextInt(900000) + 100000;
         return String.valueOf(code);

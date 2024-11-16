@@ -46,6 +46,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	jaxb("org.glassfish.jaxb:jaxb-xjc")
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '3.3.5'
 }
 
 
