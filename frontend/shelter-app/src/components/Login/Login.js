@@ -124,7 +124,6 @@ function Login() {
 
             window.location.href = "/MainPageSessionUser";
         } else {
-            showAlert("Nie udało się uzyskać danych logowania OAuth2", "error");
         }
     };
 
