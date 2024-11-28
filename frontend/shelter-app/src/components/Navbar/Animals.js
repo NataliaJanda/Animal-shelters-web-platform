@@ -26,21 +26,21 @@ const Adoptions = () => {
     const [filterShelterVoivodeship, setFilterShelterVoivodeship] = useState('');
     const [filterAgeAnimal, setFilterAgeAnimal] = useState('');
 
-
     useEffect(() => {
         const fetchAdoptions = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-                const response = await axios.get('http://localhost:8080/adoption/', config);
+                const response = await axios.get('http://localhost:8080/animal/', config);
 
                 console.log("Dane adopcji:", response.data);
 
-                setAdoptions(response.data);
+                const filteredAnimal = response.data.filter(animal => animal.available === true);
+                setAdoptions(filteredAnimal);
 
-                response.data.forEach(adoption => {
-                    if (adoption.animal && adoption.animal.id) {
-                        fetchAnimalPhoto(adoption.animal.id);
+                filteredAnimal.forEach(adoption => {
+                    if (adoption.id) {
+                        fetchAnimalPhoto(adoption.id);
                     }
                 });
 
@@ -79,14 +79,14 @@ const Adoptions = () => {
         }
     };
 
-    const filteredAnimals = adoptions.filter(adoption => {
-        const matchesRace = filterAnimal === '' || adoption.animal.race === filterAnimal;
-        const matchesSex = filterSexAnimal === '' || adoption.animal.sex === filterSexAnimal;
-        const matchesSize = filterSizeAnimal === '' || adoption.animal.size === filterSizeAnimal;
-        const matchesType = filterTypeAnimal === '' || adoption.animal.species.name === filterTypeAnimal;
-        const matchesAge = filterAgeAnimal === '' || adoption.animal.age === filterAgeAnimal;
-        const matchesShelterName = filterShelterName === '' || adoption.animal.shelter.name === filterShelterName;
-        const matchesShelterVoivodeship = filterShelterVoivodeship === '' || adoption.animal.shelter.voivodeship === filterShelterVoivodeship;
+    const filteredAnimals = adoptions.filter(animal => {
+        const matchesRace = filterAnimal === '' || animal.race === filterAnimal;
+        const matchesSex = filterSexAnimal === '' || animal.sex === filterSexAnimal;
+        const matchesSize = filterSizeAnimal === '' || animal.size === filterSizeAnimal;
+        const matchesType = filterTypeAnimal === '' || animal.species.name === filterTypeAnimal;
+        const matchesAge = filterAgeAnimal === '' || animal.age === filterAgeAnimal;
+        const matchesShelterName = filterShelterName === '' || animal.shelter.name === filterShelterName;
+        const matchesShelterVoivodeship = filterShelterVoivodeship === '' || animal.shelter.voivodeship === filterShelterVoivodeship;
 
 
         return matchesRace && matchesSex && matchesSize && matchesType && matchesAge && matchesShelterName && matchesShelterVoivodeship;
@@ -135,7 +135,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterTypeAnimal(e.target.value)}
                     >
                         <MenuItem value="">Wszystkie typy</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.species.name))).map((name) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.species.name))).map((name) => (
                             <MenuItem key={name} value={name}>{name}</MenuItem>
                         ))}
                     </Select>
@@ -149,7 +149,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterAnimal(e.target.value)}
                     >
                         <MenuItem value="">Wszystkie rasy</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.race))).map((race) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.race))).map((race) => (
                             <MenuItem key={race} value={race}>{race}</MenuItem>
                         ))}
                     </Select>
@@ -163,7 +163,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterSexAnimal(e.target.value)}
                     >
                         <MenuItem value="">Wszystkie płci</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.sex))).map((sex) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.sex))).map((sex) => (
                             <MenuItem key={sex} value={sex}>{sex}</MenuItem>
                         ))}
                     </Select>
@@ -177,7 +177,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterSizeAnimal(e.target.value)}
                     >
                         <MenuItem value="">Wszystkie rozmiary</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.size))).map((size) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.size))).map((size) => (
                             <MenuItem key={size} value={size}>{size}</MenuItem>
                         ))}
                     </Select>
@@ -192,7 +192,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterAgeAnimal(e.target.value)}
                     >
                         <MenuItem value="">Każdy wiek</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.age))).map((age) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.age))).map((age) => (
                             <MenuItem key={age} value={age}>{age}</MenuItem>
                         ))}
                     </Select>
@@ -206,7 +206,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterShelterName(e.target.value)}
                     >
                         <MenuItem value="">Wszystkie schronisko</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.shelter.name))).map((name) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.shelter.name))).map((name) => (
                             <MenuItem key={name} value={name}>{name}</MenuItem>
                         ))}
                     </Select>
@@ -220,7 +220,7 @@ const Adoptions = () => {
                         onChange={(e) => setFilterShelterVoivodeship(e.target.value)}
                     >
                         <MenuItem value="">Wszystkie województwa</MenuItem>
-                        {Array.from(new Set(adoptions.map(adoption => adoption.animal.shelter.voivodeship))).map((voivodeship) => (
+                        {Array.from(new Set(adoptions.map(animal => animal.shelter.voivodeship))).map((voivodeship) => (
                             <MenuItem key={voivodeship} value={voivodeship}>{voivodeship}</MenuItem>
                         ))}
                     </Select>
@@ -236,13 +236,12 @@ const Adoptions = () => {
             </ContentSection>
 
             <CollectionGridSection>
-                {filteredAnimals.map((adoption) => {
-                    const animal = adoption.animal || {};
-                    const shelter = adoption.shelter || {};
+                {filteredAnimals.map((animal) => {
+                    const shelter = animal.shelter || {};
 
                     return (
                         <CollectionCard
-                            key={adoption.id}
+                            key={animal.id}
                             onClick={() => navigate(`/animal/${animal.id}`)}
                             style={{ cursor: 'pointer' }}
                         >
@@ -254,7 +253,7 @@ const Adoptions = () => {
                                 <CollectionTitle>{animal.name || "Nieznana nazwa"}</CollectionTitle>
                                 <CollectionGoal>Schronisko: {shelter.name || "Nieznane schronisko"}</CollectionGoal>
                                 <CollectionDescription>Wiek: {animal.age || "Nieznany wiek"} lat</CollectionDescription>
-                                <CollectionDescription>Opis: {adoption.description || "Brak opisu"}</CollectionDescription>
+                                <CollectionDescription>Opis: {animal.description || "Brak opisu"}</CollectionDescription>
                             </CollectionInfo>
                         </CollectionCard>
                     );

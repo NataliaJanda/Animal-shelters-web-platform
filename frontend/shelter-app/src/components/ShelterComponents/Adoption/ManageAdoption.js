@@ -34,6 +34,9 @@ const ManageAdoptions = () => {
     const [adoptions, setAdoptions] = useState([]);
     const [openEditDialog, setOpenEditDialog] = useState(false);
     const [UserRole, setUserRole] = useState(true);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [animalToDelete, setAnimalToDelete] = useState(null);
+
 
     useEffect(() => {
         const id = localStorage.getItem("shelterId");
@@ -57,17 +60,19 @@ const ManageAdoptions = () => {
             try {
                 const token = localStorage.getItem("token");
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-                const response = await axios.get(`http://localhost:8080/adoption/shelter/${shelterId}`, config);
+                const response = await axios.get(`http://localhost:8080/animal/shelter/${shelterId}`, config);
 
                 console.log("Dane adopcji:", response.data);
 
-                response.data.forEach(adoption => {
-                    if (adoption.animal && adoption.animal.id) {
-                        fetchAnimalPhoto(adoption.animal.id);
+                const filteredAnimal = response.data.filter(animal => animal.available === true);
+                setAdoptions(filteredAnimal);
+
+                filteredAnimal.forEach(adoption => {
+                    if (adoption.id) {
+                        fetchAnimalPhoto(adoption.id);
                     }
                 });
 
-                setAdoptions(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error("Błąd przy pobieraniu adopcji:", error);
@@ -78,15 +83,19 @@ const ManageAdoptions = () => {
         fetchAdoptions();
     }, [shelterId]);
 
-    const deleteAdoption = async (id) => {
+    const handleDeleteAnimal = async (animalId) => {
         try {
             const token = localStorage.getItem('token');
             const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-            await axios.delete(`http://localhost:8080/adoption/admin/delete/${id}`, config);
-            setAdoptions(adoptions.filter(adoption => adoption.id !== id));
+            await axios.put(`http://localhost:8080/adoption/admin/delete/${animalId}`, null, config);
+            setAdoptions((prevAdoptions) =>
+                prevAdoptions.filter((animal) => animal.id !== animalId)
+            );
+            alert('Zwierzę zostało oznaczone jako niedostępne!');
         } catch (error) {
-            console.error("Błąd przy usuwaniu adopcji:", error);
+            console.error("Błąd przy usuwaniu zwierzęcia:", error);
+            alert('Wystąpił błąd przy oznaczaniu zwierzęcia jako niedostępne.');
         }
     };
 
@@ -115,24 +124,50 @@ const ManageAdoptions = () => {
         }
     };
 
-    const editAdoption = (adoption) => {
+    const updatedAnimalData = (adoption) => {
         setEditingAdoption(adoption);
         setUpdatedAdoption(adoption);
         setOpenEditDialog(true);
     };
 
-    const handleEditSubmit = async (id) => {
+    const handleEditSubmit = async (animalId) => {
         try {
             const token = localStorage.getItem('token');
             const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-            const response = await axios.put(`http://localhost:8080/adoption/admin/edit/${id}`, updatedAdoption, config);
-            setAdoptions(adoptions.map(a => (a.id === id ? response.data : a)));
-            setOpenEditDialog(false); // Close the dialog
+            const response = await axios.put(`http://localhost:8080/animal/admin/edit/${animalId}`, updatedAdoption, config);
+            const updated = response.data;
+
+            setAdoptions((prevAdoptions) =>
+                prevAdoptions.map((animal) =>
+                    animal.id === animalId ? updated : animal
+                )
+            );
+            alert('Zwierzę zostało zaktualizowane!');
+            setOpenEditDialog(false);
         } catch (error) {
-            console.error("Błąd przy edytowaniu adopcji:", error);
+            console.error("Błąd przy edytowaniu zwierzęcia:", error);
+            alert('Wystąpił błąd przy edytowaniu zwierzęcia.');
         }
     };
+
+    const handleOpenDeleteDialog = (animalId) => {
+        setAnimalToDelete(animalId);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleCloseDeleteDialog = () => {
+        setAnimalToDelete(null);
+        setDeleteDialogOpen(false);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (animalToDelete) {
+            await handleDeleteAnimal(animalToDelete);
+            setDeleteDialogOpen(false);
+        }
+    };
+
 
     if(UserRole===false) {
         window.location.href=("/signin")
@@ -163,12 +198,11 @@ const ManageAdoptions = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {adoptions.map((adoption) => {
-                            const animal = adoption.animal || {};
-                            const shelter = adoption.shelter || {};
+                        {adoptions.map((animal) => {
+                            const shelter = animal.shelter || {};
 
                             return (
-                                <TableRow key={adoption.id}>
+                                <TableRow key={animal.id}>
                                     <TableCell>
                                         <img
                                             src={animalPhotos[animal.id] || "https://via.placeholder.com/80"}
@@ -179,20 +213,19 @@ const ManageAdoptions = () => {
                                     <TableCell>{animal.name || "Nieznana nazwa"}</TableCell>
                                     <TableCell>{shelter.name || "Nieznane schronisko"}</TableCell>
                                     <TableCell>{animal.age || "Nieznany wiek"} lat</TableCell>
-                                    <TableCell>{adoption.description || "Brak opisu"}</TableCell>
+                                    <TableCell>{animal.description || "Brak opisu"}</TableCell>
                                     <TableCell>
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => editAdoption(adoption)}
-                                            style={{ marginRight: "8px" }}
+                                            onClick={() => updatedAnimalData(animal)}
                                         >
                                             Edytuj
                                         </Button>
                                         <Button
                                             variant="contained"
                                             color="secondary"
-                                            onClick={() => deleteAdoption(adoption.id)}
+                                            onClick={() => handleOpenDeleteDialog(animal.id)}
                                         >
                                             Usuń
                                         </Button>
@@ -203,6 +236,23 @@ const ManageAdoptions = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Dialog
+                open={deleteDialogOpen}
+                onClose={handleCloseDeleteDialog}
+            >
+                <DialogTitle>Czy na pewno chcesz usunąć adopcję?</DialogTitle>
+                <DialogContent>
+                    <p>Ta operacja oznaczy zwierzę jako niedostępne do adopcji.</p>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDeleteDialog} color="primary">
+                        Nie
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="secondary">
+                        Tak
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Dialog open={openEditDialog} onClose={() => setOpenEditDialog(false)}>
                 <DialogTitle>Edytuj adopcję</DialogTitle>
@@ -216,6 +266,8 @@ const ManageAdoptions = () => {
                         variant="outlined"
                         value={updatedAdoption.description}
                         onChange={(e) => setUpdatedAdoption({ ...updatedAdoption, description: e.target.value })}
+                        multiline
+                        rows={10}
                     />
                 </DialogContent>
                 <DialogActions>

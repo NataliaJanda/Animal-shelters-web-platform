@@ -15,9 +15,11 @@ import {
 } from "./style";
 import axios from "axios";
 import ShelterFooter from "../Background/ShelterFooter";
+import {useNavigate} from "react-router-dom";
 
 const MainPage = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+    const navigate = useNavigate();
     const maxVisible = 9;
 
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
@@ -31,17 +33,19 @@ const MainPage = () => {
             try {
                 const token = localStorage.getItem('token');
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-                const response = await axios.get('http://localhost:8080/adoption/', config);
+                const response = await axios.get('http://localhost:8080/animal/', config);
 
                 console.log("Dane adopcji:", response.data);
 
-                response.data.forEach(adoption => {
-                    if (adoption.animal && adoption.animal.id) {
-                        fetchAnimalPhoto(adoption.animal.id);
+                const filteredAnimal = response.data.filter(animal => animal.available === true);
+                setAdoptions(filteredAnimal);
+
+                filteredAnimal.forEach(adoption => {
+                    if (adoption.id) {
+                        fetchAnimalPhoto(adoption.id);
                     }
                 });
 
-                setAdoptions(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error("Błąd przy pobieraniu adopcji:", error);
@@ -54,7 +58,6 @@ const MainPage = () => {
 
     const fetchAnimalPhoto = async (animalId) => {
         try {
-
             const config = {
                 headers: {
                     "Content-Type": "application/json"
@@ -90,26 +93,24 @@ const MainPage = () => {
         <LowBackground />
         <Background2 />
           <CollectionGridSection>
-              {adoptions.slice(0, maxVisible).map((adoption) => {
-                  const animal = adoption.animal || {};
-                  const shelter = adoption.shelter || {};
+              {adoptions.slice(0, maxVisible).map((animal) => {
+                  const shelter = animal.shelter || {};
 
                   return (
                       <CollectionCard
-                          key={adoption.id}
-                          onClick={() => window.location.href = `/animal/${animal.id}`}
-                          style={{ cursor: 'pointer'}
-                      }>
+                          key={animal.id}
+                          onClick={() => navigate(`/animal/${animal.id}`)}
+                          style={{ cursor: 'pointer' }}
+                      >
                           <CollectionImage
                               src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
                               alt={animal.name || "Brak nazwy"}
                           />
                           <CollectionInfo>
-                              <CollectionTitle>{adoption.id}</CollectionTitle>
                               <CollectionTitle>{animal.name || "Nieznana nazwa"}</CollectionTitle>
                               <CollectionGoal>Schronisko: {shelter.name || "Nieznane schronisko"}</CollectionGoal>
                               <CollectionDescription>Wiek: {animal.age || "Nieznany wiek"} lat</CollectionDescription>
-                              <CollectionDescription>Opis: {adoption.description || "Brak opisu"}</CollectionDescription>
+                              <CollectionDescription>Opis: {animal.description || "Brak opisu"}</CollectionDescription>
                           </CollectionInfo>
                       </CollectionCard>
                   );

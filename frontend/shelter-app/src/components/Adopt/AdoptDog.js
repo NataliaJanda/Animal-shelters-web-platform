@@ -9,28 +9,32 @@ import {
     SectionText, SectionTitle
 } from "../Navbar/style";
 import ShelterFooter from "../Background/ShelterFooter";
+import {useNavigate} from "react-router-dom";
 
 const AdoptDog= () => {
     const [adoptions, setAdoptions] = useState([]);
     const [loading, setLoading] = useState(true);
     const [animalPhotos, setAnimalPhotos] = useState({});
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAdoptions = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-                const response = await axios.get('http://localhost:8080/adoption/species/1', config);
+                const response = await axios.get('http://localhost:8080/animal/species/1', config);
 
                 console.log("Dane adopcji:", response.data);
 
-                response.data.forEach(adoption => {
-                    if (adoption.animal && adoption.animal.id) {
-                        fetchAnimalPhoto(adoption.animal.id);
+                const filteredAnimal = response.data.filter(animal => animal.available === true);
+                setAdoptions(filteredAnimal);
+
+                filteredAnimal.forEach(adoption => {
+                    if (adoption.id) {
+                        fetchAnimalPhoto(adoption.id);
                     }
                 });
 
-                setAdoptions(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error("Błąd przy pobieraniu adopcji:", error);
@@ -89,12 +93,15 @@ const AdoptDog= () => {
             </ContentSection>
 
             <CollectionGridSection>
-                {adoptions.map((adoption) => {
-                    const animal = adoption.animal || {};
-                    const shelter = adoption.shelter || {};
+                {adoptions.map((animal) => {
+                    const shelter = animal.shelter || {};
 
                     return (
-                        <CollectionCard key={adoption.id}>
+                        <CollectionCard
+                            key={animal.id}
+                            onClick={() => navigate(`/animal/${animal.id}`)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <CollectionImage
                                 src={animalPhotos[animal.id] || "https://via.placeholder.com/400"}
                                 alt={animal.name || "Brak nazwy"}
@@ -103,7 +110,7 @@ const AdoptDog= () => {
                                 <CollectionTitle>{animal.name || "Nieznana nazwa"}</CollectionTitle>
                                 <CollectionGoal>Schronisko: {shelter.name || "Nieznane schronisko"}</CollectionGoal>
                                 <CollectionDescription>Wiek: {animal.age || "Nieznany wiek"} lat</CollectionDescription>
-                                <CollectionDescription>Opis: {adoption.description || "Brak opisu"}</CollectionDescription>
+                                <CollectionDescription>Opis: {animal.description || "Brak opisu"}</CollectionDescription>
                             </CollectionInfo>
                         </CollectionCard>
                     );

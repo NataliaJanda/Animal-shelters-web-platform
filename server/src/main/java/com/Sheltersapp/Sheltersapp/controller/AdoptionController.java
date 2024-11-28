@@ -4,6 +4,7 @@ import com.Sheltersapp.Sheltersapp.model.*;
 import com.Sheltersapp.Sheltersapp.repository.AnimalRepository;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
 import com.Sheltersapp.Sheltersapp.service.AdoptionService;
+import com.Sheltersapp.Sheltersapp.service.AnimalService;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +26,14 @@ public class AdoptionController {
     private final ShelterAccountsRepository shelterAccountsRepository;
     private final AdoptionService adoptionService;
     private final AnimalRepository animalRepository;
+    private final AnimalService animalService;
 
-    public AdoptionController(JwtService jwtService, ShelterAccountsRepository shelterAccountsRepository, AdoptionService adoptionService, AnimalRepository animalRepository) {
+    public AdoptionController(JwtService jwtService, ShelterAccountsRepository shelterAccountsRepository, AdoptionService adoptionService, AnimalRepository animalRepository, AnimalService animalService) {
         this.jwtService = jwtService;
         this.shelterAccountsRepository = shelterAccountsRepository;
         this.adoptionService = adoptionService;
         this.animalRepository = animalRepository;
+        this.animalService = animalService;
     }
 
     @PostMapping("/admin/add")
@@ -59,12 +62,7 @@ public class AdoptionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        Optional<Animal> animalOptional = animalRepository.findById(animalId);
-        Animal animal = animalOptional.orElseThrow(() -> new RuntimeException("Animal not found with id: " + animalId));
-
         Adoption adoption = new Adoption();
-        adoption.setShelter(userShelter);
-        adoption.setAnimal(animal);
         adoption.setDescription(description);
         adoption.setDate(LocalDateTime.now());
 
@@ -87,50 +85,18 @@ public class AdoptionController {
         return ResponseEntity.ok(adoptions);
     }
 
-    @GetMapping("/shelter/{shelter_id}")
-    public ResponseEntity<List<Adoption>> getAnimalsByShelterId(@PathVariable Long shelter_id) {
-        try {
-            List<Adoption> adoptions = adoptionService.findByShelterId(shelter_id);
-            if (adoptions.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(adoptions);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+    @PutMapping("/admin/delete/{id}")
+    public ResponseEntity<Animal> softDeleteAnimal(@PathVariable Long id) {
+        Optional<Animal> optionalAnimal = animalService.getAnimalById(id);
 
-    @DeleteMapping("/admin/delete/{id}")
-    public ResponseEntity<Void> deleteAdoption(@PathVariable Long id) {
-        adoptionService.deleteAdoption(id);
-        return ResponseEntity.noContent().build();
-    }
-    @PutMapping("/admin/edit/{id}")
-    public ResponseEntity<Adoption> editAdoption(@PathVariable Long id, @RequestBody Adoption updatedAdoption) {
-        Optional<Adoption> optionalAdoption = adoptionService.getAdoptionById(id);
-
-        if (optionalAdoption.isEmpty()) {
+        if (optionalAnimal.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        Adoption existingAdoption = optionalAdoption.get();
-        existingAdoption.setDescription(updatedAdoption.getDescription());
-
-        Adoption savedAnimal = adoptionService.createAdoption(existingAdoption);
+        Animal existingAnimal = optionalAnimal.get();
+        existingAnimal.setAvailable(false);
+        Animal savedAnimal = animalService.addAnimal(existingAnimal);
 
         return ResponseEntity.ok(savedAnimal);
-    }
-
-    @GetMapping("/species/{species_id}")
-    public ResponseEntity<List<Adoption>> getAdoptionsBySpeciesId(@PathVariable Long species_id) {
-        try {
-            List<Adoption> adoptions = adoptionService.findAdoptionsBySpeciesId(species_id);
-            if (adoptions.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.ok(adoptions);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 }

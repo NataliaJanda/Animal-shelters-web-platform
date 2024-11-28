@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Entity
@@ -21,6 +19,7 @@ public class Animal {
     private String race;
     private boolean vaccination;
     private int age;
+    private boolean available;
 
     @ManyToOne
     @JoinColumn(name = "shelter_id")
@@ -30,5 +29,8 @@ public class Animal {
     @JoinColumn(name = "species_id")
     private Species species;
 
+//    @OneToOne
+//    @JoinColumn(name = "adoption_id")
+//    private Adoption adoption;
 
 }

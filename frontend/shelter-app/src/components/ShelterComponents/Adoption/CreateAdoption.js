@@ -7,14 +7,12 @@ import ShelterFooter from "../../Background/ShelterFooter";
 
 function CreateAdoption() {
     const navigate = useNavigate();
-    const [description, setDescription] = useState("");
     const [animal_id, setAnimal] = useState("");
     const [animalsList, setAnimalsList] = useState([]);
     const [shelterId, setShelterId] = useState(null);
     const [UserRole, setUserRole] = useState(true);
 
     const clearForm = () => {
-        setDescription("");
         setAnimal("");
     };
 
@@ -28,8 +26,10 @@ function CreateAdoption() {
 
         const role = localStorage.getItem("role")
         if (role === "SHELTER") {
-            setUserRole(true)
-        } else {setUserRole(false)}
+            setUserRole(true);
+        } else {
+            setUserRole(false);
+        }
     }, []);
 
     useEffect(() => {
@@ -52,46 +52,28 @@ function CreateAdoption() {
         fetchSpecies();
     }, [shelterId]);
 
-    const handleSubmit = async (e) => {
+    const handleAddAdoption = async (e) => {
         e.preventDefault();
-
-        const requestBody = {
-            description: description,
-            animal_id: parseInt(animal_id),
-        };
-
+        if (!animal_id) {
+            alert("Wybierz zwierzę przed dodaniem adopcji.");
+            return;
+        }
         try {
             const token = localStorage.getItem('token');
+            const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
 
-            if (!token) {
-                alert("Nie jesteś zalogowany. Proszę się zalogować.");
-                return;
-            }
+            await axios.put(`http://localhost:8080/animal/admin/setAvailable/${animal_id}`, null, config);
 
-            const response = await fetch("http://localhost:8080/adoption/admin/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(requestBody),
-            });
-
-            if (response.ok) {
-                clearForm();
-                navigate("/MainPageSessionShelter");
-            } else {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.message}`);
-            }
+            alert('Zwierzę zostało oznaczone jako dostępne do adopcji!');
+            clearForm();
         } catch (error) {
-            console.error("Error during making:", error);
-            alert("An error occurred during making campaign. Please try again.");
+            console.error("Błąd przy oznaczaniu zwierzęcia jako dostępne:", error);
+            alert('Wystąpił błąd przy oznaczaniu zwierzęcia jako dostępne.');
         }
     };
 
-    if(UserRole===false) {
-        window.location.href=("/signin")
+    if (UserRole === false) {
+        window.location.href = ("/signin");
     }
 
     return (
@@ -111,22 +93,12 @@ function CreateAdoption() {
                 <Container maxWidth="sm">
                     <Box sx={{ textAlign: "center", mt: 5 }}>
                         <Typography variant="h4" gutterBottom>
-                            Stwórz adopcje
+                            Stwórz adopcję
                         </Typography>
                     </Box>
 
-                    <form onSubmit={handleSubmit} noValidate>
+                    <form onSubmit={handleAddAdoption} noValidate>
                         <Box sx={{ mt: 3 }}>
-                            <TextField
-                                fullWidth
-                                label="Opis"
-                                variant="outlined"
-                                margin="normal"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-
-                            {/* Species Select Dropdown */}
                             <FormControl fullWidth margin="normal">
                                 <InputLabel id="animal-label">Wybierz zwierzę</InputLabel>
                                 <Select
@@ -136,14 +108,13 @@ function CreateAdoption() {
                                     label="Wybierz zwierzę"
                                     onChange={(e) => setAnimal(e.target.value)}
                                 >
-                                    {animalsList.map((animal_id) => (
-                                        <MenuItem key={animal_id.id} value={animal_id.id}>
-                                            {animal_id.name}
+                                    {animalsList.map((animal) => (
+                                        <MenuItem key={animal.id} value={animal.id}>
+                                            {animal.name}
                                         </MenuItem>
                                     ))}
                                 </Select>
                             </FormControl>
-
                             <Button
                                 fullWidth
                                 variant="contained"
@@ -157,7 +128,7 @@ function CreateAdoption() {
                     </form>
                 </Container>
             </Box>
-            <ShelterFooter/>
+            <ShelterFooter />
         </>
     );
 }

@@ -20,12 +20,12 @@ public class Adoption {
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @OneToOne
-    @JoinColumn(name = "animal_id")
-    private Animal animal;
+//    @OneToOne
+//    @JoinColumn(name = "animal_id")
+//    private Animal animal;
 
-    @ManyToOne
-    @JoinColumn(name = "shelter_id")
-    private Shelter shelter;
+//    @ManyToOne
+//    @JoinColumn(name = "shelter_id")
+//    private Shelter shelter;
 
 }

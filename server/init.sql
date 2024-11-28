@@ -4,9 +4,9 @@ CREATE TABLE Adoption (
                           id SERIAL PRIMARY KEY,
                           date timestamp(6)  NOT NULL,
                           description varchar(250)  NOT NULL,
-                          User_id int,
-                          Shelter_id int,
-                          Animal_id int
+                          User_id int
+--                           Shelter_id int,
+--                           Animal_id int
 );
 
 -- Table: Animal
@@ -20,8 +20,10 @@ CREATE TABLE Animal (
                         race varchar(40) NOT NULL,
                         vaccination boolean NOT NULL,
                         age int  NOT NULL,
+                        available boolean NOT NULL,
                         Shelter_id int ,
-                        Species_id int
+                        Species_id int,
+                        Adoption_id int
 );
 
 -- Table: Campaigns
@@ -95,7 +97,7 @@ CREATE TABLE Users (
                        id SERIAL PRIMARY KEY,
                        username varchar(100) NOT NULL,
                        name varchar(100)  NOT NULL,
-                       last_name varchar(100)  NOT NULL,
+                       last_name varchar(100),
                        email varchar(100)  NOT NULL,
                        role varchar(100) NOT NULL,
                        password varchar(100)  NOT NULL,
