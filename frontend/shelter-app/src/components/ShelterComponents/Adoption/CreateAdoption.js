@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { TextField, Button, Container, Typography, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Button, Container, Typography, Box, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
 import axios from 'axios';
 import ShelterFooter from "../../Background/ShelterFooter";
 
 function CreateAdoption() {
-    const navigate = useNavigate();
     const [animal_id, setAnimal] = useState("");
     const [animalsList, setAnimalsList] = useState([]);
     const [shelterId, setShelterId] = useState(null);

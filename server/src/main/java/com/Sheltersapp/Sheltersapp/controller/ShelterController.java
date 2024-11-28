@@ -1,8 +1,13 @@
 package com.Sheltersapp.Sheltersapp.controller;
 
+import com.Sheltersapp.Sheltersapp.DTO.AdoptionFormDTO;
 import com.Sheltersapp.Sheltersapp.model.Shelter;
 import com.Sheltersapp.Sheltersapp.service.ShelterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +20,8 @@ import java.util.Optional;
 public class ShelterController {
 
     private final ShelterService shelterService;
-
+    @Autowired
+    private JavaMailSender mailSender;
 
     public ShelterController(ShelterService shelterService) {
         this.shelterService = shelterService;
@@ -58,5 +64,39 @@ public class ShelterController {
         Shelter savedUser = shelterService.createShelter(existingUser);
 
         return ResponseEntity.ok(savedUser);
+    }
+
+    @GetMapping("/animal/{animalId}/email")
+    public ResponseEntity<String> getShelterEmailByAnimal(@PathVariable Long animalId) {
+        String email = shelterService.getShelterEmailByAnimalId(animalId);
+        return ResponseEntity.ok(email);
+    }
+
+    @PostMapping("/send-email")
+    public ResponseEntity<String> sendAdoptionEmail(@RequestBody AdoptionFormDTO form) {
+        try {
+            if (form.getShelterEmail() == null || form.getShelterEmail().isEmpty()) {
+                throw new IllegalArgumentException("Shelter email is empty");
+            }
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(form.getShelterEmail());
+            message.setSubject("Nowe zgłoszenie adopcyjne");
+            message.setText("Szczegóły zgłoszenia:\n" +
+                    "Name: " + form.getName() + "\n" +
+                    "Surname: " + form.getSurname() + "\n" +
+                    "Address: " + form.getAddress() + "\n" +
+                    "Phone: " + form.getPhoneNumber() + "\n" +
+                    "Email: " + form.getEmail() + "\n" +
+                    "Experience: " + form.getExperience());
+
+            mailSender.send(message);
+            return ResponseEntity.ok("ok");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (MailException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error " + e.getMessage());
+        }
     }
 }
