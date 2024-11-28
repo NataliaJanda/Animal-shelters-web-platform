@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface AdoptionRepository extends JpaRepository<Adoption, Long> {
     Optional<Adoption> findById(Long aLong);
 
-    List<Adoption> findByShelterId(Long id);
+//    List<Adoption> findByAnimalShelterId(Long shelterId);
 
-    List<Adoption> findByAnimalSpeciesId(Long speciesId);
+//    List<Adoption> findByAnimalSpeciesId(Long speciesId);
 
 }

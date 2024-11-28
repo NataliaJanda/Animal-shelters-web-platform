@@ -73,6 +73,7 @@ public class AnimalController {
         animal.setDescription((String) animalData.get("description"));
         animal.setVaccination((Boolean) animalData.get("vaccination"));
 
+        animal.setAvailable(false);
 
         Integer age = null;
         try {
@@ -268,6 +269,21 @@ public class AnimalController {
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(photo.getData());
+    }
+
+    @PutMapping("/admin/setAvailable/{id}")
+    public ResponseEntity<Animal> softDeleteAnimal(@PathVariable Long id) {
+        Optional<Animal> optionalAnimal = animalService.getAnimalById(id);
+
+        if (optionalAnimal.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Animal existingAnimal = optionalAnimal.get();
+        existingAnimal.setAvailable(true);
+        Animal savedAnimal = animalService.addAnimal(existingAnimal);
+
+        return ResponseEntity.ok(savedAnimal);
     }
 
 }
