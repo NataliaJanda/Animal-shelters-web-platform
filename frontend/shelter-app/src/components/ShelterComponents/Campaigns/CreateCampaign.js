@@ -112,17 +112,19 @@ function CreateCampaign() {
                                 margin="normal"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                multiline
+                                rows={5}
                             />
                             <TextField
                                 fullWidth
                                 label="Data początku"
                                 variant="outlined"
                                 margin="normal"
-                                type="date" // Ustaw typ na date
+                                type="date"
                                 value={start_date}
                                 onChange={(e) => setStartDate(e.target.value)}
                                 InputLabelProps={{
-                                    shrink: true, // Aby etykieta była zawsze widoczna
+                                    shrink: true,
                                 }}
                             />
                             <TextField
@@ -130,11 +132,11 @@ function CreateCampaign() {
                                 label="Data zakończenia"
                                 variant="outlined"
                                 margin="normal"
-                                type="date" // Ustaw typ na date
+                                type="date"
                                 value={end_date}
                                 onChange={(e) => setEndDate(e.target.value)}
                                 InputLabelProps={{
-                                    shrink: true, // Aby etykieta była zawsze widoczna
+                                    shrink: true,
                                 }}
                             />
                             <TextField

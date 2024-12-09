@@ -251,6 +251,8 @@ function AddAnimal() {
                                 margin="normal"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                                multiline
+                                rows={6}
                             />
                             <FormControl fullWidth margin="normal">
                                 <InputLabel id="species-label">Gatunek</InputLabel>

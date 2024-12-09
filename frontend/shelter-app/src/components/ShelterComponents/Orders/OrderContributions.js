@@ -38,7 +38,7 @@ function OrderContributions() {
             }
 
             const data = await response.json();
-            const filteredOrders = data.filter(order => order.ispublic === true);
+            const filteredOrders = data.filter(order => order.ispublic === true && order.active === true);
             setPublicOrders(filteredOrders);
 
         } catch (error) {

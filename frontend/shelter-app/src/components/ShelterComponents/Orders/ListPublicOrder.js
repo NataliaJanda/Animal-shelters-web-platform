@@ -62,8 +62,6 @@ function ListPublicOrder() {
 
         try {
             const token = localStorage.getItem('token');
-            console.log("Akceptacja kontrybucji - orderId:", orderId, "contributionId:", contributionId);
-
             const response = await fetch(`http://localhost:8080/OrderContributions/${contributionId}/accept`, {
                 method: "PATCH",
                 headers: {
@@ -73,19 +71,23 @@ function ListPublicOrder() {
                 body: JSON.stringify({ is_accept: true })
             });
 
-            console.log("Odpowiedź z serwera:", response);
-
             if (response.ok) {
-                console.log("Akceptacja zakończona, odświeżam dane...");
-                await toggleExpandOrder(orderId);
+                setOrderContributions((prevState) => {
+                    const updatedContributions = prevState[orderId].map((contribution) =>
+                        contribution.id === contributionId
+                            ? { ...contribution, _accept: true }
+                            : contribution
+                    );
+                    return { ...prevState, [orderId]: updatedContributions };
+                });
             } else {
-                const errorText = await response.text();
-                console.error("Błąd przy aktualizacji kontrybucji:", response.statusText, errorText);
+                console.error("Błąd przy aktualizacji kontrybucji:", response.statusText);
             }
         } catch (error) {
             console.error("Błąd sieciowy:", error);
         }
     };
+
 
 
     const toggleExpandOrder = async (orderId) => {

@@ -97,13 +97,26 @@ function Orders() {
             });
 
             if (response.ok) {
+                const addedOrder = await response.json();
+
+                setActiveOrders((prevOrders) => [...prevOrders, addedOrder]);
+
                 setOpen(false);
+                clearForm();
             } else {
                 console.error("Error creating order:", response.statusText);
             }
         } catch (error) {
             console.error("Network error:", error);
         }
+    };
+
+    const clearForm = () => {
+        setName('');
+        setCount(1);
+        setLink('');
+        setInfo('');
+        setIsPublic(true);
     };
 
     const editOrder = (newsItem) => {
@@ -172,11 +185,8 @@ function Orders() {
             });
 
             if (response.ok) {
-                setActiveOrders(prevOrders =>
-                    prevOrders.map(order =>
-                        order.id === selectedOrderId ? { ...order, isArchived: true } : order
-                    )
-                );
+                setActiveOrders(prevOrders => prevOrders.filter(order => order.id !== selectedOrderId));
+                console.log("Zamówienie zostało zarchiwizowane.");
             } else {
                 console.error("Błąd przy archiwizacji zamówienia:", response.statusText);
             }
@@ -313,6 +323,8 @@ function Orders() {
                                 value={link}
                                 onChange={(e) => setLink(e.target.value)}
                                 margin="normal"
+                                multiline
+                                rows={2}
                             />
                             <TextField
                                 label="Dodatkowe informacje"
@@ -320,6 +332,8 @@ function Orders() {
                                 value={info}
                                 onChange={(e) => setInfo(e.target.value)}
                                 margin="normal"
+                                multiline
+                                rows={2}
                             />
                             <FormControl fullWidth margin="normal">
                                 <InputLabel id="order-public--label">Publiczne zamówienie</InputLabel>

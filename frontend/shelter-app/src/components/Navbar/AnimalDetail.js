@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import background from "./lapy.jpg";
 import axios from "axios";
 import {
@@ -8,17 +8,21 @@ import {
     Button,
     Grid,
     CircularProgress,
+    Dialog,
+    DialogActions,
+    DialogContent,
 } from "@mui/material";
 import NavbarTopLoginSession from "./NavbarTopUnllogin";
-import {AppContainer} from "./style";
+import { AppContainer } from "./style";
 import ShelterFooter from "../Background/ShelterFooter";
+import AdoptionForm from "../Adopt/AdoptionForm";
 
 const AnimalDetail = () => {
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
     const [photos, setPhotos] = useState([]);
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-    const navigate = useNavigate();
+    const [openDialog, setOpenDialog] = useState(false);
 
     useEffect(() => {
         const fetchAnimal = async () => {
@@ -38,7 +42,6 @@ const AnimalDetail = () => {
                 console.error("Błąd przy pobieraniu zdjęć zwierzęcia:", error.response ? error.response.data : error.message);
             }
         };
-
 
         fetchAnimal();
         fetchPhotos();
@@ -71,8 +74,17 @@ const AnimalDetail = () => {
                 variant="h2"
                 align="center"
                 gutterBottom
-                sx={{ fontWeight: "bold", mb: 2, marginTop: 3, borderRadius: 2, boxShadow: 3, backgroundColor: "#f9f9f9",
-                    backgroundImage: `url(${background})`, backgroundSize: "cover", backgroundPosition: "center"}}
+                sx={{
+                    fontWeight: "bold",
+                    mb: 2,
+                    marginTop: 3,
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    backgroundColor: "#f9f9f9",
+                    backgroundImage: `url(${background})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                }}
             >
                 {animal.name}
             </Typography>
@@ -138,17 +150,29 @@ const AnimalDetail = () => {
                 </Grid>
             </Box>
 
-            <Box sx={{ mt: 4,mb:7, display: "flex", justifyContent: "center", gap: 2 }}>
+            <Box sx={{ mt: 4, mb: 7, display: "flex", justifyContent: "center", gap: 2 }}>
                 <Button
                     variant="contained"
                     color="success"
-                    onClick={() => navigate("/AdoptionForm")}
+                    onClick={() => setOpenDialog(true)}
                     sx={{ px: 4, py: 1.5, fontWeight: "bold", boxShadow: 2 }}
                 >
                     Adoptuj
                 </Button>
             </Box>
-            <ShelterFooter/>
+
+            <Dialog open={openDialog} onClose={() => setOpenDialog(false)} fullWidth maxWidth="sm">
+                <DialogContent>
+                    <AdoptionForm animalId={id} />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenDialog(false)} color="primary">
+                        Zamknij
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <ShelterFooter />
         </AppContainer>
     );
 };

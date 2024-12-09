@@ -41,14 +41,22 @@ function CreateAdoption() {
                     : {};
 
                 const response = await axios.get(`http://localhost:8080/animal/shelter/${shelterId}`, config);
-                setAnimalsList(response.data);
+
+                if (Array.isArray(response.data)) {
+                    setAnimalsList(response.data);
+                } else {
+                    console.error("Nieoczekiwany format danych:", response.data);
+                    setAnimalsList([]);
+                }
             } catch (error) {
-                console.error("Error fetching species:", error);
+                console.error("Błąd podczas pobierania danych:", error);
+                setAnimalsList([]);
             }
         };
 
         fetchSpecies();
     }, [shelterId]);
+
 
     const handleAddAdoption = async (e) => {
         e.preventDefault();
@@ -106,11 +114,15 @@ function CreateAdoption() {
                                     label="Wybierz zwierzę"
                                     onChange={(e) => setAnimal(e.target.value)}
                                 >
-                                    {animalsList.map((animal) => (
-                                        <MenuItem key={animal.id} value={animal.id}>
-                                            {animal.name}
-                                        </MenuItem>
-                                    ))}
+                                    {Array.isArray(animalsList) && animalsList.length > 0 ? (
+                                        animalsList.map((animal) => (
+                                            <MenuItem key={animal.id} value={animal.id}>
+                                                {animal.name}
+                                            </MenuItem>
+                                        ))
+                                    ) : (
+                                        <MenuItem disabled>Brak dostępnych zwierząt</MenuItem>
+                                    )}
                                 </Select>
                             </FormControl>
                             <Button

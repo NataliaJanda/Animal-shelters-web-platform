@@ -61,25 +61,32 @@ const ManageAnimals = () => {
     }, []);
 
     useEffect(() => {
-        if (shelterId === null) return;
-
-        const fetchAnimals = async () => {
-            try {
-                const token = localStorage.getItem("token");
-                const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-
-                const response = await axios.get(`http://localhost:8080/animal/shelter/${shelterId}`, config);
-                setAnimals(response.data);
-                setLoading(false);
-                response.data.forEach((animal) => fetchAnimalPhoto(animal.id));
-            } catch (error) {
-                console.error("Błąd przy pobieraniu zwierząt:", error);
-                setLoading(false);
-            }
-        };
-
         fetchAnimals();
     }, [shelterId]);
+
+    const fetchAnimals = async () => {
+        if (!shelterId) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+
+            const response = await axios.get(`http://localhost:8080/animal/shelter/${shelterId}`, config);
+
+            if (Array.isArray(response.data)) {
+                setAnimals(response.data);
+                response.data.forEach((animal) => fetchAnimalPhoto(animal.id));
+            } else {
+                console.error("Nieoczekiwany format danych z API:", response.data);
+                setAnimals([]);
+            }
+        } catch (error) {
+            console.error("Błąd przy pobieraniu zwierząt:", error);
+            setAnimals([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchAnimalPhoto = async (animalId) => {
         try {
@@ -117,17 +124,26 @@ const ManageAnimals = () => {
         }
     };
 
-    const deleteAnimal = async (id) => {
+
+    const deleteAnimal = async (animalId) => {
         try {
             const token = localStorage.getItem("token");
-            const config = token
-                ? { headers: { Authorization: `Bearer ${token}` } }
-                : {};
+            const config = {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
 
-            await axios.delete(`http://localhost:8080/animal/admin/delete/${id}`, config);
-            setAnimals(animals.filter((animal) => animal.id !== id));
+            const response = await fetch(`http://localhost:8080/animal/admin/delete/${animalId}`, config);
+
+            if (response.ok) {
+                await fetchAnimals();
+            } else {
+                console.error("Nie udało się usunąć zwierzęcia. Kod odpowiedzi:", response.status);
+            }
         } catch (error) {
-            console.error("Błąd przy usuwaniu zwierzęcia:", error);
+            console.error("Błąd podczas usuwania zwierzęcia:", error);
         }
     };
 
@@ -189,14 +205,17 @@ const ManageAnimals = () => {
         return <p>Ładowanie...</p>;
     }
 
-    const filteredAnimals = animals.filter(animal => {
-        const matchesRace = filterAnimal === '' || animal.race === filterAnimal;
-        const matchesSex = filterSexAnimal === '' || animal.sex === filterSexAnimal;
-        const matchesSize = filterSizeAnimal === '' || animal.size === filterSizeAnimal;
-        const matchesType = filterTypeAnimal === '' || animal.species.name === filterTypeAnimal;
+    const filteredAnimals = Array.isArray(animals)
+        ? animals.filter(animal => {
+            const matchesRace = filterAnimal === '' || animal.race === filterAnimal;
+            const matchesSex = filterSexAnimal === '' || animal.sex === filterSexAnimal;
+            const matchesSize = filterSizeAnimal === '' || animal.size === filterSizeAnimal;
+            const matchesType = filterTypeAnimal === '' || animal.species.name === filterTypeAnimal;
 
-        return matchesRace && matchesSex && matchesSize && matchesType;
-    });
+            return matchesRace && matchesSex && matchesSize && matchesType;
+        })
+        : [];
+
 
     return (
         <AppContainer>

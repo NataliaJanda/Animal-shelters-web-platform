@@ -165,6 +165,8 @@ function AddNews() {
                                 label="Opis"
                                 variant="outlined"
                                 margin="normal"
+                                multiline
+                                rows={6}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
