@@ -9,6 +9,7 @@ import com.Sheltersapp.Sheltersapp.service.AdoptionService;
 import com.Sheltersapp.Sheltersapp.service.AnimalService;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
 import com.Sheltersapp.Sheltersapp.service.PhotoService;
+import jakarta.persistence.NonUniqueResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -164,19 +165,33 @@ public class AnimalController {
     @DeleteMapping("/admin/delete/{id}")
     @Transactional
     public ResponseEntity<Void> deleteAnimal(@PathVariable Long id) {
-        Optional<Photo> optAnimal = photoRepository.findByAnimalId(id);
-        adoptionService.deleteAdoption(optAnimal.get().getId());
-        if (optAnimal.isPresent()) {
-            Photo photo = optAnimal.get();
-            photoService.deletePhoto(photo.getId());
+        try {
+            Optional<Animal> optAnimal = animalRepository.findById(id);
+
+            if (optAnimal.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            Animal animal = optAnimal.get();
+
+            List<Photo> photos = photoRepository.findByAnimal(animal);
+            for (Photo photo : photos) {
+                photoService.deletePhoto(photo.getId());
+            }
+
+            int amount = animal.getSpecies().getAmount();
+            --amount;
+            animal.getSpecies().setAmount(amount);
+
+            animalService.deleteAnimal(id);
+
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            logger.error("Błąd ogólny przy usuwaniu zwierzęcia: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        Animal animal = optAnimal.get().getAnimal();
-        int amount = animal.getSpecies().getAmount();
-        --amount;
-        animal.getSpecies().setAmount(amount);
-        animalService.deleteAnimal(id);
-        return ResponseEntity.noContent().build();
     }
+
     @PutMapping("/admin/edit/{id}")
     public ResponseEntity<Animal> editAnimal(@PathVariable Long id, @RequestBody Animal updatedAnimal) {
         Optional<Animal> optionalAnimal = animalService.getAnimalById(id);
