@@ -20,7 +20,7 @@ function AdoptionForm({ animalId }) {
             try {
                 const response = await axios.get(`http://localhost:8080/shelter/animal/${animalId}/email`);
                 setShelterEmail(response.data);
-                console.log("Fetched Shelter Email:", response.data); // Sprawdź wynik
+                console.log("Fetched Shelter Email:", response.data);
             } catch (error) {
                 console.error("Błąd przy pobieraniu e-maila schroniska:", error);
             }
@@ -37,28 +37,42 @@ function AdoptionForm({ animalId }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const id = localStorage.getItem("userId");
+        console.log("Pobrane userId:", id);
+
         const adoptionData = {
             name,
-            surname,
+            last_name: surname,
             address,
-            phoneNumber,
+            phone_number: phoneNumber,
             email,
             experience,
             shelterEmail,
+            animal_id: animalId,
+            date: new Date().toISOString(),
+            description: "Formularz adopcyjny",
+            users: { id: id }
         };
-
         console.log("Dane wysyłane do backendu:", adoptionData);
 
         try {
-            const response = await axios.post('http://localhost:8080/shelter/send-email', adoptionData, {
+            const saveResponse = await axios.post('http://localhost:8080/adoption/admin/add', adoptionData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
-            console.log("Response:", response.data);
+            console.log("Zapisano dane adopcji:", saveResponse.data);
+
+            const emailResponse = await axios.post('http://localhost:8080/shelter/send-email', adoptionData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            console.log("E-mail wysłany:", emailResponse.data);
+
             setOpenSuccessDialog(true);
         } catch (error) {
-            console.error("Błąd przy wysyłaniu formularza:", error.response?.data || error.message);
+            console.error("Błąd:", error.response?.data || error.message);
             alert('Nie udało się wysłać formularza. Spróbuj ponownie później.');
         }
     };

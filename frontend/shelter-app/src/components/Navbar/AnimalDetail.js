@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import background from "./lapy.jpg";
 import axios from "axios";
 import {
@@ -23,6 +23,17 @@ const AnimalDetail = () => {
     const [photos, setPhotos] = useState([]);
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [openDialog, setOpenDialog] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, [], );
 
     useEffect(() => {
         const fetchAnimal = async () => {
@@ -149,17 +160,31 @@ const AnimalDetail = () => {
                     </Grid>
                 </Grid>
             </Box>
-
+            {isLoggedIn ? (
             <Box sx={{ mt: 4, mb: 7, display: "flex", justifyContent: "center", gap: 2 }}>
                 <Button
                     variant="contained"
                     color="success"
+
                     onClick={() => setOpenDialog(true)}
                     sx={{ px: 4, py: 1.5, fontWeight: "bold", boxShadow: 2 }}
                 >
                     Adoptuj
                 </Button>
             </Box>
+                ):(
+                <Box sx={{ mt: 4, mb: 7, display: "flex", justifyContent: "center", gap: 2 }}>
+                    <Button
+                        variant="contained"
+                        color="success"
+
+                        onClick={() => navigate("/signin")}
+                        sx={{ px: 4, py: 1.5, fontWeight: "bold", boxShadow: 2 }}
+                    >
+                        Adoptuj
+                    </Button>
+                </Box>
+                )}
 
             <Dialog open={openDialog} onClose={() => setOpenDialog(false)} fullWidth maxWidth="sm">
                 <DialogContent>
