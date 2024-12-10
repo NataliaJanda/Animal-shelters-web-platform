@@ -15,17 +15,16 @@ public class Adoption {
     private Long id;
     private LocalDateTime date;
     private String description;
+    private String name;
+    private String last_name;
+    private String address;
+    private String phone_number;
+    private String email;
+    private String experience;
+    private int animal_id;
 
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users users;
-
-//    @OneToOne
-//    @JoinColumn(name = "animal_id")
-//    private Animal animal;
-
-//    @ManyToOne
-//    @JoinColumn(name = "shelter_id")
-//    private Shelter shelter;
 
 }

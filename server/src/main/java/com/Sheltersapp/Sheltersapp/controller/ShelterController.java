@@ -83,12 +83,14 @@ public class ShelterController {
             message.setTo(form.getShelterEmail());
             message.setSubject("Nowe zgłoszenie adopcyjne");
             message.setText("Szczegóły zgłoszenia:\n" +
-                    "Name: " + form.getName() + "\n" +
-                    "Surname: " + form.getSurname() + "\n" +
-                    "Address: " + form.getAddress() + "\n" +
-                    "Phone: " + form.getPhoneNumber() + "\n" +
+                    "Imię: " + form.getName() + "\n" +
+                    "Naziwsko: " + form.getSurname() + "\n" +
+                    "Adres: " + form.getAddress() + "\n" +
+                    "Numer telefonu: " + form.getPhoneNumber() + "\n" +
                     "Email: " + form.getEmail() + "\n" +
-                    "Experience: " + form.getExperience());
+                    "Doświadczenie: " + form.getExperience()+ "\n" +
+                    "Id zwierzęcia: " + form.getAnimal_id());
+
 
             mailSender.send(message);
             return ResponseEntity.ok("ok");

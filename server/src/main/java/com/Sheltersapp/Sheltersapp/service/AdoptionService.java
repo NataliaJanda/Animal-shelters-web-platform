@@ -17,8 +17,14 @@ public class AdoptionService {
     }
 
     @Transactional
-    public Adoption createAdoption(Adoption adoption){
-        return adoptionRepository.save(adoption);
+    public Adoption createAdoption(Adoption adoption) {
+        System.out.println("Zapisywanie adopcji: " + adoption);
+        try {
+            return adoptionRepository.save(adoption);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Błąd podczas zapisywania adopcji: " + e.getMessage());
+        }
     }
 
     public List<Adoption> allAdoptions() {return adoptionRepository.findAll();}
@@ -30,13 +36,5 @@ public class AdoptionService {
     public Optional<Adoption> getAdoptionById(Long id){
         return adoptionRepository.findById(id);
     }
-
-    public void deleteAdoption(Long id){
-        adoptionRepository.deleteById(id);
-    }
-
-//    public List<Adoption> findAdoptionsBySpeciesId(Long speciesId) {
-//        return adoptionRepository.findByAnimalSpeciesId(speciesId);
-//    }
 
 }

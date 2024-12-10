@@ -13,4 +13,5 @@ public class AdoptionFormDTO {
     private String email;
     private String experience;
     private String shelterEmail;
+    private int animal_id;
 }
