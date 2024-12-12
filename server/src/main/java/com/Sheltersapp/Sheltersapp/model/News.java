@@ -16,6 +16,8 @@ public class News {
     private String title;
     private String description;
     private LocalDateTime date;
+    @Lob
+    private byte[] photo;
 
     public News() {
     }

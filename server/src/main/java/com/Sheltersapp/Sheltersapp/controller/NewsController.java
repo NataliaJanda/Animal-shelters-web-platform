@@ -1,8 +1,7 @@
 package com.Sheltersapp.Sheltersapp.controller;
 
-import com.Sheltersapp.Sheltersapp.model.News;
-import com.Sheltersapp.Sheltersapp.model.Shelter;
-import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
+import com.Sheltersapp.Sheltersapp.model.*;
+import com.Sheltersapp.Sheltersapp.repository.NewsRepository;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
 import com.Sheltersapp.Sheltersapp.service.JwtService;
 import com.Sheltersapp.Sheltersapp.service.NewsService;
@@ -13,10 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/news")
@@ -25,34 +30,48 @@ public class NewsController {
     private final JwtService jwtService;
     private final ShelterAccountsRepository shelterAccountsRepository;
     private final NewsService newsService;
+    private final NewsRepository newsRepository;
 
-    public NewsController(JwtService jwtService, ShelterAccountsRepository shelterAccountsRepository, NewsService newsService) {
+    public NewsController(JwtService jwtService, ShelterAccountsRepository shelterAccountsRepository, NewsService newsService, NewsRepository newsRepository) {
         this.jwtService = jwtService;
         this.shelterAccountsRepository = shelterAccountsRepository;
         this.newsService = newsService;
+        this.newsRepository = newsRepository;
     }
 
     @PostMapping("/admin/add")
-    public ResponseEntity<News> createNews(@RequestBody News news, @RequestHeader("Authorization")String authHeader ){
-
-        String jwtToken = authHeader.substring(7);
-        String username = jwtService.extractUsername(jwtToken);
-        Optional<Shelter_accounts> shelter_accounts_Optional = shelterAccountsRepository.findByUsername(username);
-        Shelter_accounts shelter_accounts = shelter_accounts_Optional.get();
-        Shelter userShelter = shelter_accounts.getShelter_id();
-        news.setShelter(userShelter);
-
-        news.setDate(LocalDateTime.now());
-
-        logger.info("Request received to create campaign: {}", news);
-
+    public ResponseEntity<?> createNewsWithPhoto(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            @RequestHeader("Authorization") String authHeader) {
         try {
+            String jwtToken = authHeader.substring(7);
+            String username = jwtService.extractUsername(jwtToken);
+            Optional<Shelter_accounts> shelterAccountsOptional = shelterAccountsRepository.findByUsername(username);
+
+            if (shelterAccountsOptional.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nieautoryzowany użytkownik");
+            }
+
+            Shelter_accounts shelterAccounts = shelterAccountsOptional.get();
+            Shelter userShelter = shelterAccounts.getShelter_id();
+
+            News news = new News();
+            news.setTitle(title);
+            news.setDescription(description);
+            news.setShelter(userShelter);
+            news.setDate(LocalDateTime.now());
+
+            if (file != null && !file.isEmpty()) {
+                news.setPhoto(file.getBytes());
+            }
+
             News savedNews = newsService.createNews(news);
-            logger.info("Campaign successfully created: {}", savedNews);
             return ResponseEntity.ok(savedNews);
         } catch (Exception e) {
-            logger.error("Error creating campaign", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            logger.error("Błąd podczas dodawania ogłoszenia", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Błąd serwera");
         }
     }
 

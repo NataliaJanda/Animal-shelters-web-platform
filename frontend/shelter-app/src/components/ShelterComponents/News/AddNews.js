@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Container, Typography, Box,
-    // Select, MenuItem, FormControl, InputLabel
-} from "@mui/material";
+import { TextField, Button, Container, Typography, Box} from "@mui/material";
 import NavbarTopShelter from "../NavbarTopShelter";
 import ShelterFooter from "../../Background/ShelterFooter";
-// import axios from 'axios';
+import axios from "axios";
 
 function AddNews() {
     const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [UserRole, setUserRole] = useState(true);
-    // const [age, setAge] = useState("");
-    // const [species, setSpecies] = useState("");
-    // const [speciesList, setSpeciesList] = useState([]);
-    // const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     useEffect(() => {
         const role = localStorage.getItem("role")
@@ -31,102 +26,72 @@ function AddNews() {
     const clearForm = () => {
         setTitle("");
         setDescription("");
-        // setAge("");
-        // setSpecies("");
-        // setSelectedFile(null);
+        setSelectedFile(null);
     };
 
-    useEffect(() => {
-        const fetchSpecies = async () => {
-            try {
-                // const token = localStorage.getItem('token');
-                // const config = token
-                //     ? { headers: { Authorization: `Bearer ${token}` } }
-                //     : {};
-                //
-                // const response = await axios.get("http://localhost:8080/species", config);
-                // setSpeciesList(response.data); // Populate species options
-            } catch (error) {
-                console.error("Error fetching species:", error);
-            }
-        };
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        const validFileTypes = ['image/jpeg', 'image/png'];
+        const maxSizeInMB = 5;
 
-        fetchSpecies();
-    }, []);
+        if (!file) {
+            alert('Proszę wybrać plik.');
+            return;
+        }
 
-    // const handleFileChange = (e) => {
-    //     const file = e.target.files[0];
-    //
-    //     const validFileTypes = ['image/jpeg', 'image/png'];
-    //     if (file && !validFileTypes.includes(file.type)) {
-    //         alert('Proszę wybrać plik JPG lub PNG.');
-    //         setSelectedFile(null);
-    //         return;
-    //     }
-    //
-    //     const maxSizeInMB = 20;
-    //     if (file && file.size > maxSizeInMB * 1024 * 1024) {
-    //         alert('Plik jest za duży. Maksymalny rozmiar to 5MB.');
-    //         setSelectedFile(null);
-    //         return;
-    //     }
-    //
-    //     setSelectedFile(file);
-    // };
+        if (!validFileTypes.includes(file.type)) {
+            alert('Proszę wybrać plik JPG lub PNG.');
+            setSelectedFile(null);
+            return;
+        }
+
+        if (file.size > maxSizeInMB * 1024 * 1024) {
+            alert('Plik jest za duży. Maksymalny rozmiar to 5MB.');
+            setSelectedFile(null);
+            return;
+        }
+
+        setSelectedFile(file);
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const requestBody = {
-            title: title,
-            description: description,
-            // age: parseInt(age),
-            // species: parseInt(species),
-        };
-
         try {
             const token = localStorage.getItem('token');
-
             if (!token) {
                 alert("Nie jesteś zalogowany. Proszę się zalogować.");
                 return;
             }
 
-            const response = await fetch("http://localhost:8080/news/admin/add", {
-                method: "POST",
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            if (selectedFile) {
+                formData.append('file', selectedFile);
+            }
+
+            const response = await axios.post("http://localhost:8080/news/admin/add", formData, {
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(requestBody),
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data"
+                }
             });
 
-            if (response.ok) {
-                // const animal = await response.json();
-
-                // if (selectedFile) {
-                //     const formData = new FormData();
-                //     formData.append('file', selectedFile);
-                //
-                //     await axios.post(`http://localhost:8080/animal/${animal.id}/photo`, formData, {
-                //         headers: {
-                //             "Authorization": `Bearer ${token}`,
-                //             "Content-Type": "multipart/form-data"
-                //         }
-                //     });
-                // }
-
+            if (response.status === 200) {
+                alert("Ogłoszenie zostało dodane!");
                 clearForm();
                 navigate("/MainPageSessionShelter");
             } else {
-                const errorData = await response.json();
-                alert(`Error: ${errorData.message}`);
+                alert(`Error: ${response.data}`);
             }
         } catch (error) {
             console.error("Error during making:", error);
-            alert("An error occurred during making campaign. Please try again.");
+            alert("Wystąpił błąd podczas dodawania ogłoszenia.");
         }
     };
+
 
 
     return (
@@ -170,41 +135,14 @@ function AddNews() {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                            {/*<TextField*/}
-                            {/*    fullWidth*/}
-                            {/*    label="Wiek"*/}
-                            {/*    variant="outlined"*/}
-                            {/*    margin="normal"*/}
-                            {/*    value={age}*/}
-                            {/*    onChange={(e) => setAge(e.target.value)}*/}
-                            {/*/>*/}
-
-                            {/*<FormControl fullWidth margin="normal">*/}
-                            {/*    <InputLabel id="species-label">Gatunek</InputLabel>*/}
-                            {/*    <Select*/}
-                            {/*        labelId="species-label"*/}
-                            {/*        id="species"*/}
-                            {/*        value={species}*/}
-                            {/*        label="Gatunek"*/}
-                            {/*        onChange={(e) => setSpecies(e.target.value)}*/}
-                            {/*    >*/}
-                            {/*        {speciesList.map((specie) => (*/}
-                            {/*            <MenuItem key={specie.id} value={specie.id}>*/}
-                            {/*                {specie.name}*/}
-                            {/*            </MenuItem>*/}
-                            {/*        ))}*/}
-                            {/*    </Select>*/}
-                            {/*</FormControl>*/}
-
-                            {/*<Button*/}
-                            {/*    variant="outlined"*/}
-                            {/*    component="label"*/}
-                            {/*    sx={{ mt: 2 }}*/}
-                            {/*>*/}
-                            {/*    Wybierz zdjęcie*/}
-                            {/*    <input type="file" hidden onChange={handleFileChange} />*/}
-                            {/*</Button>*/}
-
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                sx={{ mt: 2 }}
+                            >
+                                Wybierz zdjęcie
+                                <input type="file" hidden onChange={handleFileChange} />
+                            </Button>
                             <Button
                                 fullWidth
                                 variant="contained"

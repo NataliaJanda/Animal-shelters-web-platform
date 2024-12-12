@@ -22,7 +22,6 @@ import {
     DialogTitle,
     TextField,
 } from "@mui/material";
-import logo from "../../Navbar/logo.png";
 import ShelterFooter from "../../Background/ShelterFooter";
 
 const ManageNews = () => {
@@ -139,11 +138,14 @@ const ManageNews = () => {
                     <TableBody>
                         {news.map((newsItem) => {
                             const shelter = newsItem.shelter || {};
+                            const photoSrc = newsItem.photo
+                                ? `data:image/jpeg;base64,${newsItem.photo}`
+                                : "https://via.placeholder.com/80";
                             return (
                                 <TableRow key={newsItem.id}>
                                     <TableCell>
                                         <img
-                                            src={logo || "https://via.placeholder.com/80"}
+                                            src={photoSrc}
                                             alt={newsItem.title}
                                             style={{ width: "80px", height: "80px", objectFit: "cover" }}
                                         />

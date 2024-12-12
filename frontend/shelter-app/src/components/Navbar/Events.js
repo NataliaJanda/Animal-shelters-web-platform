@@ -9,7 +9,6 @@ import {
     SectionText,
     SectionTitle
 } from "./style";
-import logo from "./logo.png"
 import ShelterFooter from "../Background/ShelterFooter";
 
 
@@ -62,17 +61,22 @@ const Events = () => {
             </ContentSection>
 
             <CollectionGridSection>
-                {news.map((news) => {
-                    const shelter = news.shelter || {};
-                    return(
-                        <CollectionCard key={news.id}>
-                            <CollectionImage src={logo} alt={news.title}/>
+                {news.map((newsItem) => {
+                    const shelter = newsItem.shelter || {};
+                    const photoSrc = newsItem.photo
+                        ? `data:image/jpeg;base64,${newsItem.photo}`
+                        : "https://via.placeholder.com/150";
+                    return (
+                        <CollectionCard key={newsItem.id}>
+                            <CollectionImage src={photoSrc} alt={newsItem.title} />
                             <CollectionInfo>
-                                <CollectionTitle>{news.title}</CollectionTitle>
+                                <CollectionTitle>{newsItem.title}</CollectionTitle>
                                 <CollectionDescription>
-                                    {news.description}
+                                    {newsItem.description}
                                 </CollectionDescription>
-                                <CollectionDescription>Schronisko: {shelter.name}</CollectionDescription>
+                                <CollectionDescription>
+                                    Schronisko: {shelter.name}
+                                </CollectionDescription>
                             </CollectionInfo>
                         </CollectionCard>
                     );
