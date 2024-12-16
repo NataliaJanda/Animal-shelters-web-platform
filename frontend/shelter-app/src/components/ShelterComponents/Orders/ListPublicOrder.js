@@ -150,12 +150,13 @@ function ListPublicOrder() {
                     </Typography>
                 </Box>
 
-                <TableContainer component={Paper} sx={{mb:66}} >
+                <TableContainer component={Paper} sx={{ mb: 66 }}>
                     <Table>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nazwa</TableCell>
                                 <TableCell>Ilość</TableCell>
+                                <TableCell>Łączna ilość</TableCell>
                                 <TableCell>Link</TableCell>
                                 <TableCell>Schronisko</TableCell>
                                 <TableCell>Informacje</TableCell>
@@ -163,72 +164,86 @@ function ListPublicOrder() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {publicOrders.map((order) => (
-                                <React.Fragment key={order.id}>
-                                    <TableRow>
-                                        <TableCell>{order.name}</TableCell>
-                                        <TableCell>{order.count}</TableCell>
-                                        <TableCell sx={{ maxWidth: 600, wordBreak: "break-all" }}>
-                                            <a href={order.link} target="_blank" rel="noopener noreferrer">
-                                                {order.link}
-                                            </a>
-                                        </TableCell>
-                                        <TableCell>{order.shelter.name}</TableCell>
-                                        <TableCell>{order.info}</TableCell>
-                                        <TableCell>
-                                            <Button onClick={() => toggleExpandOrder(order.id)}>
-                                                {expandedOrder === order.id ? "Zwiń" : "Rozwiń"}
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-
-                                    {expandedOrder === order.id && (
+                            {publicOrders.map((order) => {
+                                const totalQuantity = orderContributions[order.id]
+                                    ? orderContributions[order.id]
+                                        .filter((contribution) => contribution._accept)
+                                        .reduce(
+                                            (sum, contribution) => sum + contribution.quantity,
+                                            order.count
+                                        )
+                                    : order.count;
+                                return (
+                                    <React.Fragment key={order.id}>
                                         <TableRow>
-                                            <TableCell colSpan={6}>
-                                                <Table size="small">
-                                                    <TableHead>
-                                                        <TableRow>
-                                                            <TableCell>Nazwa</TableCell>
-                                                            <TableCell>Wiadomość</TableCell>
-                                                            <TableCell>Ilość</TableCell>
-                                                            <TableCell>Status</TableCell>
-                                                            <TableCell>Akcja</TableCell>
-                                                        </TableRow>
-                                                    </TableHead>
-                                                    <TableBody>
-                                                        {orderContributions[order.id] ? (
-                                                            orderContributions[order.id].map(contribution => (
-                                                                <TableRow key={contribution.id}>
-                                                                    <TableCell>{contribution.shelter ? contribution.shelter.name : "Brak danych"}</TableCell>
-                                                                    <TableCell>{contribution.message}</TableCell>
-                                                                    <TableCell>{contribution.quantity}</TableCell>
-                                                                    <TableCell>
-                                                                        {contribution._accept ? "Zaakceptowane" : "Niezaakceptowane"}
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        <Button
-                                                                            variant="contained"
-                                                                            color="primary"
-                                                                            onClick={() => openConfirmDialog(order.id, contribution.id)}
-                                                                        >
-                                                                            Akceptuj
-                                                                        </Button>
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            ))
-                                                        ) : (
-                                                            <TableRow>
-                                                                <TableCell colSpan={5}>Ładowanie danych...</TableCell>
-                                                            </TableRow>
-                                                        )}
-                                                    </TableBody>
-
-                                                </Table>
+                                            <TableCell>{order.name}</TableCell>
+                                            <TableCell>{order.count}</TableCell>
+                                            <TableCell>{totalQuantity}</TableCell>
+                                            <TableCell sx={{ maxWidth: 600, wordBreak: "break-all" }}>
+                                                <a href={order.link} target="_blank" rel="noopener noreferrer">
+                                                    {order.link}
+                                                </a>
+                                            </TableCell>
+                                            <TableCell>{order.shelter.name}</TableCell>
+                                            <TableCell>{order.info}</TableCell>
+                                            <TableCell>
+                                                <Button onClick={() => toggleExpandOrder(order.id)}>
+                                                    {expandedOrder === order.id ? "Zwiń" : "Rozwiń"}
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
-                                    )}
-                                </React.Fragment>
-                            ))}
+
+                                        {expandedOrder === order.id && (
+                                            <TableRow>
+                                                <TableCell colSpan={6}>
+                                                    <Table size="small">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell>Nazwa</TableCell>
+                                                                <TableCell>Wiadomość</TableCell>
+                                                                <TableCell>Ilość</TableCell>
+                                                                <TableCell>Status</TableCell>
+                                                                <TableCell>Akcja</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+                                                            {orderContributions[order.id] ? (
+                                                                orderContributions[order.id].map((contribution) => (
+                                                                    <TableRow key={contribution.id}>
+                                                                        <TableCell>
+                                                                            {contribution.shelter ? contribution.shelter.name : "Brak danych"}
+                                                                        </TableCell>
+                                                                        <TableCell>{contribution.message}</TableCell>
+                                                                        <TableCell>{contribution.quantity}</TableCell>
+                                                                        <TableCell>
+                                                                            {contribution._accept ? "Zaakceptowane" : "Niezaakceptowane"}
+                                                                        </TableCell>
+                                                                        <TableCell>
+                                                                            <Button
+                                                                                variant="contained"
+                                                                                color="primary"
+                                                                                onClick={() =>
+                                                                                    openConfirmDialog(order.id, contribution.id)
+                                                                                }
+                                                                            >
+                                                                                Akceptuj
+                                                                            </Button>
+                                                                        </TableCell>
+                                                                    </TableRow>
+                                                                ))
+                                                            ) : (
+                                                                <TableRow>
+                                                                    <TableCell colSpan={5}>Ładowanie danych...</TableCell>
+                                                                </TableRow>
+                                                            )}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+                                    </React.Fragment>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>

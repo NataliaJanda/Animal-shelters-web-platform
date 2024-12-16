@@ -7,8 +7,6 @@ import {
     SectionTitle,
 } from "../../Navbar/style";
 import NavbarTopShelter from "../NavbarTopShelter";
-import { useNavigate } from 'react-router-dom';
-
 import {
     Table,
     TableBody,
@@ -38,12 +36,13 @@ const ManageAnimals = () => {
     const [editingAnimal, setEditingAnimal] = useState(null);
     const [updatedAnimal, setUpdatedAnimal] = useState({});
     const [openEditDialog, setOpenEditDialog] = useState(false);
-    const navigate = useNavigate();
     const [filterAnimal, setFilterAnimal] = useState('');
     const [filterSexAnimal, setFilterSexAnimal] = useState('');
     const [filterSizeAnimal, setFilterSizeAnimal] = useState('');
     const [filterTypeAnimal, setFilterTypeAnimal] = useState('');
     const [UserRole, setUserRole] = useState(true);
+    const [adoptDialogOpen, setAdoptDialogOpen] = useState(false);
+    const [selectedAnimal, setSelectedAnimal] = useState(null);
 
     useEffect(() => {
         const id = localStorage.getItem("shelterId");
@@ -205,6 +204,45 @@ const ManageAnimals = () => {
         return <p>Ładowanie...</p>;
     }
 
+    const handleAdoptClick = (animal) => {
+        setSelectedAnimal(animal);
+        setAdoptDialogOpen(true);
+    };
+
+    const confirmAdoption = async () => {
+        if (!selectedAnimal) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.put(
+                `http://localhost:8080/animal/admin/setAvailable/${selectedAnimal.id}`,
+                { available: true },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                setAnimals((prevAnimals) =>
+                    prevAnimals.map((animal) =>
+                        animal.id === selectedAnimal.id
+                            ? { ...animal, available: true }
+                            : animal
+                    )
+                );
+            } else {
+                console.error("Nie udało się zaktualizować statusu adopcji.");
+            }
+        } catch (error) {
+            console.error("Błąd podczas zatwierdzania adopcji:", error);
+        } finally {
+            setAdoptDialogOpen(false);
+        }
+    };
+
     const filteredAnimals = Array.isArray(animals)
         ? animals.filter(animal => {
             const matchesRace = filterAnimal === '' || animal.race === filterAnimal;
@@ -339,9 +377,9 @@ const ManageAnimals = () => {
                                         <Button
                                             variant="contained"
                                             color="warning"
-                                            onClick={() => navigate("/CreateAdoption")}
+                                            onClick={() => handleAdoptClick(animal)}
                                         >
-                                            Adopcja
+                                            Adoptuj
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -449,6 +487,24 @@ const ManageAnimals = () => {
                     </DialogActions>
                 </Dialog>
 
+            <Dialog open={adoptDialogOpen} onClose={() => setAdoptDialogOpen(false)}>
+                <DialogTitle>Czy na pewno chcesz dodać to zwierzę do adopcji?</DialogTitle>
+                <DialogContent>
+                    {selectedAnimal && (
+                        <p>
+                            Zwierzę: <strong>{selectedAnimal.name}</strong>
+                        </p>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setAdoptDialogOpen(false)} color="primary">
+                        Anuluj
+                    </Button>
+                    <Button onClick={confirmAdoption} color="primary">
+                        Zatwierdź
+                    </Button>
+                </DialogActions>
+            </Dialog>;
             <ShelterFooter/>
             </AppContainer>
     );
