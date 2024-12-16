@@ -1,10 +1,7 @@
 package com.Sheltersapp.Sheltersapp.controller;
 
 import com.Sheltersapp.Sheltersapp.DTO.OrderContributionDto;
-import com.Sheltersapp.Sheltersapp.model.Ordercontributions;
-import com.Sheltersapp.Sheltersapp.model.Orders;
-import com.Sheltersapp.Sheltersapp.model.Shelter;
-import com.Sheltersapp.Sheltersapp.model.Shelter_accounts;
+import com.Sheltersapp.Sheltersapp.model.*;
 import com.Sheltersapp.Sheltersapp.repository.OrderContributionsRepository;
 import com.Sheltersapp.Sheltersapp.repository.OrdersRepository;
 import com.Sheltersapp.Sheltersapp.repository.ShelterAccountsRepository;
@@ -94,6 +91,17 @@ public class OrderContributionsController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/shelter/{shelterId}")
+    public ResponseEntity<List<Ordercontributions>> getAdoptionByShelterId(@PathVariable Long shelterId) {
+        try {
+            List<Ordercontributions> ordercontributions = orderContributionsService.findByShelterId(shelterId);
+            if (ordercontributions.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(ordercontributions);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
 }

@@ -145,6 +145,7 @@ const NavbarTopShelter = () => {
                         <DropdownMenu isOpen={openMenu === 'adoption'}>
                             <DropdownItem to="/CreateAdoption">Dodaj</DropdownItem>
                             <DropdownItem to="/ManageAdoption">Zarządzaj</DropdownItem>
+                            <DropdownItem to="/AdoptionEmail">Zgłoszenia adopcyjne</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 
@@ -155,6 +156,7 @@ const NavbarTopShelter = () => {
                         <DropdownMenu isOpen={openMenu === 'needs'}>
                             <DropdownItem to="/Orders">Zarządzaj</DropdownItem>
                             <DropdownItem to="/OrdersList">Lista publicznych zamówień</DropdownItem>
+                            <DropdownItem to="/OrdersRequest">Moje prośby</DropdownItem>
                         </DropdownMenu>
                     </NavItem>
 

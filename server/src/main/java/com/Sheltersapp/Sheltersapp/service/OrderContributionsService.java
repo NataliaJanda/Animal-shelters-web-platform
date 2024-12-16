@@ -1,5 +1,6 @@
 package com.Sheltersapp.Sheltersapp.service;
 
+import com.Sheltersapp.Sheltersapp.model.Adoption;
 import com.Sheltersapp.Sheltersapp.model.Ordercontributions;
 import com.Sheltersapp.Sheltersapp.repository.OrderContributionsRepository;
 import jakarta.transaction.Transactional;
@@ -33,5 +34,9 @@ public class OrderContributionsService {
     }
     public void deleteContributions(Long id){
         orderContributionsRepository.deleteById(id);
+    }
+
+    public List<Ordercontributions> findByShelterId(Long shelterId) {
+        return orderContributionsRepository.findByShelterId(shelterId);
     }
 }

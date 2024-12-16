@@ -13,4 +13,6 @@ public interface OrderContributionsRepository extends JpaRepository<Ordercontrib
     List<Ordercontributions> findByOrdersId(Long order_id);
     @Transactional
     void deleteByOrders(Orders orders);
+    List<Ordercontributions> findByShelterId(Long shelterId);
+
 }

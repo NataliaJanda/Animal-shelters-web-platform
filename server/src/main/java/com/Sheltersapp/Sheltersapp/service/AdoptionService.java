@@ -29,12 +29,13 @@ public class AdoptionService {
 
     public List<Adoption> allAdoptions() {return adoptionRepository.findAll();}
 
-//    public List<Adoption> findByAnimalShelterId(Long shelterId) {
-//        return adoptionRepository.findByAnimalShelterId(shelterId);
-//    }
 
     public Optional<Adoption> getAdoptionById(Long id){
         return adoptionRepository.findById(id);
     }
 
+
+    public List<Adoption> findByShelterId(Long shelterId) {
+        return adoptionRepository.findByShelterId(shelterId);
+    }
 }

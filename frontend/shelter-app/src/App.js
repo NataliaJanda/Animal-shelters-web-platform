@@ -31,6 +31,9 @@ import ListPublicOrder from "./components/ShelterComponents/Orders/ListPublicOrd
 import ArchiveOrders from "./components/ShelterComponents/Orders/ArchiveOrders";
 import AdoptionForm from "./components/Adopt/AdoptionForm";
 import CampaignDetail from "./components/Navbar/CampaignDetail";
+import AdoptionEmail from "./components/ShelterComponents/Adoption/AdoptionEmail";
+import OrdersRequest from "./components/ShelterComponents/Orders/OrdersRequest";
+import Map from "./components/Map";
 
 function App() {
   return (
@@ -69,6 +72,8 @@ function App() {
         <Route path="/ListPublicOrder" element={<ListPublicOrder/>}/>
         <Route path="/ArchiveOrders" element={<ArchiveOrders/>}/>
         <Route path="/AdoptionForm" element={<AdoptionForm/>}/>
+        <Route path="/OrdersRequest" element={<OrdersRequest/>}/>
+        <Route path="/AdoptionEmail" element={<AdoptionEmail/>}/>
       </Routes>
     </Router>
   );

@@ -59,4 +59,17 @@ public class AdoptionController {
 
         return ResponseEntity.ok(savedAnimal);
     }
+
+    @GetMapping("/shelter/{shelterId}")
+    public ResponseEntity<List<Adoption>> getAdoptionByShelterId(@PathVariable Long shelterId) {
+        try {
+            List<Adoption> adoptions = adoptionService.findByShelterId(shelterId);
+            if (adoptions.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
+            return ResponseEntity.ok(adoptions);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
