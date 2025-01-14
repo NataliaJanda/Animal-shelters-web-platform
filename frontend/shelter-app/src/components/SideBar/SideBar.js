@@ -1,5 +1,5 @@
 // SideBar.js
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -42,16 +42,87 @@ const CloseButton = styled.div`
 `;
 
 const SideBar = ({ isOpen, toggleSidebar }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [UserRole, setUserRole] = useState(true);
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+        const role = localStorage.getItem("role")
+        if (role === "SHELTER") {
+            setUserRole(true)
+        } else {setUserRole(false)}
+    }, [], );
+
     return (
-        <SidebarContainer isOpen={isOpen}>
-            <CloseButton onClick={toggleSidebar}>×</CloseButton>
-            <SidebarLink to="/about" onClick={toggleSidebar}>O nas</SidebarLink>
-            <SidebarLink to="/events" onClick={toggleSidebar}>Współpraca</SidebarLink>
-            <SidebarLink to="/collection" onClick={toggleSidebar}>Zbiórki</SidebarLink>
-            <SidebarLink to="/tablica" onClick={toggleSidebar}>Tablica ogłoszeń</SidebarLink>
-            <SidebarLink to="/sign-up" onClick={toggleSidebar}>Zarejestruj się</SidebarLink>
-            <SidebarLink to="/signin" onClick={toggleSidebar}>Zaloguj się</SidebarLink>
-        </SidebarContainer>
+        <>
+            {isLoggedIn ? (
+                <>
+                    {UserRole ? (
+                        <SidebarContainer isOpen={isOpen}>
+                            <CloseButton onClick={toggleSidebar}>×</CloseButton>
+                            <SidebarLink to="/MainPageSessionShelter">Strona główna</SidebarLink>
+                            <SidebarLink to="/CreateCampaign">Stwórz zbiórkę</SidebarLink>
+                            <SidebarLink to="/ManageCampaigns">Zarządzaj zbiórkami</SidebarLink>
+                            <SidebarLink to="/AddNews">Dodaj ogłoszenie</SidebarLink>
+                            <SidebarLink to="/ManageNews">Zarządzaj ogłoszeniami</SidebarLink>
+                            <SidebarLink to="/CreateAdoption">Dodaj adopcję</SidebarLink>
+                            <SidebarLink to="/ManageAdoption">Zarządzaj adopcjami</SidebarLink>
+                            <SidebarLink to="/AdoptionEmail">Zgłoszenia adopcyjne</SidebarLink>
+                            <SidebarLink to="/Orders">Zarządzaj zamówieniami</SidebarLink>
+                            <SidebarLink to="/OrdersList">Lista zamówień</SidebarLink>
+                            <SidebarLink to="/OrdersRequest">Moje prośby</SidebarLink>
+                            <SidebarLink to="/addAnimal">Dodaj zwierzę</SidebarLink>
+                            <SidebarLink to="/ManageAnimals">Zarządzaj zwierzętami</SidebarLink>
+                            <SidebarLink to="/MyAccountShelter">Moje konto</SidebarLink>
+                            <SidebarLink to="/" onClick={() => localStorage.clear()}>Wyloguj się</SidebarLink>
+                        </SidebarContainer>
+
+                    ) : (
+                        <SidebarContainer isOpen={isOpen}>
+                            <CloseButton onClick={toggleSidebar}>×</CloseButton>
+                            <SidebarLink to="/about" onClick={toggleSidebar}>O nas</SidebarLink>
+                            <SidebarLink to="/collection" onClick={toggleSidebar}>Zbiórki</SidebarLink>
+                            <SidebarLink to="/events" onClick={toggleSidebar}>Tablica ogłoszeń</SidebarLink>
+                            <SidebarLink to="/animals" onClick={toggleSidebar}>Zwierzęta</SidebarLink>
+                            <SidebarLink to="/MyAccount" onClick={toggleSidebar}>Moje konto</SidebarLink>
+                            <SidebarLink to="/" onClick={() => localStorage.clear()}>Wyloguj się</SidebarLink>
+                        </SidebarContainer>
+                    )}
+                </>
+            ) : (
+                <>
+                    {isLoggedIn ? (
+                        <SidebarContainer isOpen={isOpen}>
+                            <CloseButton onClick={toggleSidebar}>×</CloseButton>
+                            <SidebarLink to="/about" onClick={toggleSidebar}>O nas</SidebarLink>
+                            <SidebarLink to="/collection" onClick={toggleSidebar}>Zbiórki</SidebarLink>
+                            <SidebarLink to="/events" onClick={toggleSidebar}>Tablica ogłoszeń</SidebarLink>
+                            <SidebarLink to="/animals" onClick={toggleSidebar}>Zwierzęta</SidebarLink>
+                            <SidebarLink to="/sign-up" onClick={toggleSidebar}>Zarejestruj się</SidebarLink>
+                            <SidebarLink to="/signin" onClick={toggleSidebar}>Zaloguj się</SidebarLink>
+                        </SidebarContainer>
+
+                    ) : (
+                        <SidebarContainer isOpen={isOpen}>
+                            <CloseButton onClick={toggleSidebar}>×</CloseButton>
+                            <SidebarLink to="/about" onClick={toggleSidebar}>O nas</SidebarLink>
+                            <SidebarLink to="/collection" onClick={toggleSidebar}>Zbiórki</SidebarLink>
+                            <SidebarLink to="/events" onClick={toggleSidebar}>Tablica ogłoszeń</SidebarLink>
+                            <SidebarLink to="/animals" onClick={toggleSidebar}>Zwierzęta</SidebarLink>
+                            <SidebarLink to="/sign-up" onClick={toggleSidebar}>Zarejestruj się</SidebarLink>
+                            <SidebarLink to="/signin" onClick={toggleSidebar}>Zaloguj się</SidebarLink>
+                        </SidebarContainer>
+                    )}
+                </>
+            )}
+
+        </>
     );
 };
 
